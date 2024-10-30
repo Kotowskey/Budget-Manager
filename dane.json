@@ -1,14 +1,14 @@
 [
     {
-        "kwota": 3000.0,
-        "kategoria": "Wynagrodzenie",
-        "typ": "Przychod",
-        "opis": "Wynagrodzenie z pracy"
-    },
-    {
         "kwota": 20.0,
         "kategoria": "Jedzenie",
         "typ": "Wydatek",
         "opis": "uber eats"
+    },
+    {
+        "kwota": 1000.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": ""
     }
 ]
