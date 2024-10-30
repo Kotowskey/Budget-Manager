@@ -5,3 +5,6 @@ dane.json
 __pycache__/controller.cpython-312.pyc
 __pycache__/model.cpython-312.pyc
 __pycache__/curses_view.cpython-312.pyc
+/__pycache__
+/__pycache__
+/__pycache__
