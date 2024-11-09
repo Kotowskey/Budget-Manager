@@ -10,3 +10,5 @@ __pycache__/curses_view.cpython-312.pyc
 /__pycache__
 /__pycache__
 *.pyc
+/__pycache__
+*.pyc

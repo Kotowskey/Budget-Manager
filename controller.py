@@ -1,4 +1,4 @@
-# controller.py
+import curses
 from model import BudzetModel, Transakcja
 from curses_view import BudzetCursesView
 

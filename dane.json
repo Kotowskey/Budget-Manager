@@ -19,5 +19,12 @@
         "typ": "wydatek",
         "opis": "",
         "data": "2024-10-30"
+    },
+    {
+        "kwota": 270.0,
+        "kategoria": "czesci",
+        "typ": "wydatek",
+        "opis": "radio fiat",
+        "data": "2024-11-09"
     }
 ]
