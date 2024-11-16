@@ -1,67 +1,37 @@
+# controller.py
 import curses
 from model import BudzetModel, Transakcja
 from curses_view import BudzetCursesView
+from typing import Optional
 
 class BudzetController:
-    def __init__(self):
+    def __init__(self) -> None:
         self.model = BudzetModel()
         self.view = BudzetCursesView()
 
-    def uruchom(self):
+    def uruchom(self) -> None:
         try:
             while True:
                 self.view.wyswietl_menu()
                 opcja = self.view.pobierz_opcje()
                 if opcja == '1':
-                    dane = self.view.pobierz_dane_transakcji()
-                    if dane['typ'].lower() == 'wydatek':
-                        if not self.model.sprawdz_limit(dane['kategoria']):
-                            self.view.wyswietl_komunikat("Przekroczono limit budżetowy dla tej kategorii!")
-                            continue
-                    transakcja = Transakcja(**dane)
-                    self.model.dodaj_transakcje(transakcja)
-                    self.view.wyswietl_komunikat("Transakcja dodana.")
+                    self.dodaj_transakcje()
                 elif opcja == '2':
-                    self.view.wyswietl_transakcje(self.model.transakcje)
-                    indeks = self.view.pobierz_indeks_transakcji()
-                    if 0 <= indeks < len(self.model.transakcje):
-                        transakcja_oryginalna = self.model.transakcje[indeks]
-                        self.view.wyswietl_komunikat("Wprowadź nowe dane transakcji:")
-                        dane = self.view.pobierz_dane_transakcji(edycja=True)
-                        # Utrzymanie oryginalnego typu, jeśli nie jest edytowany
-                        dane['typ'] = transakcja_oryginalna.typ
-                        if dane['typ'].lower() == 'wydatek':
-                            if not self.model.sprawdz_limit(dane['kategoria']):
-                                self.view.wyswietl_komunikat("Przekroczono limit budżetowy dla tej kategorii!")
-                                continue
-                        transakcja = Transakcja(**dane)
-                        self.model.edytuj_transakcje(indeks, transakcja)
-                        self.view.wyswietl_komunikat("Transakcja zaktualizowana.")
-                    else:
-                        self.view.wyswietl_komunikat("Nieprawidłowy numer transakcji.")
+                    self.edytuj_transakcje()
                 elif opcja == '3':
-                    self.view.wyswietl_transakcje(self.model.transakcje)
-                    indeks = self.view.pobierz_indeks_transakcji()
-                    if 0 <= indeks < len(self.model.transakcje):
-                        self.model.usun_transakcje(indeks)
-                        self.view.wyswietl_komunikat("Transakcja usunięta.")
-                    else:
-                        self.view.wyswietl_komunikat("Nieprawidłowy numer transakcji.")
+                    self.usun_transakcje()
                 elif opcja == '4':
                     self.view.wyswietl_transakcje(self.model.transakcje)
                 elif opcja == '5':
-                    saldo = self.oblicz_saldo()
-                    self.view.wyswietl_podsumowanie(saldo)
+                    self.wyswietl_podsumowanie()
                 elif opcja == '6':
-                    self.model.eksportuj_do_csv()
-                    self.view.potwierdz_eksport()
+                    self.eksportuj_transakcje()
                 elif opcja == '7':
                     self.filtruj_transakcje()
                 elif opcja == '8':
                     self.ustaw_limit_budzetowy()
                 elif opcja == '9':
-                    self.model.importuj_z_csv()
-                    self.view.potwierdz_import()
+                    self.importuj_transakcje()
                 elif opcja == '10':
                     self.generuj_raport()
                 elif opcja == '11':
@@ -72,27 +42,67 @@ class BudzetController:
         finally:
             self.view.zakoncz()
 
-    def oblicz_saldo(self):
-        saldo = 0
-        for t in self.model.transakcje:
-            if t.typ.lower() == 'przychód':
-                saldo += t.kwota
-            elif t.typ.lower() == 'wydatek':
-                saldo -= t.kwota
-        return saldo
+    def dodaj_transakcje(self) -> None:
+        dane = self.view.pobierz_dane_transakcji()
+        if not dane:
+            return
+        if dane['typ'] == 'wydatek':
+            if not self.model.sprawdz_limit(dane['kategoria']):
+                self.view.wyswietl_komunikat("Przekroczono limit budżetowy dla tej kategorii!")
+                return
+        transakcja = Transakcja(**dane)
+        self.model.dodaj_transakcje(transakcja)
+        self.view.wyswietl_komunikat("Transakcja dodana.")
 
-    def filtruj_transakcje(self):
-        self.view.stdscr.clear()
-        curses.echo()
-        self.view.stdscr.addstr(1, 1, "Podaj datę początkową (YYYY-MM-DD): ")
-        start_date = self.view.stdscr.getstr(1, 40, 10).decode('utf-8')
-        self.view.stdscr.addstr(2, 1, "Podaj datę końcową (YYYY-MM-DD): ")
-        end_date = self.view.stdscr.getstr(2, 40, 10).decode('utf-8')
-        curses.noecho()
+    def edytuj_transakcje(self) -> None:
+        self.view.wyswietl_transakcje(self.model.transakcje)
+        indeks = self.view.pobierz_indeks_transakcji()
+        if 0 <= indeks < len(self.model.transakcje):
+            transakcja_oryginalna = self.model.transakcje[indeks]
+            self.view.wyswietl_komunikat("Wprowadź nowe dane transakcji:")
+            dane = self.view.pobierz_dane_transakcji(edycja=True)
+            if not dane:
+                return
+            dane['typ'] = transakcja_oryginalna.typ  # Utrzymanie oryginalnego typu
+            if dane['typ'] == 'wydatek':
+                if not self.model.sprawdz_limit(dane['kategoria']):
+                    self.view.wyswietl_komunikat("Przekroczono limit budżetowy dla tej kategorii!")
+                    return
+            transakcja = Transakcja(**dane)
+            self.model.edytuj_transakcje(indeks, transakcja)
+            self.view.wyswietl_komunikat("Transakcja zaktualizowana.")
+        else:
+            self.view.wyswietl_komunikat("Nieprawidłowy numer transakcji.")
+
+    def usun_transakcje(self) -> None:
+        self.view.wyswietl_transakcje(self.model.transakcje)
+        indeks = self.view.pobierz_indeks_transakcji()
+        if self.model.usun_transakcje(indeks):
+            self.view.wyswietl_komunikat("Transakcja usunięta.")
+        else:
+            self.view.wyswietl_komunikat("Nieprawidłowy numer transakcji.")
+
+    def wyswietl_podsumowanie(self) -> None:
+        saldo = self.model.oblicz_saldo()
+        self.view.wyswietl_podsumowanie(saldo)
+
+    def eksportuj_transakcje(self) -> None:
+        self.model.eksportuj_do_csv()
+        self.view.potwierdz_eksport()
+
+    def importuj_transakcje(self) -> None:
+        self.model.importuj_z_csv()
+        self.view.potwierdz_import()
+
+    def filtruj_transakcje(self) -> None:
+        start_date, end_date = self.view.pobierz_zakres_dat()
+        if not start_date or not end_date:
+            self.view.wyswietl_komunikat("Nieprawidłowy zakres dat.")
+            return
         filtrowane = self.model.filtruj_transakcje_po_dacie(start_date, end_date)
         self.view.wyswietl_transakcje(filtrowane)
 
-    def ustaw_limit_budzetowy(self):
+    def ustaw_limit_budzetowy(self) -> None:
         kategoria, limit = self.view.pobierz_limit()
         if kategoria and limit > 0:
             self.model.ustaw_limit(kategoria, limit)
@@ -100,10 +110,6 @@ class BudzetController:
         else:
             self.view.wyswietl_komunikat("Nieprawidłowe dane. Limit nie został ustawiony.")
 
-    def generuj_raport(self):
+    def generuj_raport(self) -> None:
         raport = self.model.generuj_raport_wydatkow()
         self.view.wyswietl_raport(raport)
-
-if __name__ == "__main__":
-    controller = BudzetController()
-    controller.uruchom()
