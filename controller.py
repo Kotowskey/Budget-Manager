@@ -60,6 +60,11 @@ class BudzetController:
                 elif opcja == '8':
                     self.ustaw_limit_budzetowy()
                 elif opcja == '9':
+                    self.model.importuj_z_csv()
+                    self.view.potwierdz_import()
+                elif opcja == '10':
+                    self.generuj_raport()
+                elif opcja == '11':
                     self.view.wyswietl_komunikat("Do widzenia!")
                     break
                 else:
@@ -94,6 +99,10 @@ class BudzetController:
             self.view.potwierdz_ustawienie_limitu(kategoria, limit)
         else:
             self.view.wyswietl_komunikat("Nieprawidłowe dane. Limit nie został ustawiony.")
+
+    def generuj_raport(self):
+        raport = self.model.generuj_raport_wydatkow()
+        self.view.wyswietl_raport(raport)
 
 if __name__ == "__main__":
     controller = BudzetController()

@@ -22,6 +22,8 @@ class BudzetCursesView:
             'Eksportuj transakcje do CSV',
             'Filtruj transakcje według daty',
             'Ustaw limit budżetowy',
+            'Importuj transakcje z CSV',
+            'Generuj raport wydatków',
             'Wyjście'
         ]
         self.wyswietl_menu_opcje(menu)
@@ -40,7 +42,7 @@ class BudzetCursesView:
                 self.stdscr.addstr(y, x, row)
 
     def pobierz_opcje(self):
-        menu_length = 9  # Aktualna liczba opcji w menu
+        menu_length = 11  # Aktualna liczba opcji w menu
         while True:
             self.wyswietl_menu_opcje([
                 'Dodaj transakcję',
@@ -51,6 +53,8 @@ class BudzetCursesView:
                 'Eksportuj transakcje do CSV',
                 'Filtruj transakcje według daty',
                 'Ustaw limit budżetowy',
+                'Importuj transakcje z CSV',
+                'Generuj raport wydatków',
                 'Wyjście'
             ])
             key = self.stdscr.getch()
@@ -163,9 +167,28 @@ class BudzetCursesView:
         self.stdscr.refresh()
         self.stdscr.getch()
 
+    def potwierdz_import(self):
+        self.stdscr.clear()
+        self.stdscr.addstr(1, 1, "Transakcje zostały zaimportowane z pliku 'transakcje.csv'.")
+        self.stdscr.refresh()
+        self.stdscr.getch()
+
     def potwierdz_ustawienie_limitu(self, kategoria, limit):
         self.stdscr.clear()
         self.stdscr.addstr(1, 1, f"Ustawiono limit {limit:.2f} zł dla kategorii '{kategoria}'.")
+        self.stdscr.refresh()
+        self.stdscr.getch()
+
+    def wyswietl_raport(self, raport):
+        self.stdscr.clear()
+        if not raport:
+            self.stdscr.addstr(1, 1, "Brak wydatków do wyświetlenia.")
+        else:
+            self.stdscr.addstr(0, 1, "Raport wydatków według kategorii:")
+            row = 1
+            for kategoria, suma in raport.items():
+                self.stdscr.addstr(row, 1, f"{kategoria}: {suma:.2f} zł")
+                row += 1
         self.stdscr.refresh()
         self.stdscr.getch()
 

@@ -81,6 +81,23 @@ class BudzetModel:
             for t in self.transakcje:
                 writer.writerow(t.to_dict())
 
+    def importuj_z_csv(self, nazwa_pliku='transakcje.csv'):
+        if os.path.exists(nazwa_pliku):
+            with open(nazwa_pliku, 'r', encoding='utf-8') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    transakcja = Transakcja(
+                        kwota=float(row['kwota']),
+                        kategoria=row['kategoria'],
+                        typ=row['typ'],
+                        opis=row.get('opis', ''),
+                        data=row.get('data', datetime.now().strftime('%Y-%m-%d'))
+                    )
+                    self.transakcje.append(transakcja)
+            self.zapisz_dane()
+        else:
+            print(f"Plik {nazwa_pliku} nie istnieje.")
+
     def wczytaj_limity(self):
         if os.path.exists(self.plik_limity):
             with open(self.plik_limity, 'r', encoding='utf-8') as plik:
@@ -113,3 +130,9 @@ class BudzetModel:
         )
         return wydatki + 0.0001 <= limit  # Dodaj mały margines
 
+    def generuj_raport_wydatkow(self):
+        raport = {}
+        for t in self.transakcje:
+            if t.typ.lower() == 'wydatek':
+                raport[t.kategoria] = raport.get(t.kategoria, 0) + t.kwota
+        return raport

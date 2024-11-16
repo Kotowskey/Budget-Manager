@@ -7,6 +7,27 @@
         "data": "2024-10-30"
     },
     {
+        "kwota": 11.0,
+        "kategoria": "Wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2024-12-24"
+    },
+    {
+        "kwota": 270.0,
+        "kategoria": "czesci",
+        "typ": "wydatek",
+        "opis": "radio fiat",
+        "data": "2024-11-09"
+    },
+    {
+        "kwota": 20.0,
+        "kategoria": "Jedzenie",
+        "typ": "Wydatek",
+        "opis": "uber eats",
+        "data": "2024-10-30"
+    },
+    {
         "kwota": 1000.0,
         "kategoria": "wynagrodzenie",
         "typ": "przychód",
@@ -19,12 +40,5 @@
         "typ": "wydatek",
         "opis": "",
         "data": "2024-10-30"
-    },
-    {
-        "kwota": 270.0,
-        "kategoria": "czesci",
-        "typ": "wydatek",
-        "opis": "radio fiat",
-        "data": "2024-11-09"
     }
 ]
