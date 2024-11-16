@@ -25,7 +25,8 @@ class BudzetCursesView:
             '8. Ustaw limit budżetowy',
             '9. Importuj transakcje z CSV',
             '10. Generuj raport wydatków',
-            '11. Wyjście'
+            '11. Wyświetl wykresy',
+            '12. Wyjście'
         ]
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
@@ -43,21 +44,9 @@ class BudzetCursesView:
                 self.stdscr.addstr(y, x, row)
 
     def pobierz_opcje(self) -> str:
-        menu_length = 11  # Aktualna liczba opcji w menu
+        menu_length = 12  # Aktualna liczba opcji w menu
         while True:
-            self.wyswietl_menu_opcje([
-                '1. Dodaj transakcję',
-                '2. Edytuj transakcję',
-                '3. Usuń transakcję',
-                '4. Wyświetl transakcje',
-                '5. Wyświetl podsumowanie',
-                '6. Eksportuj transakcje do CSV',
-                '7. Filtruj transakcje według daty',
-                '8. Ustaw limit budżetowy',
-                '9. Importuj transakcje z CSV',
-                '10. Generuj raport wydatków',
-                '11. Wyjście'
-            ])
+            self.wyswietl_menu()
             key = self.stdscr.getch()
             if key == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
@@ -66,6 +55,43 @@ class BudzetCursesView:
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
             self.stdscr.refresh()
+
+    def wyswietl_ekran_logowania(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            '1. Logowanie',
+            '2. Rejestracja',
+            '3. Wyjście'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.stdscr.refresh()
+
+    def pobierz_opcje_logowania(self) -> str:
+        menu_length = 3
+        self.current_row = 0
+        while True:
+            self.wyswietl_ekran_logowania()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            self.stdscr.refresh()
+
+    def pobierz_dane_logowania(self) -> Tuple[str, str]:
+        curses.echo()
+        self.stdscr.clear()
+        self.stdscr.addstr(1, 1, "Login: ")
+        login = self.stdscr.getstr(1, 10, 20).decode('utf-8').strip()
+        self.stdscr.addstr(2, 1, "Hasło: ")
+        haslo = self.stdscr.getstr(2, 10, 20).decode('utf-8').strip()
+        curses.noecho()
+        return login, haslo
+
+    def pobierz_dane_rejestracji(self) -> Tuple[str, str]:
+        return self.pobierz_dane_logowania()
 
     def pobierz_dane_transakcji(self, edycja: bool = False) -> Optional[dict]:
         curses.echo()
@@ -240,6 +266,22 @@ class BudzetCursesView:
             return None, None
         finally:
             curses.noecho()
+
+    def wyswietl_wykresy(self, raport: Dict[str, float]) -> None:
+        self.stdscr.clear()
+        if not raport:
+            self.stdscr.addstr(1, 1, "Brak danych do wyświetlenia.")
+        else:
+            total = sum(raport.values())
+            self.stdscr.addstr(0, 1, "Udział kategorii w wydatkach:")
+            row = 1
+            for kategoria, suma in raport.items():
+                procent = (suma / total) * 100 if total > 0 else 0
+                wykres = '*' * int(procent // 2)  # Skala wykresu
+                self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
+                row += 1
+        self.stdscr.refresh()
+        self.stdscr.getch()
 
     def zakoncz(self) -> None:
         curses.nocbreak()

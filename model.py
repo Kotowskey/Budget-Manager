@@ -28,14 +28,54 @@ class Transakcja:
 class BudzetModel:
     def __init__(self):
         self.transakcje: List[Transakcja] = []
-        self.plik_danych: str = 'dane.json'
-        self.plik_limity: str = 'limity.json'
+        self.uzytkownicy_plik: str = 'uzytkownicy.json'
         self.limity: Dict[str, float] = {}
         self.wydatki_kategorie: Dict[str, float] = {}
-        self.wczytaj_dane()
-        self.wczytaj_limity()
-        self.oblicz_wydatki_kategorie()
+        self.zalogowany_uzytkownik: Optional[str] = None
+        self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
         logging.info("Inicjalizacja modelu budżetu zakończona.")
+
+    def zaloguj(self, login: str, haslo: str) -> bool:
+        if login in self.uzytkownicy and self.uzytkownicy[login] == haslo:
+            self.zalogowany_uzytkownik = login
+            self.plik_danych = f'dane_{login}.json'
+            self.plik_limity = f'limity_{login}.json'
+            self.wczytaj_dane()
+            self.wczytaj_limity()
+            self.oblicz_wydatki_kategorie()
+            logging.info(f"Zalogowano użytkownika: {login}")
+            return True
+        logging.warning(f"Nieudane logowanie dla użytkownika: {login}")
+        return False
+
+    def zarejestruj(self, login: str, haslo: str) -> bool:
+        if login not in self.uzytkownicy:
+            self.uzytkownicy[login] = haslo
+            self.zapisz_uzytkownikow()
+            logging.info(f"Zarejestrowano nowego użytkownika: {login}")
+            return True
+        logging.warning(f"Próba rejestracji istniejącego użytkownika: {login}")
+        return False
+
+    def wczytaj_uzytkownikow(self) -> Dict[str, str]:
+        if os.path.exists(self.uzytkownicy_plik):
+            try:
+                with open(self.uzytkownicy_plik, 'r', encoding='utf-8') as plik:
+                    uzytkownicy = json.load(plik)
+                return uzytkownicy
+            except (IOError, json.JSONDecodeError) as e:
+                logging.error(f"Błąd wczytywania użytkowników: {e}")
+                return {}
+        else:
+            return {}
+
+    def zapisz_uzytkownikow(self) -> None:
+        try:
+            with open(self.uzytkownicy_plik, 'w', encoding='utf-8') as plik:
+                json.dump(self.uzytkownicy, plik, ensure_ascii=False, indent=4)
+            logging.debug("Użytkownicy zapisani do pliku.")
+        except IOError as e:
+            logging.error(f"Błąd zapisu użytkowników: {e}")
 
     def dodaj_transakcje(self, transakcja: Transakcja) -> None:
         self.transakcje.append(transakcja)

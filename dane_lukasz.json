@@ -1,0 +1,23 @@
+[
+    {
+        "kwota": 3000.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2024-12-01"
+    },
+    {
+        "kwota": 3000.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2024-12-01"
+    },
+    {
+        "kwota": 101.0,
+        "kategoria": "jedzenie",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-01-01"
+    }
+]

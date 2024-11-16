@@ -1,16 +1,16 @@
 # controller.py
-import curses
 from model import BudzetModel, Transakcja
 from curses_view import BudzetCursesView
-from typing import Optional
 
 class BudzetController:
     def __init__(self) -> None:
         self.model = BudzetModel()
         self.view = BudzetCursesView()
+        self.zalogowany_uzytkownik = None
 
     def uruchom(self) -> None:
         try:
+            self.logowanie()
             while True:
                 self.view.wyswietl_menu()
                 opcja = self.view.pobierz_opcje()
@@ -35,12 +35,39 @@ class BudzetController:
                 elif opcja == '10':
                     self.generuj_raport()
                 elif opcja == '11':
+                    self.wyswietl_wykresy()
+                elif opcja == '12':
                     self.view.wyswietl_komunikat("Do widzenia!")
                     break
                 else:
                     self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
         finally:
             self.view.zakoncz()
+
+    def logowanie(self) -> None:
+        while True:
+            self.view.wyswietl_ekran_logowania()
+            opcja = self.view.pobierz_opcje_logowania()
+            if opcja == '1':
+                login, haslo = self.view.pobierz_dane_logowania()
+                if self.model.zaloguj(login, haslo):
+                    self.zalogowany_uzytkownik = login
+                    self.view.wyswietl_komunikat(f"Zalogowano jako {login}.")
+                    break
+                else:
+                    self.view.wyswietl_komunikat("Nieprawidłowy login lub hasło.")
+            elif opcja == '2':
+                login, haslo = self.view.pobierz_dane_rejestracji()
+                if self.model.zarejestruj(login, haslo):
+                    self.view.wyswietl_komunikat("Rejestracja udana. Możesz się teraz zalogować.")
+                else:
+                    self.view.wyswietl_komunikat("Użytkownik o takim loginie już istnieje.")
+            elif opcja == '3':
+                self.view.wyswietl_komunikat("Do widzenia!")
+                self.view.zakoncz()
+                exit()
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja.")
 
     def dodaj_transakcje(self) -> None:
         dane = self.view.pobierz_dane_transakcji()
@@ -113,3 +140,7 @@ class BudzetController:
     def generuj_raport(self) -> None:
         raport = self.model.generuj_raport_wydatkow()
         self.view.wyswietl_raport(raport)
+
+    def wyswietl_wykresy(self) -> None:
+        raport = self.model.generuj_raport_wydatkow()
+        self.view.wyswietl_wykresy(raport)

@@ -83,3 +83,38 @@
 2024-11-16 23:24:28,278 - DEBUG - Dane zapisane do pliku.
 2024-11-16 23:24:28,278 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=100.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-16')
 2024-11-16 23:24:28,278 - DEBUG - Obliczone saldo: 0
+2024-11-16 23:30:13,170 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:30:22,796 - WARNING - Nieudane logowanie dla u\u017cytkownika: lukasz
+2024-11-16 23:30:29,476 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-16 23:30:29,477 - INFO - Zarejestrowano nowego u\u017cytkownika: lukasz
+2024-11-16 23:30:35,615 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-16 23:30:35,616 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-16 23:30:35,617 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-16 23:30:35,619 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-16 23:30:39,933 - DEBUG - Obliczone saldo: 0
+2024-11-16 23:31:11,667 - DEBUG - Dane zapisane do pliku.
+2024-11-16 23:31:11,669 - INFO - Dodano transakcj\u0119: Transakcja(kwota=3000.0, kategoria='wynagrodzenie', typ='przychód', opis='', data='2024-12-01')
+2024-11-16 23:31:28,492 - DEBUG - Obliczone saldo: 3000.0
+2024-11-16 23:31:30,870 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-16 23:31:44,467 - DEBUG - Limity zapisane do pliku.
+2024-11-16 23:31:44,468 - INFO - Ustawiono limit dla kategorii 'jedzenie': 100.0 z\u0142
+2024-11-16 23:32:01,355 - DEBUG - Dane zapisane do pliku.
+2024-11-16 23:32:01,356 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
+2024-11-16 23:32:15,521 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-16 23:32:17,767 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-16 23:32:33,852 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 100.0
+2024-11-16 23:32:33,852 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 <= 100.0 -> True
+2024-11-16 23:32:33,856 - DEBUG - Dane zapisane do pliku.
+2024-11-16 23:32:33,856 - INFO - Dodano transakcj\u0119: Transakcja(kwota=101.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-01-01')
+2024-11-16 23:32:36,301 - DEBUG - Obliczone saldo: 5899.0
+2024-11-16 23:32:38,366 - DEBUG - Obliczone saldo: 5899.0
+2024-11-16 23:32:53,305 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-16 23:32:58,278 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-16 23:33:30,199 - DEBUG - Filtrowano transakcje od 2024-12-01 do 2024-12-23: 2 znalezionych.
+2024-11-16 23:33:41,437 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:33:41,443 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:33:41,446 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:33:41,449 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:33:41,452 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:33:41,457 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-16 23:33:41,460 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
