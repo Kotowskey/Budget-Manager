@@ -54,6 +54,7 @@ class BudzetCursesView:
             'Wyjście'
         ]
         self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
@@ -81,6 +82,7 @@ class BudzetCursesView:
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_transakcje(self) -> Optional[str]:
@@ -108,6 +110,7 @@ class BudzetCursesView:
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_podsumowania(self) -> Optional[str]:
@@ -133,6 +136,7 @@ class BudzetCursesView:
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
@@ -190,6 +194,7 @@ class BudzetCursesView:
                 self.stdscr.attroff(curses.color_pair(1))
             else:
                 self.stdscr.addstr(y, x, row)
+        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
         self.stdscr.refresh()
 
     def pobierz_opcje_logowania(self) -> Optional[str]:
@@ -306,6 +311,7 @@ class BudzetCursesView:
         self.stdscr.clear()
         if not transakcje:
             self.stdscr.addstr(1, 1, "Brak transakcji.")
+            self.wyswietl_footer()
             self.stdscr.refresh()
             self.stdscr.getch()
             return
@@ -330,7 +336,8 @@ class BudzetCursesView:
                 except curses.error:
                     break
             footer = f"Strona {current_page + 1}/{total_pages}. Naciśnij 'n' dla następnej strony, 'p' dla poprzedniej, 'q' aby wyjść lub ESC aby anulować."
-            self.stdscr.addstr(h-2, 1, footer)
+            self.stdscr.addstr(h-3, 1, footer)
+            self.wyswietl_footer()
             self.stdscr.refresh()
             key = self.stdscr.getch()
             if key in [ord('n'), ord('N')]:
@@ -345,6 +352,7 @@ class BudzetCursesView:
     def wyswietl_podsumowanie(self, saldo: float) -> None:
         self.stdscr.clear()
         self.stdscr.addstr(1, 1, f"Aktualne saldo: {saldo:.2f} zł")
+        self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
 
@@ -366,6 +374,7 @@ class BudzetCursesView:
     def wyswietl_komunikat(self, komunikat: str) -> None:
         self.stdscr.clear()
         self.stdscr.addstr(1, 1, komunikat)
+        self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
 
@@ -410,6 +419,7 @@ class BudzetCursesView:
             for kategoria, suma in raport.items():
                 self.stdscr.addstr(row, 1, f"{kategoria}: {suma:.2f} zł")
                 row += 1
+        self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
 
@@ -423,6 +433,7 @@ class BudzetCursesView:
             for kategoria, suma in raport.items():
                 self.stdscr.addstr(row, 1, f"{kategoria}: {suma:.2f} zł")
                 row += 1
+        self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
 
@@ -460,6 +471,7 @@ class BudzetCursesView:
                 wykres = '*' * int(procent // 2)  # Skala wykresu
                 self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
                 row += 1
+        self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
 
@@ -511,6 +523,7 @@ class BudzetCursesView:
                     self.stdscr.attroff(curses.color_pair(2))
                 else:
                     self.stdscr.addstr(y, x, row)
+            self.wyswietl_footer()
             self.stdscr.refresh()
             key = self.stdscr.getch()
             if key == curses.KEY_UP and self.current_row > 0:
@@ -522,3 +535,11 @@ class BudzetCursesView:
             elif key == ESC:
                 return False  # Anulowanie potwierdzenia
 
+    def wyswietl_footer(self) -> None:
+        """Wyświetla napis 'BUDGET MANAGER' na dole ekranu."""
+        h, w = self.stdscr.getmaxyx()
+        footer_text = "BUDGET MANAGER"
+        try:
+            self.stdscr.addstr(h-1, max((w // 2) - (len(footer_text) // 2), 0), footer_text, curses.A_DIM)
+        except curses.error:
+            pass  # Ignoruj błędy, jeśli ekran jest za mały
