@@ -297,3 +297,373 @@
 2024-11-18 20:25:56,018 - DEBUG - Dane zapisane do pliku.
 2024-11-18 20:25:56,018 - INFO - Dodano transakcj\u0119: Transakcja(kwota=20.0, kategoria='jedzenie', typ='wydatek', opis='kebab', data='2024-11-11')
 2024-11-18 20:27:56,114 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,236 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,236 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:34:38,236 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,236 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,236 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,237 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,237 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,238 - INFO - Dodano transakcj\u0119: Transakcja(kwota=100.0, kategoria='Pensja', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:34:38,238 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,245 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,246 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,246 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,246 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,246 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,247 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,247 - INFO - Dodano transakcj\u0119: Transakcja(kwota=50.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,249 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,254 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,254 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,254 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,254 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,254 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,255 - WARNING - Próba edycji nieistniej\u0105cej transakcji o indeksie: 5
+2024-11-18 20:34:38,255 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,256 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,256 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,256 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,256 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,256 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,257 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,257 - INFO - Edytowano transakcj\u0119 na indeksie 0: Transakcja(kwota=60.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,257 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,263 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,264 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,264 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,264 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,264 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,264 - DEBUG - Filtrowano transakcje od 2023-01-01 do 2023-01-31: 1 znalezionych.
+2024-11-18 20:34:38,264 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,264 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,264 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,264 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,264 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,264 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,265 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,266 - INFO - Dodano transakcj\u0119: Transakcja(kwota=1000.0, kategoria='Pensja', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:34:38,266 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 20:34:38,267 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,273 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,273 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,273 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,273 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,273 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,274 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,274 - INFO - Dodano transakcj\u0119: Transakcja(kwota=30.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,274 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,274 - INFO - Dodano transakcj\u0119: Transakcja(kwota=20.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,274 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 20:34:38,276 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,281 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,282 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,282 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,282 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,282 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,282 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,283 - INFO - Dodano transakcj\u0119: Transakcja(kwota=100.0, kategoria='Pensja', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:34:38,283 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,284 - INFO - Dodano transakcj\u0119: Transakcja(kwota=50.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,284 - DEBUG - Obliczone saldo: 840.0
+2024-11-18 20:34:38,285 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,291 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,291 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:34:38,291 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,291 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,291 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,292 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:34:38,292 - INFO - Ustawiono limit dla kategorii 'Jedzenie': 500.0 z\u0142
+2024-11-18 20:34:38,292 - DEBUG - Pobrano limit dla kategorii 'Jedzenie': 500.0
+2024-11-18 20:34:38,292 - DEBUG - Sprawdzanie limitu dla 'Jedzenie': 180.0 + 100.0 <= 500.0 -> True
+2024-11-18 20:34:38,293 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,293 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,299 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,299 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,299 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,299 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,300 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:34:38,300 - INFO - Ustawiono limit dla kategorii 'Jedzenie': 50.0 z\u0142
+2024-11-18 20:34:38,301 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,301 - INFO - Dodano transakcj\u0119: Transakcja(kwota=30.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,301 - DEBUG - Pobrano limit dla kategorii 'Jedzenie': 50.0
+2024-11-18 20:34:38,301 - DEBUG - Sprawdzanie limitu dla 'Jedzenie': 210.0 + 25.0 <= 50.0 -> False
+2024-11-18 20:34:38,303 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,309 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,313 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,313 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,313 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,313 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,314 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:34:38,314 - INFO - Ustawiono limit dla kategorii 'Jedzenie': 500.0 z\u0142
+2024-11-18 20:34:38,314 - DEBUG - Pobrano limit dla kategorii 'Jedzenie': 500.0
+2024-11-18 20:34:38,316 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,316 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,317 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,317 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,317 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,317 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,317 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: 10
+2024-11-18 20:34:38,318 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,318 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,318 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,318 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,319 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,319 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,320 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:34:38,321 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=60.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:34:38,321 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,327 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,328 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,328 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,328 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,328 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,328 - WARNING - Nieudane logowanie dla u\u017cytkownika: testuser
+2024-11-18 20:34:38,329 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,329 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,329 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,329 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,329 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,330 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,330 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,330 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,330 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,330 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,330 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,331 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,331 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,331 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,331 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,332 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,332 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,332 - WARNING - Próba rejestracji istniej\u0105cego u\u017cytkownika: testuser
+2024-11-18 20:34:38,332 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:34:38,333 - DEBUG - Dane wczytane z pliku.
+2024-11-18 20:34:38,333 - DEBUG - Limity wczytane z pliku.
+2024-11-18 20:34:38,333 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,333 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:34:38,333 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:34:38,333 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:34:38,335 - INFO - Zarejestrowano nowego u\u017cytkownika: newuser
+2024-11-18 20:36:19,322 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,322 - WARNING - Próba rejestracji istniej\u0105cego u\u017cytkownika: testuser
+2024-11-18 20:36:19,322 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,322 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,322 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,322 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,322 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,327 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,327 - INFO - Dodano transakcj\u0119: Transakcja(kwota=200.0, kategoria='Wynagrodzenie', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:36:19,327 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,329 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,329 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,329 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,329 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,329 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,329 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,329 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,331 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,331 - INFO - Dodano transakcj\u0119: Transakcja(kwota=50.0, kategoria='Zakupy', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,331 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,333 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,333 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,333 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,333 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,333 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,335 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,335 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,335 - WARNING - Próba edycji nieistniej\u0105cej transakcji o indeksie: 10
+2024-11-18 20:36:19,335 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,335 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,335 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,335 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,337 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,337 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,337 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,337 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,337 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,337 - INFO - Dodano transakcj\u0119: Transakcja(kwota=80.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,338 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,338 - INFO - Edytowano transakcj\u0119 na indeksie 0: Transakcja(kwota=60.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,338 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,340 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,340 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,340 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,340 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,340 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,340 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,340 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,340 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,340 - INFO - Dodano transakcj\u0119: Transakcja(kwota=150.0, kategoria='Elektronika', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,340 - INFO - Transakcje wyeksportowane do pliku CSV: test_transakcje.csv
+2024-11-18 20:36:19,346 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,346 - INFO - Transakcje zaimportowane z pliku CSV: test_transakcje.csv
+2024-11-18 20:36:19,346 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,349 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,349 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,349 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,349 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,349 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,349 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,349 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,349 - DEBUG - Filtrowano transakcje od 2023-01-01 do 2023-01-31: 1 znalezionych.
+2024-11-18 20:36:19,351 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,351 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,351 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,351 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,351 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,351 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,351 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,351 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,351 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,353 - INFO - Dodano transakcj\u0119: Transakcja(kwota=1000.0, kategoria='Wynagrodzenie', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:36:19,353 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,353 - INFO - Dodano transakcj\u0119: Transakcja(kwota=200.0, kategoria='Bonus', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:36:19,353 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 20:36:19,354 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,355 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,355 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,355 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,355 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,356 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,356 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,356 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,357 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,357 - INFO - Dodano transakcj\u0119: Transakcja(kwota=50.0, kategoria='Ksi\u0105\u017cki', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,357 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,357 - INFO - Dodano transakcj\u0119: Transakcja(kwota=70.0, kategoria='Ksi\u0105\u017cki', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,357 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 20:36:19,358 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,359 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,359 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,359 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,359 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,359 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,359 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,360 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,360 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,360 - INFO - Dodano transakcj\u0119: Transakcja(kwota=500.0, kategoria='Wynagrodzenie', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 20:36:19,361 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,361 - INFO - Dodano transakcj\u0119: Transakcja(kwota=150.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,361 - DEBUG - Obliczone saldo: 350.0
+2024-11-18 20:36:19,362 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,362 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,362 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,362 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,363 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,363 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,363 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,363 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,363 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:36:19,363 - INFO - Ustawiono limit dla kategorii 'Zakupy': 400.0 z\u0142
+2024-11-18 20:36:19,363 - DEBUG - Pobrano limit dla kategorii 'Zakupy': 400.0
+2024-11-18 20:36:19,364 - DEBUG - Sprawdzanie limitu dla 'Zakupy': 0 + 100.0 <= 400.0 -> True
+2024-11-18 20:36:19,364 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,365 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,365 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,365 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,365 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,365 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,366 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,366 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,366 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:36:19,366 - INFO - Ustawiono limit dla kategorii 'Zakupy': 200.0 z\u0142
+2024-11-18 20:36:19,367 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,367 - INFO - Dodano transakcj\u0119: Transakcja(kwota=150.0, kategoria='Zakupy', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,367 - DEBUG - Pobrano limit dla kategorii 'Zakupy': 200.0
+2024-11-18 20:36:19,367 - DEBUG - Sprawdzanie limitu dla 'Zakupy': 150.0 + 100.0 <= 200.0 -> False
+2024-11-18 20:36:19,368 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,369 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,369 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,369 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,369 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,369 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,369 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,369 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,370 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:36:19,370 - INFO - Ustawiono limit dla kategorii 'Jedzenie': 300.0 z\u0142
+2024-11-18 20:36:19,370 - DEBUG - Pobrano limit dla kategorii 'Jedzenie': 300.0
+2024-11-18 20:36:19,371 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,371 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,371 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,372 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,372 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,372 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,372 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,372 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,373 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:36:19,373 - INFO - Ustawiono limit dla kategorii 'Podró\u017ce': 1000.0 z\u0142
+2024-11-18 20:36:19,373 - DEBUG - Limity zapisane do pliku.
+2024-11-18 20:36:19,373 - INFO - Usuni\u0119to limit dla kategorii 'Podró\u017ce'
+2024-11-18 20:36:19,374 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,374 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,374 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,374 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,374 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,374 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,374 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,374 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,374 - WARNING - Próba usuni\u0119cia nieistniej\u0105cego limitu dla kategorii 'Edukacja'
+2024-11-18 20:36:19,376 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,376 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,376 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,376 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,376 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,376 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,376 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,376 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,376 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: 5
+2024-11-18 20:36:19,378 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,378 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,378 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,378 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,378 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,378 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,378 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,378 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,380 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,380 - INFO - Dodano transakcj\u0119: Transakcja(kwota=70.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,380 - DEBUG - Dane zapisane do pliku.
+2024-11-18 20:36:19,380 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=70.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-18')
+2024-11-18 20:36:19,380 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,382 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,382 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,382 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,382 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,382 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,382 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,382 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,382 - WARNING - Nieudane logowanie dla u\u017cytkownika: testuser
+2024-11-18 20:36:19,384 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,384 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,384 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,384 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,384 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,384 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,384 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,384 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,384 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,384 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,384 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,384 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,384 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,386 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,386 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,386 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,386 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,386 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,386 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,386 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,386 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,386 - WARNING - Próba rejestracji istniej\u0105cego u\u017cytkownika: testuser
+2024-11-18 20:36:19,388 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 20:36:19,388 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,388 - INFO - Zarejestrowano nowego u\u017cytkownika: testuser
+2024-11-18 20:36:19,388 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 20:36:19,388 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
+2024-11-18 20:36:19,388 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,388 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 20:36:19,388 - INFO - Zalogowano u\u017cytkownika: testuser
+2024-11-18 20:36:19,390 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 20:36:19,390 - INFO - Zarejestrowano nowego u\u017cytkownika: nowyuzytkownik
+2024-11-18 20:37:01,513 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
