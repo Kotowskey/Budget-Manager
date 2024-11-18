@@ -43,7 +43,9 @@ class BudzetController:
                 self.usun_transakcje()
             elif opcja == '4':
                 self.view.wyswietl_transakcje(self.model.transakcje)
-            elif opcja == '5':
+            elif opcja == '5':  # Nowa opcja: Cofnij
+                self.cofnij_operacje()
+            elif opcja == '6':
                 break
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
@@ -109,7 +111,7 @@ class BudzetController:
             kwota = dane['kwota']
             kategoria = dane['kategoria']
             if not self.model.sprawdz_limit(kategoria, kwota):
-                komunikat = "Przekroczono limit budżetowy dla tej kategorii! Czy chcesz mimo to dodać transakcję?"
+                komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to dodać transakcję?"
                 potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
                 if not potwierdzenie:
                     self.view.wyswietl_komunikat("Transakcja nie została dodana.")
@@ -132,7 +134,10 @@ class BudzetController:
                 kwota = dane['kwota']
                 kategoria = dane['kategoria']
                 # Sprawdzenie, czy dodanie nowej kwoty przekroczy limit, uwzględniając oryginalny wydatek
-                if not self.model.sprawdz_limit(kategoria, kwota):
+                aktualny_wydatki = self.model.wydatki_kategorie.get(kategoria, 0)
+                if transakcja_oryginalna.typ.lower() == 'wydatek' and transakcja_oryginalna.kategoria == kategoria:
+                    aktualny_wydatki -= transakcja_oryginalna.kwota
+                if (aktualny_wydatki + kwota) > self.model.pobierz_limit(kategoria):
                     komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to zaktualizować transakcję?"
                     potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
                     if not potwierdzenie:
@@ -186,3 +191,7 @@ class BudzetController:
     def wyswietl_wykresy(self) -> None:
         raport = self.model.generuj_raport_wydatkow()
         self.view.wyswietl_wykresy(raport)
+
+    def cofnij_operacje(self) -> None:
+        sukces = self.model.undo()
+        self.view.wyswietl_potwierdzenie_cofania(sukces)

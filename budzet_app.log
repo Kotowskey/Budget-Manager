@@ -219,3 +219,40 @@
 2024-11-18 15:22:26,740 - DEBUG - Obliczone saldo: 9000.0
 2024-11-18 15:22:28,706 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
 2024-11-18 15:22:30,478 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:25:19,288 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:25:22,548 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:25:27,643 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:25:27,645 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:25:27,645 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:25:27,647 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:25:33,503 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:25:35,202 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:25:36,137 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:25:37,153 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:25:38,470 - DEBUG - Obliczone saldo: 9000.0
+2024-11-18 15:25:48,142 - DEBUG - Obliczone saldo: 9000.0
+2024-11-18 15:25:49,858 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:28:34,708 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:28:52,770 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:29:02,863 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:29:09,736 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:29:09,736 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:29:09,736 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:29:09,736 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 16:47:43,165 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 16:47:49,471 - DEBUG - Dane wczytane z pliku.
+2024-11-18 16:47:49,471 - DEBUG - Limity wczytane z pliku.
+2024-11-18 16:47:49,471 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 16:47:49,471 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 16:48:04,772 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 16:48:11,613 - DEBUG - Dane wczytane z pliku.
+2024-11-18 16:48:11,613 - DEBUG - Limity wczytane z pliku.
+2024-11-18 16:48:11,613 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 16:48:11,615 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 16:49:02,712 - DEBUG - Pobrano limit dla kategorii 'kosmetyki': None
+2024-11-18 16:49:02,712 - DEBUG - Brak limitu dla kategorii 'kosmetyki'.
+2024-11-18 16:49:02,712 - DEBUG - Dane zapisane do pliku.
+2024-11-18 16:49:02,712 - INFO - Dodano transakcj\u0119: Transakcja(kwota=40.0, kategoria='kosmetyki', typ='wydatek', opis='', data='2024-11-11')
+2024-11-18 16:49:06,625 - DEBUG - Dane zapisane do pliku.
+2024-11-18 16:49:06,625 - INFO - Cofni\u0119to dodanie transakcji: Transakcja(kwota=40.0, kategoria='kosmetyki', typ='wydatek', opis='', data='2024-11-11')
+2024-11-18 16:49:21,209 - INFO - Brak operacji do cofni\u0119cia.

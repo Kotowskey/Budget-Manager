@@ -11,6 +11,7 @@ class BudzetCursesView:
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
         curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)  # Nowy kolor dla potwierdzenia
+        curses.init_pair(3, curses.COLOR_RED, curses.COLOR_WHITE)    # Kolor dla komunikatów o błędach
         self.current_row = 0
 
     def wyswietl_welcome_screen(self) -> None:
@@ -19,7 +20,7 @@ class BudzetCursesView:
             "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
             " |  _ \\| |  | |  __ \\ / ____|  ____|__   __| |  \\/  |   /\\   | \\ | |   /\\   / ____|  ____|  __ \\ ",
             " | |_) | |  | | |  | | |  __| |__     | |    | \\  / |  /  \\  |  \\| |  /  \\ | |  __| |__  | |__) |",
-            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | . ` | / /\\ \\| | |_ |  __| |  _  / ",
+            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | .  | / /\\ \\| | |_ |  __| |  _  / ",
             " | |_) | |__| | |__| | |__| | |____   | |    | |  | |/ ____ \\| |\\  |/ ____ \\ |__| | |____| | \\ \\ ",
             " |____/ \\____/|_____/ \\_____|______|  |_|    |_|  |_/_/    \\_\\_| \\_/_/    \\_\\_____|______|_|  \\_\\",
             "",
@@ -70,13 +71,14 @@ class BudzetCursesView:
             'Edytuj transakcję',
             'Usuń transakcję',
             'Wyświetl transakcje',
+            'Cofnij ostatnią operację',  # Nowa opcja
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_transakcje(self) -> str:
-        menu_length = 5
+        menu_length = 6  # Zaktualizowany rozmiar menu
         while True:
             self.wyswietl_podmenu_transakcje()
             key = self.stdscr.getch()
@@ -313,7 +315,13 @@ class BudzetCursesView:
 
     def wyswietl_komunikat(self, komunikat: str) -> None:
         self.stdscr.clear()
-        self.stdscr.addstr(1, 1, komunikat)
+        h, w = self.stdscr.getmaxyx()
+        lines = komunikat.split('\n')
+        for idx, line in enumerate(lines):
+            try:
+                self.stdscr.addstr(1 + idx, 1, line, curses.color_pair(3) if "Błąd" in line else curses.A_NORMAL)
+            except curses.error:
+                pass
         self.stdscr.refresh()
         self.stdscr.getch()
 
@@ -397,7 +405,7 @@ class BudzetCursesView:
             "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
             " |  _ \\| |  | |  __ \\ / ____|  ____|__   __| |  \\/  |   /\\   | \\ | |   /\\   / ____|  ____|  __ \\ ",
             " | |_) | |  | | |  | | |  __| |__     | |    | \\  / |  /  \\  |  \\| |  /  \\ | |  __| |__  | |__) |",
-            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | . ` | / /\\ \\| | |_ |  __| |  _  / ",
+            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | .  | / /\\ \\| | |_ |  __| |  _  / ",
             " | |_) | |__| | |__| | |__| | |____   | |    | |  | |/ ____ \\| |\\  |/ ____ \\ |__| | |____| | \\ \\ ",
             " |____/ \\____/|_____/ \\_____|______|  |_|    |_|  |_/_/    \\_\\_| \\_/_/    \\_\\_____|______|_|  \\_\\",
             "",
@@ -448,3 +456,20 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return self.current_row == 0  # 'Tak' to indeks 0
+
+    def wyswietl_potwierdzenie_cofania(self, sukces: bool) -> None:
+        self.stdscr.clear()
+        if sukces:
+            komunikat = "Ostatnia operacja została cofnięta."
+            kolor = curses.color_pair(2)
+        else:
+            komunikat = "Brak operacji do cofnięcia."
+            kolor = curses.color_pair(3)
+        h, w = self.stdscr.getmaxyx()
+        x = max((w // 2) - (len(komunikat) // 2), 0)
+        y = h // 2
+        self.stdscr.attron(kolor)
+        self.stdscr.addstr(y, x, komunikat)
+        self.stdscr.attroff(kolor)
+        self.stdscr.refresh()
+        self.stdscr.getch()
