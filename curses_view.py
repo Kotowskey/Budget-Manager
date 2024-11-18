@@ -27,14 +27,11 @@ class BudzetCursesView:
         ]
         h, w = self.stdscr.getmaxyx()
         for idx, line in enumerate(ascii_art):
-            # Obliczanie pozycji x, aby wyśrodkować linię
             x = max((w // 2) - (len(line) // 2), 0)
-            # Obliczanie pozycji y, aby wyśrodkować grafikę
             y = max((h // 2) - (len(ascii_art) // 2) + idx, 0)
             try:
                 self.stdscr.addstr(y, x, line)
             except curses.error:
-                # Jeśli linia jest zbyt długa dla terminala, pomiń ją
                 pass
         self.stdscr.refresh()
         while True:
@@ -42,24 +39,101 @@ class BudzetCursesView:
             if key in [10, 13, curses.KEY_ENTER]:
                 break
 
-    def wyswietl_menu(self) -> None:
+    def wyswietl_glowne_menu_kategorii(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            'Transakcje',
+            'Podsumowania',
+            'Importowanie i eksportowanie',
+            'Wyjście'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.stdscr.refresh()
+
+    def pobierz_opcje_glownego_menu(self) -> str:
+        menu_length = 4
+        while True:
+            self.wyswietl_glowne_menu_kategorii()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            self.stdscr.refresh()
+
+    def wyswietl_podmenu_transakcje(self) -> None:
         self.stdscr.clear()
         menu = [
             'Dodaj transakcję',
             'Edytuj transakcję',
             'Usuń transakcję',
             'Wyświetl transakcje',
-            'Wyświetl podsumowanie',
-            'Eksportuj transakcje do CSV',
-            'Filtruj transakcje według daty',
-            'Ustaw limit budżetowy',
-            'Importuj transakcje z CSV',
-            'Generuj raport wydatków',
-            'Wyświetl wykresy',
-            'Wyjście'
+            'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_transakcje(self) -> str:
+        menu_length = 5
+        while True:
+            self.wyswietl_podmenu_transakcje()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            self.stdscr.refresh()
+
+    def wyswietl_podmenu_podsumowania(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            'Wyświetl podsumowanie',
+            'Generuj raport wydatków',
+            'Wyświetl wykresy',
+            'Powrót do głównego menu'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_podsumowania(self) -> str:
+        menu_length = 4
+        while True:
+            self.wyswietl_podmenu_podsumowania()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            self.stdscr.refresh()
+
+    def wyswietl_podmenu_import_eksport(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            'Eksportuj transakcje do CSV',
+            'Importuj transakcje z CSV',
+            'Powrót do głównego menu'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_import_eksport(self) -> str:
+        menu_length = 3
+        while True:
+            self.wyswietl_podmenu_import_eksport()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            self.stdscr.refresh()
 
     def wyswietl_menu_opcje(self, menu: list) -> None:
         h, w = self.stdscr.getmaxyx()
@@ -74,17 +148,8 @@ class BudzetCursesView:
                 self.stdscr.addstr(y, x, row)
 
     def pobierz_opcje(self) -> str:
-        menu_length = 12  # Aktualna liczba opcji w menu
-        while True:
-            self.wyswietl_menu()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
-                self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
-                self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
-                return str(self.current_row + 1)
-            self.stdscr.refresh()
+        # Ta metoda została zastąpiona przez specyficzne metody pobierania opcji dla każdego menu
+        pass
 
     def wyswietl_ekran_logowania(self) -> None:
         self.stdscr.clear()
@@ -95,14 +160,12 @@ class BudzetCursesView:
             'Wyjście'
         ]
         h, w = self.stdscr.getmaxyx()
-        # Wyświetlanie nagłówka
         header_x = max((w // 2) - (len(header) // 2), 0)
         header_y = max((h // 2) - (len(menu) // 2) - 2, 0)
         try:
             self.stdscr.addstr(header_y, header_x, header, curses.A_BOLD | curses.A_UNDERLINE)
         except curses.error:
             pass
-        # Wyświetlanie opcji menu
         for idx, row in enumerate(menu):
             x = max((w // 2) - (len(row) // 2), 0)
             y = max((h // 2) - (len(menu) // 2) + idx, 0)
@@ -115,7 +178,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_logowania(self) -> str:
-        menu_length = 3  # Liczba opcji w ekranie logowania
+        menu_length = 3
         while True:
             self.wyswietl_ekran_logowania()
             key = self.stdscr.getch()
@@ -175,7 +238,6 @@ class BudzetCursesView:
             self.stdscr.addstr(start_row, 1, "Data (YYYY-MM-DD) [opcjonalnie]: ")
             data_input = self.stdscr.getstr(start_row, 35, 10).decode('utf-8').strip()
             if data_input:
-                # Walidacja formatu daty
                 try:
                     datetime.strptime(data_input, '%Y-%m-%d')
                     transakcja['data'] = data_input
@@ -201,7 +263,7 @@ class BudzetCursesView:
         self.stdscr.addstr(0, 1, header)
         self.stdscr.addstr(1, 1, "-" * len(header))
         h, w = self.stdscr.getmaxyx()
-        per_page = h - 4  # Ilość transakcji na stronę
+        per_page = h - 4
         total_pages = (len(transakcje) + per_page - 1) // per_page
         current_page = 0
 
@@ -344,17 +406,13 @@ class BudzetCursesView:
         self.stdscr.clear()
         h, w = self.stdscr.getmaxyx()
         for idx, line in enumerate(ascii_art):
-            # Obliczanie pozycji x, aby wyśrodkować linię
             x = max((w // 2) - (len(line) // 2), 0)
-            # Obliczanie pozycji y, aby wyśrodkować grafikę
             y = max((h // 2) - (len(ascii_art) // 2) + idx, 0)
             try:
                 self.stdscr.addstr(y, x, line)
             except curses.error:
-                # Jeśli linia jest zbyt długa dla terminala, pomiń ją
                 pass
         self.stdscr.refresh()
-        # Poczekaj na naciśnięcie dowolnego klawisza
         self.stdscr.getch()
 
     def zakoncz(self) -> None:
@@ -364,10 +422,6 @@ class BudzetCursesView:
         curses.endwin()
 
     def pobierz_potwierdzenie(self, komunikat: str) -> bool:
-        """
-        Wyświetla komunikat z zapytaniem o potwierdzenie.
-        Zwraca True jeśli użytkownik wybrał 'tak', False jeśli 'nie'.
-        """
         menu = ['Tak', 'Nie']
         self.current_row = 0
         while True:

@@ -210,3 +210,12 @@
 2024-11-18 15:14:51,564 - DEBUG - Limity wczytane z pliku.
 2024-11-18 15:14:51,564 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
 2024-11-18 15:14:51,564 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:21:54,390 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:21:59,383 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:21:59,383 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:21:59,383 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:21:59,383 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:22:19,467 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
+2024-11-18 15:22:26,740 - DEBUG - Obliczone saldo: 9000.0
+2024-11-18 15:22:28,706 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 15:22:30,478 - DEBUG - Generowanie raportu wydatków zako\u0144czone.

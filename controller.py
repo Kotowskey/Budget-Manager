@@ -13,32 +13,16 @@ class BudzetController:
             self.view.wyswietl_welcome_screen()  # Wyświetlenie ekranu powitalnego
             self.logowanie()
             while True:
-                self.view.wyswietl_menu()
-                opcja = self.view.pobierz_opcje()
-                if opcja == '1':
-                    self.dodaj_transakcje()
-                elif opcja == '2':
-                    self.edytuj_transakcje()
-                elif opcja == '3':
-                    self.usun_transakcje()
-                elif opcja == '4':
-                    self.view.wyswietl_transakcje(self.model.transakcje)
-                elif opcja == '5':
-                    self.wyswietl_podsumowanie()
-                elif opcja == '6':
-                    self.eksportuj_transakcje()
-                elif opcja == '7':
-                    self.filtruj_transakcje()
-                elif opcja == '8':
-                    self.ustaw_limit_budzetowy()
-                elif opcja == '9':
-                    self.importuj_transakcje()
-                elif opcja == '10':
-                    self.generuj_raport()
-                elif opcja == '11':
-                    self.wyswietl_wykresy()
-                elif opcja == '12':
-                    self.view.wyswietl_wyjscie()  # Zmiana tutaj
+                self.view.wyswietl_glowne_menu_kategorii()
+                opcja = self.view.pobierz_opcje_glownego_menu()
+                if opcja == '1':  # Transakcje
+                    self.obsluz_podmenu_transakcje()
+                elif opcja == '2':  # Podsumowania
+                    self.obsluz_podmenu_podsumowania()
+                elif opcja == '3':  # Importowanie i eksportowanie
+                    self.obsluz_podmenu_import_eksport()
+                elif opcja == '4':  # Wyjście
+                    self.view.wyswietl_wyjscie()
                     break
                 else:
                     self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
@@ -46,6 +30,51 @@ class BudzetController:
             self.view.wyswietl_komunikat(f"Wystąpił błąd: {e}")
         finally:
             self.view.zakoncz()
+
+    def obsluz_podmenu_transakcje(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_transakcje()
+            opcja = self.view.pobierz_opcje_podmenu_transakcje()
+            if opcja == '1':
+                self.dodaj_transakcje()
+            elif opcja == '2':
+                self.edytuj_transakcje()
+            elif opcja == '3':
+                self.usun_transakcje()
+            elif opcja == '4':
+                self.view.wyswietl_transakcje(self.model.transakcje)
+            elif opcja == '5':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def obsluz_podmenu_podsumowania(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_podsumowania()
+            opcja = self.view.pobierz_opcje_podmenu_podsumowania()
+            if opcja == '1':
+                self.wyswietl_podsumowanie()
+            elif opcja == '2':
+                self.generuj_raport()
+            elif opcja == '3':
+                self.wyswietl_wykresy()
+            elif opcja == '4':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def obsluz_podmenu_import_eksport(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_import_eksport()
+            opcja = self.view.pobierz_opcje_podmenu_import_eksport()
+            if opcja == '1':
+                self.eksportuj_transakcje()
+            elif opcja == '2':
+                self.importuj_transakcje()
+            elif opcja == '3':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def logowanie(self) -> None:
         while True:
