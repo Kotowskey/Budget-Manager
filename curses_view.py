@@ -26,16 +26,17 @@ class BudzetCursesView:
             "",
             "Kliknij Enter aby rozpocząć"
         ]
-        h, w = self.stdscr.getmaxyx()
-        for idx, line in enumerate(ascii_art):
-            x = max((w // 2) - (len(line) // 2), 0)
-            y = max((h // 2) - (len(ascii_art) // 2) + idx, 0)
-            try:
-                self.stdscr.addstr(y, x, line)
-            except curses.error:
-                pass
-        self.stdscr.refresh()
         while True:
+            self.stdscr.clear()
+            h, w = self.stdscr.getmaxyx()
+            for idx, line in enumerate(ascii_art):
+                x = max((w // 2) - (len(line) // 2), 0)
+                y = max((h // 2) - (len(ascii_art) // 2) + idx, 0)
+                try:
+                    self.stdscr.addstr(y, x, line)
+                except curses.error:
+                    pass
+            self.stdscr.refresh()
             key = self.stdscr.getch()
             if key in [10, 13, curses.KEY_ENTER]:
                 break
@@ -54,7 +55,7 @@ class BudzetCursesView:
             'Wyjście'
         ]
         self.wyswietl_menu_opcje(menu)
-        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
+        self.wyswietl_footer()
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
@@ -229,6 +230,7 @@ class BudzetCursesView:
                 self.stdscr.attroff(curses.color_pair(1))
             else:
                 self.stdscr.addstr(y, x, row)
+
 
     def pobierz_opcje(self) -> str:
         pass
@@ -585,7 +587,7 @@ class BudzetCursesView:
         self.stdscr.keypad(False)
         curses.echo()
         curses.endwin()
-
+        
     def pobierz_potwierdzenie(self, komunikat: str) -> bool:
         menu = ['Tak', 'Nie']
         self.current_row = 0
@@ -618,13 +620,13 @@ class BudzetCursesView:
                 return False  # Anulowanie potwierdzenia
 
     def wyswietl_footer(self) -> None:
-        """Wyświetla napis 'BUDGET MANAGER' na dole ekranu."""
         h, w = self.stdscr.getmaxyx()
         footer_text = "BUDGET MANAGER"
         try:
-            self.stdscr.addstr(h-1, max((w // 2) - (len(footer_text) // 2), 0), footer_text, curses.A_DIM)
+            self.stdscr.addstr(h - 1, max((w // 2) - (len(footer_text) // 2), 0), footer_text, curses.A_DIM)
         except curses.error:
-            pass  # Ignoruj błędy, jeśli ekran jest za mały
+            pass
+
 
     def wyswietl_limity(self, limity: Dict[str, float]) -> None:
         self.stdscr.clear()

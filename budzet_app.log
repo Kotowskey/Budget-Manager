@@ -676,3 +676,22 @@
 2024-11-18 22:12:39,923 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
 2024-11-18 22:12:52,659 - DEBUG - Dane zapisane do pliku.
 2024-11-18 22:12:52,659 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
+2024-11-18 22:52:01,304 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 22:57:06,717 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 22:57:14,123 - DEBUG - Dane wczytane z pliku.
+2024-11-18 22:57:14,123 - DEBUG - Limity wczytane z pliku.
+2024-11-18 22:57:14,124 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 22:57:14,124 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 22:57:14,124 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 22:57:41,153 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 22:57:52,940 - DEBUG - Dane wczytane z pliku.
+2024-11-18 22:57:52,941 - DEBUG - Limity wczytane z pliku.
+2024-11-18 22:57:52,942 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 22:57:52,942 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 22:57:52,942 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 22:57:55,351 - DEBUG - Obliczone saldo: 534039.0
+2024-11-18 22:57:57,947 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 22:57:59,394 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 22:58:04,674 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 22:58:07,017 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 22:58:08,467 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
