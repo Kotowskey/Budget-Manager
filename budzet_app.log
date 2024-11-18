@@ -695,3 +695,28 @@
 2024-11-18 22:58:04,674 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
 2024-11-18 22:58:07,017 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
 2024-11-18 22:58:08,467 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 23:26:54,759 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 23:28:33,997 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 23:30:33,497 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 23:30:38,411 - WARNING - Nieudane logowanie dla u\u017cytkownika: \u0142ukasz
+2024-11-18 23:30:42,632 - DEBUG - Dane wczytane z pliku.
+2024-11-18 23:30:42,632 - DEBUG - Limity wczytane z pliku.
+2024-11-18 23:30:42,632 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 23:30:42,632 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 23:30:42,632 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 23:30:53,966 - DEBUG - Dane zapisane do pliku.
+2024-11-18 23:30:53,966 - INFO - Dodano transakcj\u0119: Transakcja(kwota=50.0, kategoria='jedzenie', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 23:31:01,961 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 23:31:27,939 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 23:31:35,385 - DEBUG - Dane wczytane z pliku.
+2024-11-18 23:31:35,385 - DEBUG - Limity wczytane z pliku.
+2024-11-18 23:31:35,385 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 23:31:35,386 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 23:31:35,386 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 23:31:40,901 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 23:31:44,925 - DEBUG - Dane wczytane z pliku.
+2024-11-18 23:31:44,925 - DEBUG - Limity wczytane z pliku.
+2024-11-18 23:31:44,925 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 23:31:44,926 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 23:31:44,926 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 23:31:46,598 - DEBUG - Obliczone saldo: 534039.0

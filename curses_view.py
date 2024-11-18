@@ -311,7 +311,7 @@ class BudzetCursesView:
                 if len(input_str) > 0:
                     input_str = input_str[:-1]
                     self.stdscr.delch(y, x_start + len(input_str))
-            elif 32 <= key <= 126 and len(input_str) < max_length:
+            elif key >= 32 and len(input_str) < max_length:
                 input_str += chr(key)
                 self.stdscr.addch(y, x_start + len(input_str) - 1, key)
         if input_str == "":
