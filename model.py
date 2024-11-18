@@ -235,6 +235,16 @@ class BudzetModel:
         logging.debug(f"Pobrano limit dla kategorii '{kategoria}': {limit}")
         return limit
 
+    def usun_limit(self, kategoria: str) -> bool:
+        if kategoria in self.limity:
+            del self.limity[kategoria]
+            self.zapisz_limity()
+            logging.info(f"Usunięto limit dla kategorii '{kategoria}'")
+            return True
+        else:
+            logging.warning(f"Próba usunięcia nieistniejącego limitu dla kategorii '{kategoria}'")
+            return False
+
     def sprawdz_limit(self, kategoria: str, kwota: float) -> bool:
         limit = self.pobierz_limit(kategoria)
         if limit is None:

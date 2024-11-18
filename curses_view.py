@@ -50,6 +50,7 @@ class BudzetCursesView:
         menu = [
             'Transakcje',
             'Podsumowania',
+            'Limity',
             'Importowanie i eksportowanie',
             'Wyjście'
         ]
@@ -58,7 +59,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
-        menu_length = 4
+        menu_length = 5  # Zaktualizowano długość menu
         while True:
             self.wyswietl_glowne_menu_kategorii()
             key = self.stdscr.getch()
@@ -70,6 +71,33 @@ class BudzetCursesView:
                 return str(self.current_row + 1)
             elif key == ESC:
                 return None  # Zwracamy None, gdy naciśnięto ESC
+            self.stdscr.refresh()
+
+    def wyswietl_podmenu_limity(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            'Ustaw limit',
+            'Wyświetl limity',
+            'Usuń limit',
+            'Powrót do głównego menu'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()
+        self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_limity(self) -> Optional[str]:
+        menu_length = 4
+        while True:
+            self.wyswietl_podmenu_limity()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            elif key == ESC:
+                return None
             self.stdscr.refresh()
 
     def wyswietl_podmenu_transakcje(self) -> None:
@@ -386,7 +414,7 @@ class BudzetCursesView:
             kategoria = self.pobierz_input(1, 20, 20)
             if kategoria is None:
                 raise ValueError("Anulowano operację.")
-            self.stdscr.addstr(2, 1, "Podaj limit miesięczny: ")
+            self.stdscr.addstr(2, 1, "Podaj limit: ")
             limit_input = self.pobierz_input(2, 25, 20)
             if limit_input is None:
                 raise ValueError("Anulowano operację.")
@@ -543,3 +571,27 @@ class BudzetCursesView:
             self.stdscr.addstr(h-1, max((w // 2) - (len(footer_text) // 2), 0), footer_text, curses.A_DIM)
         except curses.error:
             pass  # Ignoruj błędy, jeśli ekran jest za mały
+
+    def wyswietl_limity(self, limity: Dict[str, float]) -> None:
+        self.stdscr.clear()
+        if not limity:
+            self.stdscr.addstr(1, 1, "Brak ustawionych limitów.")
+        else:
+            self.stdscr.addstr(0, 1, "Aktualne limity:")
+            row = 1
+            for kategoria, limit in limity.items():
+                self.stdscr.addstr(row, 1, f"{kategoria}: {limit:.2f} zł")
+                row += 1
+        self.wyswietl_footer()
+        self.stdscr.refresh()
+        self.stdscr.getch()
+
+    def pobierz_kategorie_do_usuniecia(self) -> Optional[str]:
+        curses.echo()
+        self.stdscr.clear()
+        self.stdscr.addstr(1, 1, "Podaj kategorię, dla której chcesz usunąć limit: ")
+        kategoria = self.pobierz_input(1, 55, 20)
+        curses.noecho()
+        if kategoria is None or kategoria.strip() == "":
+            return None
+        return kategoria.strip()

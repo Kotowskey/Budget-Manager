@@ -28,9 +28,11 @@ class BudzetController:
                     self.obsluz_podmenu_transakcje()
                 elif opcja == '2':  # Podsumowania
                     self.obsluz_podmenu_podsumowania()
-                elif opcja == '3':  # Importowanie i eksportowanie
+                elif opcja == '3':  # Limity
+                    self.obsluz_podmenu_limity()
+                elif opcja == '4':  # Importowanie i eksportowanie
                     self.obsluz_podmenu_import_eksport()
-                elif opcja == '4':  # Wyjście
+                elif opcja == '5':  # Wyjście
                     self.view.wyswietl_wyjscie()
                     break
                 else:
@@ -39,6 +41,24 @@ class BudzetController:
             self.view.wyswietl_komunikat(f"Wystąpił błąd: {e}")
         finally:
             self.view.zakoncz()
+
+    def obsluz_podmenu_limity(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_limity()
+            opcja = self.view.pobierz_opcje_podmenu_limity()
+            if opcja is None:
+                # Użytkownik nacisnął ESC, wracamy do głównego menu
+                break
+            if opcja == '1':
+                self.ustaw_limit_budzetowy()
+            elif opcja == '2':
+                self.wyswietl_limity()
+            elif opcja == '3':
+                self.usun_limit()
+            elif opcja == '4':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def obsluz_podmenu_transakcje(self) -> None:
         while True:
@@ -148,7 +168,7 @@ class BudzetController:
             kwota = dane['kwota']
             kategoria = dane['kategoria']
             if not self.model.sprawdz_limit(kategoria, kwota):
-                komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to dodać transakcję?"
+                komunikat = "Przekroczono limit budżetowy dla tej kategorii! Czy chcesz mimo to dodać transakcję?"
                 potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
                 if not potwierdzenie:
                     self.view.wyswietl_komunikat("Transakcja nie została dodana.")
@@ -230,6 +250,20 @@ class BudzetController:
             self.view.potwierdz_ustawienie_limitu(kategoria, limit)
         else:
             self.view.wyswietl_komunikat("Nieprawidłowe dane. Limit nie został ustawiony.")
+
+    def wyswietl_limity(self) -> None:
+        limity = self.model.limity
+        self.view.wyswietl_limity(limity)
+
+    def usun_limit(self) -> None:
+        kategoria = self.view.pobierz_kategorie_do_usuniecia()
+        if kategoria is None:
+            self.view.wyswietl_komunikat("Anulowano operację.")
+            return
+        if self.model.usun_limit(kategoria):
+            self.view.wyswietl_komunikat(f"Limit dla kategorii '{kategoria}' został usunięty.")
+        else:
+            self.view.wyswietl_komunikat(f"Limit dla kategorii '{kategoria}' nie istnieje.")
 
     def generuj_raport_wydatkow(self) -> None:
         raport = self.model.generuj_raport_wydatkow()

@@ -155,3 +155,37 @@
 2024-11-18 19:13:49,654 - DEBUG - Dane zapisane do pliku.
 2024-11-18 19:13:49,654 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
 2024-11-18 19:14:00,138 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 19:16:15,480 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 19:16:15,480 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 19:18:59,339 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 19:19:04,289 - DEBUG - Dane wczytane z pliku.
+2024-11-18 19:19:04,289 - DEBUG - Limity wczytane z pliku.
+2024-11-18 19:19:04,289 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 19:19:04,289 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 19:19:04,289 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 19:19:18,939 - DEBUG - Limity zapisane do pliku.
+2024-11-18 19:19:18,939 - INFO - Usuni\u0119to limit dla kategorii 'jedzenie'
+2024-11-18 19:19:31,586 - DEBUG - Limity zapisane do pliku.
+2024-11-18 19:19:31,586 - INFO - Ustawiono limit dla kategorii 'jedzenie': 500.0 z\u0142
+2024-11-18 19:19:51,883 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 19:19:57,094 - DEBUG - Dane wczytane z pliku.
+2024-11-18 19:19:57,095 - DEBUG - Limity wczytane z pliku.
+2024-11-18 19:19:57,095 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 19:19:57,095 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 19:19:57,095 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 19:20:09,499 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 19:20:10,651 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 19:20:25,334 - DEBUG - Limity zapisane do pliku.
+2024-11-18 19:20:25,335 - INFO - Ustawiono limit dla kategorii 'jedzenie': 12000.0 z\u0142
+2024-11-18 19:20:43,993 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 12000.0
+2024-11-18 19:20:43,993 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 11965.5 + 1000.0 <= 12000.0 -> False
+2024-11-18 19:21:20,486 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 19:21:24,557 - DEBUG - Dane wczytane z pliku.
+2024-11-18 19:21:24,563 - DEBUG - Limity wczytane z pliku.
+2024-11-18 19:21:24,563 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 19:21:24,563 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 19:21:24,563 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 19:21:38,925 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 12000.0
+2024-11-18 19:21:38,925 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 11965.5 + 1000.0 <= 12000.0 -> False
+2024-11-18 19:22:06,276 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 19:22:06,276 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
