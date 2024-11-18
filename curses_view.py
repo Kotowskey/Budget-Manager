@@ -44,18 +44,18 @@ class BudzetCursesView:
     def wyswietl_menu(self) -> None:
         self.stdscr.clear()
         menu = [
-            '1. Dodaj transakcję',
-            '2. Edytuj transakcję',
-            '3. Usuń transakcję',
-            '4. Wyświetl transakcje',
-            '5. Wyświetl podsumowanie',
-            '6. Eksportuj transakcje do CSV',
-            '7. Filtruj transakcje według daty',
-            '8. Ustaw limit budżetowy',
-            '9. Importuj transakcje z CSV',
-            '10. Generuj raport wydatków',
-            '11. Wyświetl wykresy',
-            '12. Wyjście'
+            'Dodaj transakcję',
+            'Edytuj transakcję',
+            'Usuń transakcję',
+            'Wyświetl transakcje',
+            'Wyświetl podsumowanie',
+            'Eksportuj transakcje do CSV',
+            'Filtruj transakcje według daty',
+            'Ustaw limit budżetowy',
+            'Importuj transakcje z CSV',
+            'Generuj raport wydatków',
+            'Wyświetl wykresy',
+            'Wyjście'
         ]
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
@@ -87,17 +87,34 @@ class BudzetCursesView:
 
     def wyswietl_ekran_logowania(self) -> None:
         self.stdscr.clear()
+        header = "Wybierz profil użytkownika, aby kontynuować"
         menu = [
-            '1. Logowanie',
-            '2. Rejestracja',
-            '3. Wyjście'
+            'Logowanie',
+            'Rejestracja',
+            'Wyjście'
         ]
-        self.wyswietl_menu_opcje(menu)
+        h, w = self.stdscr.getmaxyx()
+        # Wyświetlanie nagłówka
+        header_x = max((w // 2) - (len(header) // 2), 0)
+        header_y = max((h // 2) - (len(menu) // 2) - 2, 0)
+        try:
+            self.stdscr.addstr(header_y, header_x, header, curses.A_BOLD | curses.A_UNDERLINE)
+        except curses.error:
+            pass
+        # Wyświetlanie opcji menu
+        for idx, row in enumerate(menu):
+            x = max((w // 2) - (len(row) // 2), 0)
+            y = max((h // 2) - (len(menu) // 2) + idx, 0)
+            if idx == self.current_row:
+                self.stdscr.attron(curses.color_pair(1))
+                self.stdscr.addstr(y, x, row)
+                self.stdscr.attroff(curses.color_pair(1))
+            else:
+                self.stdscr.addstr(y, x, row)
         self.stdscr.refresh()
 
     def pobierz_opcje_logowania(self) -> str:
-        menu_length = 3
-        self.current_row = 0
+        menu_length = 3  # Liczba opcji w ekranie logowania
         while True:
             self.wyswietl_ekran_logowania()
             key = self.stdscr.getch()

@@ -127,3 +127,30 @@
 2024-11-18 14:50:19,151 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
 2024-11-18 14:51:52,400 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
 2024-11-18 14:52:06,303 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 14:54:46,507 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 14:55:16,831 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 14:55:24,900 - DEBUG - Dane wczytane z pliku.
+2024-11-18 14:55:24,900 - DEBUG - Limity wczytane z pliku.
+2024-11-18 14:55:24,900 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 14:55:24,900 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 14:56:50,156 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 14:56:58,825 - DEBUG - Dane wczytane z pliku.
+2024-11-18 14:56:58,825 - DEBUG - Limity wczytane z pliku.
+2024-11-18 14:56:58,825 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 14:56:58,825 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 14:57:42,462 - DEBUG - Dane zapisane do pliku.
+2024-11-18 14:57:42,462 - INFO - Dodano transakcj\u0119: Transakcja(kwota=500.0, kategoria='wynagrodzenie', typ='przychód', opis='', data='2024-11-18')
+2024-11-18 14:58:04,686 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:05,403 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:08,953 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:10,742 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:11,938 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:13,622 - DEBUG - Dane zapisane do pliku.
+2024-11-18 14:58:13,622 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
+2024-11-18 14:58:16,905 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 14:58:31,333 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:34,613 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 14:58:55,641 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:58:57,596 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 14:59:04,278 - DEBUG - Limity zapisane do pliku.
+2024-11-18 14:59:04,278 - INFO - Ustawiono limit dla kategorii 'jedzenie': 100.0 z\u0142
