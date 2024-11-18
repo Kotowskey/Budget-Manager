@@ -42,24 +42,6 @@ class BudzetController:
         finally:
             self.view.zakoncz()
 
-    def obsluz_podmenu_limity(self) -> None:
-        while True:
-            self.view.wyswietl_podmenu_limity()
-            opcja = self.view.pobierz_opcje_podmenu_limity()
-            if opcja is None:
-                # Użytkownik nacisnął ESC, wracamy do głównego menu
-                break
-            if opcja == '1':
-                self.ustaw_limit_budzetowy()
-            elif opcja == '2':
-                self.wyswietl_limity()
-            elif opcja == '3':
-                self.usun_limit()
-            elif opcja == '4':
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
-
     def obsluz_podmenu_transakcje(self) -> None:
         while True:
             self.view.wyswietl_podmenu_transakcje()
@@ -85,19 +67,62 @@ class BudzetController:
             self.view.wyswietl_podmenu_podsumowania()
             opcja = self.view.pobierz_opcje_podmenu_podsumowania()
             if opcja is None:
-                # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
             if opcja == '1':
                 self.wyswietl_podsumowanie()
             elif opcja == '2':
-                self.generuj_raport_wydatkow()
+                self.obsluz_podmenu_raportow()
             elif opcja == '3':
-                self.generuj_raport_przychodow()
+                self.obsluz_podmenu_wykresow()
             elif opcja == '4':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def obsluz_podmenu_raportow(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_raportow()
+            opcja = self.view.pobierz_opcje_podmenu_raportow()
+            if opcja is None:
+                break
+            if opcja == '1':
+                self.generuj_raport_wydatkow()
+            elif opcja == '2':
+                self.generuj_raport_przychodow()
+            elif opcja == '3':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def obsluz_podmenu_wykresow(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_wykresow()
+            opcja = self.view.pobierz_opcje_podmenu_wykresow()
+            if opcja is None:
+                break
+            if opcja == '1':
                 self.wyswietl_wykres_wydatkow()
-            elif opcja == '5':
+            elif opcja == '2':
                 self.wyswietl_wykres_przychodow()
-            elif opcja == '6':
+            elif opcja == '3':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def obsluz_podmenu_limity(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_limity()
+            opcja = self.view.pobierz_opcje_podmenu_limity()
+            if opcja is None:
+                # Użytkownik nacisnął ESC, wracamy do głównego menu
+                break
+            if opcja == '1':
+                self.ustaw_limit_budzetowy()
+            elif opcja == '2':
+                self.wyswietl_limity()
+            elif opcja == '3':
+                self.usun_limit()
+            elif opcja == '4':
                 break
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
@@ -282,4 +307,3 @@ class BudzetController:
     def wyswietl_wykres_przychodow(self) -> None:
         raport_przychodow = self.model.generuj_raport_przychodow()
         self.view.wyswietl_wykres_przychodow(raport_przychodow)
-

@@ -202,7 +202,7 @@ class BudzetModel:
                 return False
         else:
             logging.warning(f"Plik CSV do importu nie istnieje: {nazwa_pliku}")
-            return False  # Dodano zwrócenie False, gdy plik nie istnieje
+            return False
 
     def wczytaj_limity(self) -> None:
         if os.path.exists(self.plik_limity):
@@ -284,4 +284,3 @@ class BudzetModel:
             if t.typ.lower() == 'przychód':
                 self.przychody_kategorie[t.kategoria] = self.przychody_kategorie.get(t.kategoria, 0) + t.kwota
         logging.debug("Obliczono przychody dla każdej kategorii.")
-
