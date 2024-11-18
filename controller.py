@@ -94,8 +94,10 @@ class BudzetController:
             elif opcja == '3':
                 self.generuj_raport_przychodow()
             elif opcja == '4':
-                self.wyswietl_wykresy()
+                self.wyswietl_wykres_wydatkow()
             elif opcja == '5':
+                self.wyswietl_wykres_przychodow()
+            elif opcja == '6':
                 break
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
@@ -273,9 +275,11 @@ class BudzetController:
         raport = self.model.generuj_raport_przychodow()
         self.view.wyswietl_raport_przychodow(raport)
 
-    def wyswietl_wykresy(self) -> None:
+    def wyswietl_wykres_wydatkow(self) -> None:
         raport_wydatkow = self.model.generuj_raport_wydatkow()
+        self.view.wyswietl_wykres_wydatkow(raport_wydatkow)
+
+    def wyswietl_wykres_przychodow(self) -> None:
         raport_przychodow = self.model.generuj_raport_przychodow()
-        # Możesz wyświetlić osobne wykresy dla wydatków i przychodów lub połączyć je w jednym
-        # Tutaj wyświetlimy tylko wykres wydatków jako przykład
-        self.view.wyswietl_wykresy(raport_wydatkow)
+        self.view.wyswietl_wykres_przychodow(raport_przychodow)
+

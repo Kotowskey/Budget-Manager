@@ -284,3 +284,4 @@ class BudzetModel:
             if t.typ.lower() == 'przychód':
                 self.przychody_kategorie[t.kategoria] = self.przychody_kategorie.get(t.kategoria, 0) + t.kwota
         logging.debug("Obliczono przychody dla każdej kategorii.")
+

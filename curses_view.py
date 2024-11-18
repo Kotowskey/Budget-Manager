@@ -134,7 +134,8 @@ class BudzetCursesView:
             'Wyświetl podsumowanie',
             'Generuj raport wydatków',
             'Generuj raport przychodów',
-            'Wyświetl wykresy',
+            'Wyświetl wykres wydatków',
+            'Wyświetl wykres przychodów',
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
@@ -142,7 +143,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_podsumowania(self) -> Optional[str]:
-        menu_length = 5  # Zaktualizowano liczebność menu
+        menu_length = 6  # Zaktualizowano liczebność menu
         while True:
             self.wyswietl_podmenu_podsumowania()
             key = self.stdscr.getch()
@@ -195,7 +196,6 @@ class BudzetCursesView:
                 self.stdscr.addstr(y, x, row)
 
     def pobierz_opcje(self) -> str:
-        # Ta metoda została zastąpiona przez specyficzne metody pobierania opcji dla każdego menu
         pass
 
     def wyswietl_ekran_logowania(self) -> None:
@@ -486,13 +486,30 @@ class BudzetCursesView:
         finally:
             curses.noecho()
 
-    def wyswietl_wykresy(self, raport: Dict[str, float]) -> None:
+    def wyswietl_wykres_wydatkow(self, raport: Dict[str, float]) -> None:
         self.stdscr.clear()
         if not raport:
             self.stdscr.addstr(1, 1, "Brak danych do wyświetlenia.")
         else:
             total = sum(raport.values())
             self.stdscr.addstr(0, 1, "Udział kategorii w wydatkach:")
+            row = 1
+            for kategoria, suma in raport.items():
+                procent = (suma / total) * 100 if total > 0 else 0
+                wykres = '*' * int(procent // 2)  # Skala wykresu
+                self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
+                row += 1
+        self.wyswietl_footer()
+        self.stdscr.refresh()
+        self.stdscr.getch()
+
+    def wyswietl_wykres_przychodow(self, raport: Dict[str, float]) -> None:
+        self.stdscr.clear()
+        if not raport:
+            self.stdscr.addstr(1, 1, "Brak danych do wyświetlenia.")
+        else:
+            total = sum(raport.values())
+            self.stdscr.addstr(0, 1, "Udział kategorii w przychodach:")
             row = 1
             for kategoria, suma in raport.items():
                 procent = (suma / total) * 100 if total > 0 else 0
@@ -595,3 +612,4 @@ class BudzetCursesView:
         if kategoria is None or kategoria.strip() == "":
             return None
         return kategoria.strip()
+

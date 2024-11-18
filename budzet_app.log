@@ -189,3 +189,15 @@
 2024-11-18 19:21:38,925 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 11965.5 + 1000.0 <= 12000.0 -> False
 2024-11-18 19:22:06,276 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
 2024-11-18 19:22:06,276 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 19:22:57,837 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 19:22:57,837 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 19:23:41,599 - DEBUG - Obliczone saldo: 267019.5
+2024-11-18 19:28:46,588 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 19:28:53,434 - DEBUG - Dane wczytane z pliku.
+2024-11-18 19:28:53,435 - DEBUG - Limity wczytane z pliku.
+2024-11-18 19:28:53,435 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 19:28:53,436 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 19:28:53,436 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 19:29:10,218 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 19:29:12,826 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 19:29:15,523 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
