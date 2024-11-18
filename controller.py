@@ -77,9 +77,14 @@ class BudzetController:
         if not dane:
             return
         if dane['typ'] == 'wydatek':
-            if not self.model.sprawdz_limit(dane['kategoria']):
-                self.view.wyswietl_komunikat("Przekroczono limit budżetowy dla tej kategorii!")
-                return
+            kwota = dane['kwota']
+            kategoria = dane['kategoria']
+            if not self.model.sprawdz_limit(kategoria, kwota):
+                komunikat = "Przekroczono limit budżetowy dla tej kategorii! Czy chcesz mimo to dodać transakcję?"
+                potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
+                if not potwierdzenie:
+                    self.view.wyswietl_komunikat("Transakcja nie została dodana.")
+                    return
         transakcja = Transakcja(**dane)
         self.model.dodaj_transakcje(transakcja)
         self.view.wyswietl_komunikat("Transakcja dodana.")
@@ -95,11 +100,16 @@ class BudzetController:
                 return
             dane['typ'] = transakcja_oryginalna.typ  # Utrzymanie oryginalnego typu
             if dane['typ'] == 'wydatek':
-                if not self.model.sprawdz_limit(dane['kategoria']):
-                    self.view.wyswietl_komunikat("Przekroczono limit budżetowy dla tej kategorii!")
-                    return
-            transakcja = Transakcja(**dane)
-            self.model.edytuj_transakcje(indeks, transakcja)
+                kwota = dane['kwota']
+                kategoria = dane['kategoria']
+                # Sprawdzenie, czy dodanie nowej kwoty przekroczy limit, uwzględniając oryginalny wydatek
+                if not self.model.sprawdz_limit(kategoria, kwota):
+                    komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to zaktualizować transakcję?"
+                    potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
+                    if not potwierdzenie:
+                        self.view.wyswietl_komunikat("Transakcja nie została zaktualizowana.")
+                        return
+            self.model.edytuj_transakcje(indeks, Transakcja(**dane))
             self.view.wyswietl_komunikat("Transakcja zaktualizowana.")
         else:
             self.view.wyswietl_komunikat("Nieprawidłowy numer transakcji.")

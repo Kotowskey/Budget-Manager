@@ -173,3 +173,40 @@
 2024-11-18 15:05:22,579 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 <= 50.0 -> True
 2024-11-18 15:05:22,579 - DEBUG - Dane zapisane do pliku.
 2024-11-18 15:05:22,579 - INFO - Dodano transakcj\u0119: Transakcja(kwota=55.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')
+2024-11-18 15:07:46,704 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:07:52,105 - DEBUG - U\u017cytkownicy zapisani do pliku.
+2024-11-18 15:07:52,107 - INFO - Zarejestrowano nowego u\u017cytkownika: damian
+2024-11-18 15:07:56,868 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:07:56,868 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:07:56,868 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:07:56,868 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:08:04,212 - DEBUG - Limity zapisane do pliku.
+2024-11-18 15:08:04,212 - INFO - Ustawiono limit dla kategorii 'jedzenie': 60.0 z\u0142
+2024-11-18 15:08:22,306 - DEBUG - Dane zapisane do pliku.
+2024-11-18 15:08:22,306 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=55.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')
+2024-11-18 15:08:40,508 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 60.0
+2024-11-18 15:08:40,508 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 + 1200.0 <= 60.0 -> False
+2024-11-18 15:08:43,832 - DEBUG - Obliczone saldo: 9500.0
+2024-11-18 15:11:45,419 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:11:50,495 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:11:50,495 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:11:50,495 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:11:50,495 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:11:55,583 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
+2024-11-18 15:12:09,895 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 60.0
+2024-11-18 15:12:09,895 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 + 500.0 <= 60.0 -> False
+2024-11-18 15:12:41,448 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:12:45,630 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:12:45,630 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:12:45,630 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:12:45,632 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:13:02,147 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 60.0
+2024-11-18 15:13:02,147 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 + 500.0 <= 60.0 -> False
+2024-11-18 15:13:09,873 - DEBUG - Dane zapisane do pliku.
+2024-11-18 15:13:09,873 - INFO - Dodano transakcj\u0119: Transakcja(kwota=500.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')
+2024-11-18 15:13:12,276 - DEBUG - Obliczone saldo: 9000.0
+2024-11-18 15:14:43,968 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:14:51,563 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:14:51,564 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:14:51,564 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:14:51,564 - INFO - Zalogowano u\u017cytkownika: lukasz

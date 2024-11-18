@@ -216,14 +216,14 @@ class BudzetModel:
         logging.debug(f"Pobrano limit dla kategorii '{kategoria}': {limit}")
         return limit
 
-    def sprawdz_limit(self, kategoria: str) -> bool:
+    def sprawdz_limit(self, kategoria: str, kwota: float) -> bool:
         limit = self.pobierz_limit(kategoria)
         if limit is None:
             logging.debug(f"Brak limitu dla kategorii '{kategoria}'.")
             return True  # Brak limitu
         wydatki = self.wydatki_kategorie.get(kategoria, 0)
-        sprawdzony = wydatki <= limit
-        logging.debug(f"Sprawdzanie limitu dla '{kategoria}': {wydatki} <= {limit} -> {sprawdzony}")
+        sprawdzony = (wydatki + kwota) <= limit
+        logging.debug(f"Sprawdzanie limitu dla '{kategoria}': {wydatki} + {kwota} <= {limit} -> {sprawdzony}")
         return sprawdzony
 
     def generuj_raport_wydatkow(self) -> Dict[str, float]:

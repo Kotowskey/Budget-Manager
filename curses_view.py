@@ -10,6 +10,7 @@ class BudzetCursesView:
         self.stdscr.keypad(True)
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
+        curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)  # Nowy kolor dla potwierdzenia
         self.current_row = 0
 
     def wyswietl_welcome_screen(self) -> None:
@@ -361,3 +362,35 @@ class BudzetCursesView:
         self.stdscr.keypad(False)
         curses.echo()
         curses.endwin()
+
+    def pobierz_potwierdzenie(self, komunikat: str) -> bool:
+        """
+        Wyświetla komunikat z zapytaniem o potwierdzenie.
+        Zwraca True jeśli użytkownik wybrał 'tak', False jeśli 'nie'.
+        """
+        menu = ['Tak', 'Nie']
+        self.current_row = 0
+        while True:
+            self.stdscr.clear()
+            h, w = self.stdscr.getmaxyx()
+            try:
+                self.stdscr.addstr(1, max((w // 2) - (len(komunikat) // 2), 0), komunikat)
+            except curses.error:
+                pass
+            for idx, row in enumerate(menu):
+                x = max((w // 2) - (len(row) // 2), 0)
+                y = max((h // 2) - 1 + idx, 0)
+                if idx == self.current_row:
+                    self.stdscr.attron(curses.color_pair(2))  # Używamy innego koloru
+                    self.stdscr.addstr(y, x, row)
+                    self.stdscr.attroff(curses.color_pair(2))
+                else:
+                    self.stdscr.addstr(y, x, row)
+            self.stdscr.refresh()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < len(menu) - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return self.current_row == 0  # 'Tak' to indeks 0
