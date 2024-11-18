@@ -97,7 +97,7 @@ class BudzetController:
                 else:
                     self.view.wyswietl_komunikat("Użytkownik o takim loginie już istnieje.")
             elif opcja == '3':
-                self.view.wyswietl_komunikat("Do widzenia!")
+                self.view.wyswietl_wyjscie()  # Wyświetlenie ekranu końcowego
                 self.view.zakoncz()
                 exit()
             else:
