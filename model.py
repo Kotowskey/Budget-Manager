@@ -176,7 +176,7 @@ class BudzetModel:
         except IOError as e:
             logging.error(f"Błąd eksportu do CSV: {e}")
 
-    def importuj_z_csv(self, nazwa_pliku: str = 'transakcje.csv') -> None:
+    def importuj_z_csv(self, nazwa_pliku: str = 'transakcje.csv') -> bool:
         if os.path.exists(nazwa_pliku):
             try:
                 with open(nazwa_pliku, 'r', encoding='utf-8') as csvfile:
@@ -196,10 +196,13 @@ class BudzetModel:
                             self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
                 self.zapisz_dane()
                 logging.info(f"Transakcje zaimportowane z pliku CSV: {nazwa_pliku}")
+                return True
             except (IOError, ValueError) as e:
                 logging.error(f"Błąd importu z CSV: {e}")
+                return False
         else:
             logging.warning(f"Plik CSV do importu nie istnieje: {nazwa_pliku}")
+            return False  # Dodano zwrócenie False, gdy plik nie istnieje
 
     def wczytaj_limity(self) -> None:
         if os.path.exists(self.plik_limity):

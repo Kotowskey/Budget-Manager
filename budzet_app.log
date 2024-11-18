@@ -123,3 +123,35 @@
 2024-11-18 18:53:22,838 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
 2024-11-18 18:53:22,838 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
 2024-11-18 18:53:22,838 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:54:08,305 - WARNING - Plik CSV do importu nie istnieje: transakcje.csv
+2024-11-18 18:55:35,351 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:55:41,719 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 18:55:41,720 - DEBUG - Plik limitÛw nie istnieje. Inicjalizacja pustych limitÛw.
+2024-11-18 18:55:41,720 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 18:55:41,720 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 18:55:41,720 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:55:45,276 - WARNING - Plik CSV do importu nie istnieje: transakcje.csv
+2024-11-18 18:55:55,736 - WARNING - Plik CSV do importu nie istnieje: transakcje.csv
+2024-11-18 18:55:57,009 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 18:56:27,986 - DEBUG - Dane zapisane do pliku.
+2024-11-18 18:56:27,986 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
+2024-11-18 18:58:17,075 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:58:22,207 - DEBUG - Dane wczytane z pliku.
+2024-11-18 19:00:11,870 - INFO - Inicjalizacja modelu bud≈ºetu zako≈Ñczona.
+2024-11-18 19:00:17,198 - DEBUG - Dane wczytane z pliku.
+2024-11-18 19:00:17,198 - DEBUG - Limity wczytane z pliku.
+2024-11-18 19:00:17,198 - DEBUG - Obliczono wydatki dla ka≈ºdej kategorii.
+2024-11-18 19:00:17,198 - DEBUG - Obliczono przychody dla ka≈ºdej kategorii.
+2024-11-18 19:00:17,198 - INFO - Zalogowano u≈ºytkownika: lukasz
+2024-11-18 19:00:39,255 - WARNING - Plik CSV do importu nie istnieje: transakcje.csv
+2024-11-18 19:01:59,696 - WARNING - Plik CSV do importu nie istnieje: transakcje.csv
+2024-11-18 19:12:18,214 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 19:12:23,387 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
+2024-11-18 19:12:23,388 - DEBUG - Plik limitÛw nie istnieje. Inicjalizacja pustych limitÛw.
+2024-11-18 19:12:23,388 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 19:12:23,388 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 19:12:23,388 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 19:13:38,018 - WARNING - Plik CSV do importu nie istnieje: transakcje.csv
+2024-11-18 19:13:49,654 - DEBUG - Dane zapisane do pliku.
+2024-11-18 19:13:49,654 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
+2024-11-18 19:14:00,138 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv

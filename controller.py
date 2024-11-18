@@ -209,8 +209,11 @@ class BudzetController:
         self.view.potwierdz_eksport()
 
     def importuj_transakcje(self) -> None:
-        self.model.importuj_z_csv()
-        self.view.potwierdz_import()
+        sukces = self.model.importuj_z_csv()
+        if sukces:
+            self.view.potwierdz_import()
+        else:
+            self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.csv'.")
 
     def filtruj_transakcje(self) -> None:
         start_date, end_date = self.view.pobierz_zakres_dat()
