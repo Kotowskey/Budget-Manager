@@ -251,3 +251,15 @@
 2024-11-18 17:27:28,972 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
 2024-11-18 17:27:32,775 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
 2024-11-18 17:27:32,776 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 17:57:19,402 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 17:57:27,296 - DEBUG - Dane wczytane z pliku.
+2024-11-18 17:57:27,296 - DEBUG - Limity wczytane z pliku.
+2024-11-18 17:57:27,296 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 17:57:27,296 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 17:57:27,296 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:05:06,045 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:05:11,935 - DEBUG - Dane wczytane z pliku.
+2024-11-18 18:05:11,935 - DEBUG - Limity wczytane z pliku.
+2024-11-18 18:05:11,935 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 18:05:11,935 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 18:05:11,935 - INFO - Zalogowano u\u017cytkownika: lukasz
