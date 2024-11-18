@@ -33,7 +33,6 @@ class BudzetModel:
         self.wydatki_kategorie: Dict[str, float] = {}
         self.zalogowany_uzytkownik: Optional[str] = None
         self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
-        self.undo_stack: List[Dict] = []  # Stos cofania
         logging.info("Inicjalizacja modelu budżetu zakończona.")
 
     def zaloguj(self, login: str, haslo: str) -> bool:
@@ -84,11 +83,6 @@ class BudzetModel:
             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
         self.zapisz_dane()
         logging.info(f"Dodano transakcję: {transakcja}")
-        # Dodanie operacji do stosu cofania
-        self.undo_stack.append({
-            'action': 'add',
-            'transakcja': transakcja
-        })
 
     def usun_transakcje(self, indeks: int) -> bool:
         if 0 <= indeks < len(self.transakcje):
@@ -99,12 +93,6 @@ class BudzetModel:
                     del self.wydatki_kategorie[transakcja.kategoria]
             self.zapisz_dane()
             logging.info(f"Usunięto transakcję: {transakcja}")
-            # Dodanie operacji do stosu cofania
-            self.undo_stack.append({
-                'action': 'remove',
-                'transakcja': transakcja,
-                'indeks': indeks
-            })
             return True
         logging.warning(f"Próba usunięcia nieistniejącej transakcji o indeksie: {indeks}")
         return False
@@ -121,62 +109,8 @@ class BudzetModel:
             self.transakcje[indeks] = transakcja
             self.zapisz_dane()
             logging.info(f"Edytowano transakcję na indeksie {indeks}: {transakcja}")
-            # Dodanie operacji do stosu cofania
-            self.undo_stack.append({
-                'action': 'edit',
-                'transakcja_old': transakcja_stara,
-                'transakcja_new': transakcja,
-                'indeks': indeks
-            })
             return True
         logging.warning(f"Próba edycji nieistniejącej transakcji o indeksie: {indeks}")
-        return False
-
-    def undo(self) -> bool:
-        if not self.undo_stack:
-            logging.info("Brak operacji do cofnięcia.")
-            return False
-        ostatnia_operacja = self.undo_stack.pop()
-        action = ostatnia_operacja['action']
-
-        if action == 'add':
-            transakcja = ostatnia_operacja['transakcja']
-            if self.transakcje and self.transakcje[-1] == transakcja:
-                self.transakcje.pop()
-                if transakcja.typ.lower() == 'wydatek':
-                    self.wydatki_kategorie[transakcja.kategoria] -= transakcja.kwota
-                    if self.wydatki_kategorie[transakcja.kategoria] <= 0:
-                        del self.wydatki_kategorie[transakcja.kategoria]
-                self.zapisz_dane()
-                logging.info(f"Cofnięto dodanie transakcji: {transakcja}")
-                return True
-
-        elif action == 'remove':
-            transakcja = ostatnia_operacja['transakcja']
-            indeks = ostatnia_operacja['indeks']
-            self.transakcje.insert(indeks, transakcja)
-            if transakcja.typ.lower() == 'wydatek':
-                self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-            self.zapisz_dane()
-            logging.info(f"Cofnięto usunięcie transakcji: {transakcja} na indeksie {indeks}")
-            return True
-
-        elif action == 'edit':
-            transakcja_old = ostatnia_operacja['transakcja_old']
-            transakcja_new = ostatnia_operacja['transakcja_new']
-            indeks = ostatnia_operacja['indeks']
-            self.transakcje[indeks] = transakcja_old
-            if transakcja_new.typ.lower() == 'wydatek':
-                self.wydatki_kategorie[transakcja_new.kategoria] -= transakcja_new.kwota
-                if self.wydatki_kategorie[transakcja_new.kategoria] <= 0:
-                    del self.wydatki_kategorie[transakcja_new.kategoria]
-            if transakcja_old.typ.lower() == 'wydatek':
-                self.wydatki_kategorie[transakcja_old.kategoria] = self.wydatki_kategorie.get(transakcja_old.kategoria, 0) + transakcja_old.kwota
-            self.zapisz_dane()
-            logging.info(f"Cofnięto edycję transakcji na indeksie {indeks}: {transakcja_new} -> {transakcja_old}")
-            return True
-
-        logging.warning(f"Nieznana operacja do cofnięcia: {action}")
         return False
 
     def zapisz_dane(self) -> None:
@@ -245,7 +179,6 @@ class BudzetModel:
                         if transakcja.typ.lower() == 'wydatek':
                             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
                 self.zapisz_dane()
-                self.undo_stack.clear()  # Czyszczenie stosu cofania po imporcie
                 logging.info(f"Transakcje zaimportowane z pliku CSV: {nazwa_pliku}")
             except (IOError, ValueError) as e:
                 logging.error(f"Błąd importu z CSV: {e}")
