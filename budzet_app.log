@@ -1,265 +1,30 @@
-2024-11-16 23:22:07,054 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:22:07,063 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:22:07,063 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:22:07,065 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:22:15,196 - DEBUG - Obliczone saldo: 690.0
-2024-11-16 23:22:17,998 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-16 23:22:29,372 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:22:29,373 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
-2024-11-16 23:22:45,445 - DEBUG - Filtrowano transakcje od 2024-12-01 do 2024-12-24: 1 znalezionych.
-2024-11-16 23:22:53,036 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
-2024-11-16 23:22:54,578 - DEBUG - Obliczone saldo: 1659.0
-2024-11-16 23:23:17,555 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
-2024-11-16 23:23:38,697 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:23:38,697 - INFO - Dodano transakcj\u0119: Transakcja(kwota=20.0, kategoria='wynagrodzenie', typ='przychód', opis='', data='2024-11-11')
-2024-11-16 23:23:42,775 - DEBUG - Obliczone saldo: 1679.0
-2024-11-16 23:24:28,178 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,179 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,179 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,179 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,181 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,181 - INFO - Dodano transakcj\u0119: Transakcja(kwota=1000.0, kategoria='Pensja', typ='przychód', opis='', data='2024-11-16')
-2024-11-16 23:24:28,181 - DEBUG - Obliczone saldo: 1000.0
-2024-11-16 23:24:28,189 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,190 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,190 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,190 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,191 - DEBUG - Limity zapisane do pliku.
-2024-11-16 23:24:28,191 - INFO - Ustawiono limit dla kategorii 'Jedzenie': 500.0 z\u0142
-2024-11-16 23:24:28,192 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,192 - INFO - Dodano transakcj\u0119: Transakcja(kwota=200.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,193 - DEBUG - Obliczone saldo: -200.0
-2024-11-16 23:24:28,193 - DEBUG - Pobrano limit dla kategorii 'Jedzenie': 500.0
-2024-11-16 23:24:28,193 - DEBUG - Sprawdzanie limitu dla 'Jedzenie': 200.0 <= 500.0 -> True
-2024-11-16 23:24:28,201 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,209 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,209 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,209 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,211 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,211 - INFO - Dodano transakcj\u0119: Transakcja(kwota=100.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,212 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,212 - INFO - Edytowano transakcj\u0119 na indeksie 0: Transakcja(kwota=150.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,212 - DEBUG - Obliczone saldo: -150.0
-2024-11-16 23:24:28,221 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,222 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,222 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,222 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,223 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,224 - INFO - Dodano transakcj\u0119: Transakcja(kwota=100.0, kategoria='Transport', typ='wydatek', opis='', data='2024-01-15')
-2024-11-16 23:24:28,225 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,225 - INFO - Dodano transakcj\u0119: Transakcja(kwota=200.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-02-20')
-2024-11-16 23:24:28,226 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,227 - INFO - Dodano transakcj\u0119: Transakcja(kwota=300.0, kategoria='Pensja', typ='przychód', opis='', data='2024-03-10')
-2024-11-16 23:24:28,227 - DEBUG - Filtrowano transakcje od 2024-02-01 do 2024-03-01: 1 znalezionych.
-2024-11-16 23:24:28,235 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,236 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,236 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,236 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,237 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,238 - INFO - Dodano transakcj\u0119: Transakcja(kwota=100.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,239 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,239 - INFO - Dodano transakcj\u0119: Transakcja(kwota=200.0, kategoria='Jedzenie', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,240 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,240 - INFO - Dodano transakcj\u0119: Transakcja(kwota=150.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,241 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-16 23:24:28,251 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,252 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,252 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,252 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,252 - DEBUG - Limity zapisane do pliku.
-2024-11-16 23:24:28,253 - INFO - Ustawiono limit dla kategorii 'Transport': 300.0 z\u0142
-2024-11-16 23:24:28,254 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,254 - INFO - Dodano transakcj\u0119: Transakcja(kwota=200.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,256 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,256 - INFO - Dodano transakcj\u0119: Transakcja(kwota=150.0, kategoria='Transport', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,256 - DEBUG - Pobrano limit dla kategorii 'Transport': 300.0
-2024-11-16 23:24:28,256 - DEBUG - Sprawdzanie limitu dla 'Transport': 350.0 <= 300.0 -> False
-2024-11-16 23:24:28,266 - DEBUG - Dane wczytane z pliku.
-2024-11-16 23:24:28,275 - DEBUG - Limity wczytane z pliku.
-2024-11-16 23:24:28,275 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:24:28,275 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:24:28,276 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,277 - INFO - Dodano transakcj\u0119: Transakcja(kwota=100.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,278 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:24:28,278 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=100.0, kategoria='Rozrywka', typ='wydatek', opis='', data='2024-11-16')
-2024-11-16 23:24:28,278 - DEBUG - Obliczone saldo: 0
-2024-11-16 23:30:13,170 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:30:22,796 - WARNING - Nieudane logowanie dla u\u017cytkownika: lukasz
-2024-11-16 23:30:29,476 - DEBUG - U\u017cytkownicy zapisani do pliku.
-2024-11-16 23:30:29,477 - INFO - Zarejestrowano nowego u\u017cytkownika: lukasz
-2024-11-16 23:30:35,615 - DEBUG - Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.
-2024-11-16 23:30:35,616 - DEBUG - Plik limitów nie istnieje. Inicjalizacja pustych limitów.
-2024-11-16 23:30:35,617 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-16 23:30:35,619 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-16 23:30:39,933 - DEBUG - Obliczone saldo: 0
-2024-11-16 23:31:11,667 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:31:11,669 - INFO - Dodano transakcj\u0119: Transakcja(kwota=3000.0, kategoria='wynagrodzenie', typ='przychód', opis='', data='2024-12-01')
-2024-11-16 23:31:28,492 - DEBUG - Obliczone saldo: 3000.0
-2024-11-16 23:31:30,870 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
-2024-11-16 23:31:44,467 - DEBUG - Limity zapisane do pliku.
-2024-11-16 23:31:44,468 - INFO - Ustawiono limit dla kategorii 'jedzenie': 100.0 z\u0142
-2024-11-16 23:32:01,355 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:32:01,356 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
-2024-11-16 23:32:15,521 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-16 23:32:17,767 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-16 23:32:33,852 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 100.0
-2024-11-16 23:32:33,852 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 <= 100.0 -> True
-2024-11-16 23:32:33,856 - DEBUG - Dane zapisane do pliku.
-2024-11-16 23:32:33,856 - INFO - Dodano transakcj\u0119: Transakcja(kwota=101.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-01-01')
-2024-11-16 23:32:36,301 - DEBUG - Obliczone saldo: 5899.0
-2024-11-16 23:32:38,366 - DEBUG - Obliczone saldo: 5899.0
-2024-11-16 23:32:53,305 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-16 23:32:58,278 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-16 23:33:30,199 - DEBUG - Filtrowano transakcje od 2024-12-01 do 2024-12-23: 2 znalezionych.
-2024-11-16 23:33:41,437 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:33:41,443 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:33:41,446 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:33:41,449 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:33:41,452 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:33:41,457 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-16 23:33:41,460 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:48:46,367 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:48:52,904 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:49:03,938 - DEBUG - Dane wczytane z pliku.
-2024-11-18 14:49:03,938 - DEBUG - Limity wczytane z pliku.
-2024-11-18 14:49:03,940 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 14:49:03,940 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 14:50:19,151 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:51:52,400 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:52:06,303 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:54:46,507 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:55:16,831 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:55:24,900 - DEBUG - Dane wczytane z pliku.
-2024-11-18 14:55:24,900 - DEBUG - Limity wczytane z pliku.
-2024-11-18 14:55:24,900 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 14:55:24,900 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 14:56:50,156 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 14:56:58,825 - DEBUG - Dane wczytane z pliku.
-2024-11-18 14:56:58,825 - DEBUG - Limity wczytane z pliku.
-2024-11-18 14:56:58,825 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 14:56:58,825 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 14:57:42,462 - DEBUG - Dane zapisane do pliku.
-2024-11-18 14:57:42,462 - INFO - Dodano transakcj\u0119: Transakcja(kwota=500.0, kategoria='wynagrodzenie', typ='przychód', opis='', data='2024-11-18')
-2024-11-18 14:58:04,686 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:05,403 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:08,953 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:10,742 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:11,938 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:13,622 - DEBUG - Dane zapisane do pliku.
-2024-11-18 14:58:13,622 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
-2024-11-18 14:58:16,905 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
-2024-11-18 14:58:31,333 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:34,613 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
-2024-11-18 14:58:55,641 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:58:57,596 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 14:59:04,278 - DEBUG - Limity zapisane do pliku.
-2024-11-18 14:59:04,278 - INFO - Ustawiono limit dla kategorii 'jedzenie': 100.0 z\u0142
-2024-11-18 15:04:10,664 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:04:15,684 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:04:15,684 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:04:15,684 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:04:15,684 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:04:26,094 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:04:30,758 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:04:30,760 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:04:30,760 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:04:30,762 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:04:38,405 - DEBUG - Limity zapisane do pliku.
-2024-11-18 15:04:38,405 - INFO - Ustawiono limit dla kategorii 'jedzenie': 50.0 z\u0142
-2024-11-18 15:04:59,147 - DEBUG - Dane zapisane do pliku.
-2024-11-18 15:04:59,147 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=101.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-01-01')
-2024-11-18 15:05:05,303 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
-2024-11-18 15:05:22,579 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 50.0
-2024-11-18 15:05:22,579 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 <= 50.0 -> True
-2024-11-18 15:05:22,579 - DEBUG - Dane zapisane do pliku.
-2024-11-18 15:05:22,579 - INFO - Dodano transakcj\u0119: Transakcja(kwota=55.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')
-2024-11-18 15:07:46,704 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:07:52,105 - DEBUG - U\u017cytkownicy zapisani do pliku.
-2024-11-18 15:07:52,107 - INFO - Zarejestrowano nowego u\u017cytkownika: damian
-2024-11-18 15:07:56,868 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:07:56,868 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:07:56,868 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:07:56,868 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:08:04,212 - DEBUG - Limity zapisane do pliku.
-2024-11-18 15:08:04,212 - INFO - Ustawiono limit dla kategorii 'jedzenie': 60.0 z\u0142
-2024-11-18 15:08:22,306 - DEBUG - Dane zapisane do pliku.
-2024-11-18 15:08:22,306 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=55.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')
-2024-11-18 15:08:40,508 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 60.0
-2024-11-18 15:08:40,508 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 + 1200.0 <= 60.0 -> False
-2024-11-18 15:08:43,832 - DEBUG - Obliczone saldo: 9500.0
-2024-11-18 15:11:45,419 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:11:50,495 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:11:50,495 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:11:50,495 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:11:50,495 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:11:55,583 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
-2024-11-18 15:12:09,895 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 60.0
-2024-11-18 15:12:09,895 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 + 500.0 <= 60.0 -> False
-2024-11-18 15:12:41,448 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:12:45,630 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:12:45,630 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:12:45,630 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:12:45,632 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:13:02,147 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 60.0
-2024-11-18 15:13:02,147 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 + 500.0 <= 60.0 -> False
-2024-11-18 15:13:09,873 - DEBUG - Dane zapisane do pliku.
-2024-11-18 15:13:09,873 - INFO - Dodano transakcj\u0119: Transakcja(kwota=500.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')
-2024-11-18 15:13:12,276 - DEBUG - Obliczone saldo: 9000.0
-2024-11-18 15:14:43,968 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:14:51,563 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:14:51,564 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:14:51,564 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:14:51,564 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:21:54,390 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 15:21:59,383 - DEBUG - Dane wczytane z pliku.
-2024-11-18 15:21:59,383 - DEBUG - Limity wczytane z pliku.
-2024-11-18 15:21:59,383 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 15:21:59,383 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 15:22:19,467 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
-2024-11-18 15:22:26,740 - DEBUG - Obliczone saldo: 9000.0
-2024-11-18 15:22:28,706 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 15:22:30,478 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:21:29,819 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:21:33,758 - DEBUG - Dane wczytane z pliku.
-2024-11-18 17:21:33,758 - DEBUG - Limity wczytane z pliku.
-2024-11-18 17:21:33,758 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 17:21:33,758 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 17:21:41,805 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:22:37,949 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:23:04,563 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:23:08,843 - DEBUG - Dane wczytane z pliku.
-2024-11-18 17:23:08,843 - DEBUG - Limity wczytane z pliku.
-2024-11-18 17:23:08,843 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 17:23:08,843 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 17:24:12,773 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:24:25,379 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:24:26,159 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:24:30,676 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:24:35,430 - DEBUG - Dane wczytane z pliku.
-2024-11-18 17:24:35,431 - DEBUG - Limity wczytane z pliku.
-2024-11-18 17:24:35,431 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 17:24:35,431 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 17:27:16,451 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:27:21,278 - DEBUG - Dane wczytane z pliku.
-2024-11-18 17:27:21,278 - DEBUG - Limity wczytane z pliku.
-2024-11-18 17:27:21,278 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 17:27:21,278 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
-2024-11-18 17:27:21,278 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 17:27:24,519 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
-2024-11-18 17:27:27,378 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:27:28,972 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:27:28,972 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
-2024-11-18 17:27:32,775 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
-2024-11-18 17:27:32,776 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
-2024-11-18 17:57:19,402 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 17:57:27,296 - DEBUG - Dane wczytane z pliku.
-2024-11-18 17:57:27,296 - DEBUG - Limity wczytane z pliku.
-2024-11-18 17:57:27,296 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 17:57:27,296 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
-2024-11-18 17:57:27,296 - INFO - Zalogowano u\u017cytkownika: lukasz
-2024-11-18 18:05:06,045 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
-2024-11-18 18:05:11,935 - DEBUG - Dane wczytane z pliku.
-2024-11-18 18:05:11,935 - DEBUG - Limity wczytane z pliku.
-2024-11-18 18:05:11,935 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
-2024-11-18 18:05:11,935 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
-2024-11-18 18:05:11,935 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:17:15,830 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:17:24,382 - DEBUG - Dane wczytane z pliku.
+2024-11-18 18:17:24,382 - DEBUG - Limity wczytane z pliku.
+2024-11-18 18:17:24,382 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 18:17:24,382 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 18:17:24,382 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:19:38,671 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:19:56,308 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:20:01,695 - DEBUG - Dane wczytane z pliku.
+2024-11-18 18:20:01,695 - DEBUG - Limity wczytane z pliku.
+2024-11-18 18:20:01,695 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 18:20:01,695 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 18:20:01,695 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:20:37,855 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 18:20:42,034 - DEBUG - Dane wczytane z pliku.
+2024-11-18 18:20:42,034 - DEBUG - Limity wczytane z pliku.
+2024-11-18 18:20:42,034 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 18:20:42,034 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 18:20:42,034 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 18:21:09,379 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 18:21:11,022 - DEBUG - Obliczone saldo: 9000.0
+2024-11-18 18:21:12,735 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 18:21:14,134 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 18:21:14,134 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 18:21:15,475 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 18:21:16,561 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 18:21:18,209 - DEBUG - Obliczone saldo: 9000.0
+2024-11-18 18:21:22,712 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-18 18:21:24,049 - DEBUG - Dane zapisane do pliku.
+2024-11-18 18:21:24,049 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv

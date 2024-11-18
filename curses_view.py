@@ -3,6 +3,8 @@ import curses
 from datetime import datetime
 from typing import Optional, Tuple, Dict
 
+ESC = 27  # Stała dla klawisza ESC
+
 class BudzetCursesView:
     def __init__(self):
         self.stdscr = curses.initscr()
@@ -19,7 +21,7 @@ class BudzetCursesView:
             "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
             " |  _ \\| |  | |  __ \\ / ____|  ____|__   __| |  \\/  |   /\\   | \\ | |   /\\   / ____|  ____|  __ \\ ",
             " | |_) | |  | | |  | | |  __| |__     | |    | \\  / |  /  \\  |  \\| |  /  \\ | |  __| |__  | |__) |",
-            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | . ` | / /\\ \\| | |_ |  __| |  _  / ",
+            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | .  | / /\\ \\| | |_ |  __| |  _  / ",
             " | |_) | |__| | |__| | |__| | |____   | |    | |  | |/ ____ \\| |\\  |/ ____ \\ |__| | |____| | \\ \\ ",
             " |____/ \\____/|_____/ \\_____|______|  |_|    |_|  |_/_/    \\_\\_| \\_/_/    \\_\\_____|______|_|  \\_\\",
             "",
@@ -38,6 +40,10 @@ class BudzetCursesView:
             key = self.stdscr.getch()
             if key in [10, 13, curses.KEY_ENTER]:
                 break
+            elif key == ESC:
+                self.wyswietl_wyjscie()
+                self.zakoncz()
+                exit()
 
     def wyswietl_glowne_menu_kategorii(self) -> None:
         self.stdscr.clear()
@@ -50,7 +56,7 @@ class BudzetCursesView:
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
 
-    def pobierz_opcje_glownego_menu(self) -> str:
+    def pobierz_opcje_glownego_menu(self) -> Optional[str]:
         menu_length = 4
         while True:
             self.wyswietl_glowne_menu_kategorii()
@@ -61,6 +67,8 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
+            elif key == ESC:
+                return None  # Zwracamy None, gdy naciśnięto ESC
             self.stdscr.refresh()
 
     def wyswietl_podmenu_transakcje(self) -> None:
@@ -75,7 +83,7 @@ class BudzetCursesView:
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
 
-    def pobierz_opcje_podmenu_transakcje(self) -> str:
+    def pobierz_opcje_podmenu_transakcje(self) -> Optional[str]:
         menu_length = 5
         while True:
             self.wyswietl_podmenu_transakcje()
@@ -86,6 +94,8 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
+            elif key == ESC:
+                return None  # Zwracamy None, gdy naciśnięto ESC
             self.stdscr.refresh()
 
     def wyswietl_podmenu_podsumowania(self) -> None:
@@ -93,14 +103,14 @@ class BudzetCursesView:
         menu = [
             'Wyświetl podsumowanie',
             'Generuj raport wydatków',
-            'Generuj raport przychodów',  # Nowa opcja
+            'Generuj raport przychodów',
             'Wyświetl wykresy',
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
 
-    def pobierz_opcje_podmenu_podsumowania(self) -> str:
+    def pobierz_opcje_podmenu_podsumowania(self) -> Optional[str]:
         menu_length = 5  # Zaktualizowano liczebność menu
         while True:
             self.wyswietl_podmenu_podsumowania()
@@ -111,6 +121,8 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
+            elif key == ESC:
+                return None  # Zwracamy None, gdy naciśnięto ESC
             self.stdscr.refresh()
 
     def wyswietl_podmenu_import_eksport(self) -> None:
@@ -123,7 +135,7 @@ class BudzetCursesView:
         self.wyswietl_menu_opcje(menu)
         self.stdscr.refresh()
 
-    def pobierz_opcje_podmenu_import_eksport(self) -> str:
+    def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
         menu_length = 3
         while True:
             self.wyswietl_podmenu_import_eksport()
@@ -134,6 +146,8 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
+            elif key == ESC:
+                return None  # Zwracamy None, gdy naciśnięto ESC
             self.stdscr.refresh()
 
     def wyswietl_menu_opcje(self, menu: list) -> None:
@@ -178,7 +192,7 @@ class BudzetCursesView:
                 self.stdscr.addstr(y, x, row)
         self.stdscr.refresh()
 
-    def pobierz_opcje_logowania(self) -> str:
+    def pobierz_opcje_logowania(self) -> Optional[str]:
         menu_length = 3
         while True:
             self.wyswietl_ekran_logowania()
@@ -189,20 +203,48 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
+            elif key == ESC:
+                return None  # Zwracamy None, gdy naciśnięto ESC
             self.stdscr.refresh()
 
     def pobierz_dane_logowania(self) -> Tuple[str, str]:
         curses.echo()
         self.stdscr.clear()
         self.stdscr.addstr(1, 1, "Login: ")
-        login = self.stdscr.getstr(1, 10, 20).decode('utf-8').strip()
+        login = self.pobierz_input(1, 20, 20)
+        if login is None:
+            curses.noecho()
+            return "", ""
         self.stdscr.addstr(2, 1, "Hasło: ")
-        haslo = self.stdscr.getstr(2, 10, 20).decode('utf-8').strip()
+        haslo = self.pobierz_input(2, 20, 20)
         curses.noecho()
+        if haslo is None:
+            return "", ""
         return login, haslo
 
     def pobierz_dane_rejestracji(self) -> Tuple[str, str]:
         return self.pobierz_dane_logowania()
+
+    def pobierz_input(self, y: int, x_start: int, max_length: int) -> Optional[str]:
+        input_str = ""
+        self.stdscr.move(y, x_start)
+        self.stdscr.clrtoeol()
+        while True:
+            key = self.stdscr.getch()
+            if key in [10, 13]:  # Enter key
+                break
+            elif key == ESC:
+                return None
+            elif key in [curses.KEY_BACKSPACE, 127, 8]:
+                if len(input_str) > 0:
+                    input_str = input_str[:-1]
+                    self.stdscr.delch(y, x_start + len(input_str))
+            elif 32 <= key <= 126 and len(input_str) < max_length:
+                input_str += chr(key)
+                self.stdscr.addch(y, x_start + len(input_str) - 1, key)
+        if input_str == "":
+            return None
+        return input_str.strip()
 
     def pobierz_dane_transakcji(self, edycja: bool = False) -> Optional[dict]:
         curses.echo()
@@ -212,42 +254,49 @@ class BudzetCursesView:
         try:
             if not edycja:
                 self.stdscr.addstr(start_row, 1, "Typ (przychód/wydatek): ")
-                typ = self.stdscr.getstr(start_row, 25, 20).decode('utf-8').strip().lower()
+                typ = self.pobierz_input(start_row, 25, 20)
+                if typ is None:
+                    raise ValueError("Anulowano operację.")
+                typ = typ.lower()
                 if typ not in ['przychód', 'wydatek']:
                     raise ValueError("Nieprawidłowy typ transakcji.")
                 transakcja['typ'] = typ
                 start_row += 1
 
             self.stdscr.addstr(start_row, 1, "Kwota: ")
-            kwota_input = self.stdscr.getstr(start_row, 25, 20).decode('utf-8').strip()
+            kwota_input = self.pobierz_input(start_row, 15, 20)
+            if kwota_input is None:
+                raise ValueError("Anulowano operację.")
             kwota = float(kwota_input)
             transakcja['kwota'] = kwota
             start_row += 1
 
             self.stdscr.addstr(start_row, 1, "Kategoria: ")
-            kategoria = self.stdscr.getstr(start_row, 25, 20).decode('utf-8').strip()
-            if not kategoria:
+            kategoria = self.pobierz_input(start_row, 15, 20)
+            if kategoria is None or not kategoria:
                 raise ValueError("Kategoria nie może być pusta.")
             transakcja['kategoria'] = kategoria
             start_row += 1
 
             self.stdscr.addstr(start_row, 1, "Opis (opcjonalnie): ")
-            opis = self.stdscr.getstr(start_row, 25, 50).decode('utf-8').strip()
+            opis = self.pobierz_input(start_row, 25, 50)
+            if opis is None:
+                opis = ""
             transakcja['opis'] = opis
             start_row += 1
 
             self.stdscr.addstr(start_row, 1, "Data (YYYY-MM-DD) [opcjonalnie]: ")
-            data_input = self.stdscr.getstr(start_row, 35, 10).decode('utf-8').strip()
-            if data_input:
+            data_input = self.pobierz_input(start_row, 35, 10)
+            if data_input is None:
+                transakcja['data'] = datetime.now().strftime('%Y-%m-%d')
+            else:
                 try:
                     datetime.strptime(data_input, '%Y-%m-%d')
                     transakcja['data'] = data_input
                 except ValueError:
                     raise ValueError("Nieprawidłowy format daty.")
-            else:
-                transakcja['data'] = datetime.now().strftime('%Y-%m-%d')
         except ValueError as e:
-            self.wyswietl_komunikat(f"Błąd: {e}")
+            self.wyswietl_komunikat(f"{e}")
             transakcja = {}
         finally:
             curses.noecho()
@@ -280,7 +329,7 @@ class BudzetCursesView:
                     self.stdscr.addstr(i - start + 2, 1, linia)
                 except curses.error:
                     break
-            footer = f"Strona {current_page + 1}/{total_pages}. Naciśnij 'n' dla następnej strony, 'p' dla poprzedniej lub 'q' aby wyjść."
+            footer = f"Strona {current_page + 1}/{total_pages}. Naciśnij 'n' dla następnej strony, 'p' dla poprzedniej, 'q' aby wyjść lub ESC aby anulować."
             self.stdscr.addstr(h-2, 1, footer)
             self.stdscr.refresh()
             key = self.stdscr.getch()
@@ -290,7 +339,7 @@ class BudzetCursesView:
             elif key in [ord('p'), ord('P')]:
                 if current_page > 0:
                     current_page -= 1
-            elif key in [ord('q'), ord('Q')]:
+            elif key in [ord('q'), ord('Q'), ESC]:
                 break
 
     def wyswietl_podsumowanie(self, saldo: float) -> None:
@@ -303,8 +352,10 @@ class BudzetCursesView:
         curses.echo()
         self.stdscr.clear()
         self.stdscr.addstr(1, 1, "Podaj numer transakcji: ")
-        indeks_input = self.stdscr.getstr(1, 25, 5).decode('utf-8').strip()
+        indeks_input = self.pobierz_input(1, 30, 5)
         curses.noecho()
+        if indeks_input is None:
+            return -1
         try:
             indeks = int(indeks_input)
             return indeks
@@ -323,17 +374,19 @@ class BudzetCursesView:
         self.stdscr.clear()
         try:
             self.stdscr.addstr(1, 1, "Podaj kategorię: ")
-            kategoria = self.stdscr.getstr(1, 20, 20).decode('utf-8').strip()
-            if not kategoria:
-                raise ValueError("Kategoria nie może być pusta.")
+            kategoria = self.pobierz_input(1, 20, 20)
+            if kategoria is None:
+                raise ValueError("Anulowano operację.")
             self.stdscr.addstr(2, 1, "Podaj limit miesięczny: ")
-            limit_input = self.stdscr.getstr(2, 25, 20).decode('utf-8').strip()
+            limit_input = self.pobierz_input(2, 25, 20)
+            if limit_input is None:
+                raise ValueError("Anulowano operację.")
             limit = float(limit_input)
             if limit <= 0:
                 raise ValueError("Limit musi być większy od zera.")
             return kategoria, limit
         except ValueError as e:
-            self.wyswietl_komunikat(f"Błąd: {e}")
+            self.wyswietl_komunikat(f"{e}")
             return None, 0.0
         finally:
             curses.noecho()
@@ -378,14 +431,18 @@ class BudzetCursesView:
         self.stdscr.clear()
         try:
             self.stdscr.addstr(1, 1, "Podaj datę początkową (YYYY-MM-DD): ")
-            start_date = self.stdscr.getstr(1, 40, 10).decode('utf-8').strip()
+            start_date = self.pobierz_input(1, 40, 10)
+            if start_date is None:
+                raise ValueError("Anulowano operację.")
             datetime.strptime(start_date, '%Y-%m-%d')  # Walidacja
             self.stdscr.addstr(2, 1, "Podaj datę końcową (YYYY-MM-DD): ")
-            end_date = self.stdscr.getstr(2, 40, 10).decode('utf-8').strip()
+            end_date = self.pobierz_input(2, 40, 10)
+            if end_date is None:
+                raise ValueError("Anulowano operację.")
             datetime.strptime(end_date, '%Y-%m-%d')  # Walidacja
             return start_date, end_date
-        except ValueError:
-            self.wyswietl_komunikat("Nieprawidłowy format daty.")
+        except ValueError as e:
+            self.wyswietl_komunikat(f"{e}")
             return None, None
         finally:
             curses.noecho()
@@ -411,7 +468,7 @@ class BudzetCursesView:
             "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
             " |  _ \\| |  | |  __ \\ / ____|  ____|__   __| |  \\/  |   /\\   | \\ | |   /\\   / ____|  ____|  __ \\ ",
             " | |_) | |  | | |  | | |  __| |__     | |    | \\  / |  /  \\  |  \\| |  /  \\ | |  __| |__  | |__) |",
-            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | . ` | / /\\ \\| | |_ |  __| |  _  / ",
+            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | .  | / /\\ \\| | |_ |  __| |  _  / ",
             " | |_) | |__| | |__| | |__| | |____   | |    | |  | |/ ____ \\| |\\  |/ ____ \\ |__| | |____| | \\ \\ ",
             " |____/ \\____/|_____/ \\_____|______|  |_|    |_|  |_/_/    \\_\\_| \\_/_/    \\_\\_____|______|_|  \\_\\",
             "",
@@ -462,3 +519,6 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return self.current_row == 0  # 'Tak' to indeks 0
+            elif key == ESC:
+                return False  # Anulowanie potwierdzenia
+
