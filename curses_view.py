@@ -1,4 +1,3 @@
-# curses_view.py
 import curses
 from datetime import datetime
 from typing import Optional, Tuple, Dict

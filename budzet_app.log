@@ -296,3 +296,4 @@
 2024-11-18 20:25:56,018 - DEBUG - Brak limitu dla kategorii 'jedzenie'.
 2024-11-18 20:25:56,018 - DEBUG - Dane zapisane do pliku.
 2024-11-18 20:25:56,018 - INFO - Dodano transakcj\u0119: Transakcja(kwota=20.0, kategoria='jedzenie', typ='wydatek', opis='kebab', data='2024-11-11')
+2024-11-18 20:27:56,114 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
