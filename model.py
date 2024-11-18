@@ -31,6 +31,7 @@ class BudzetModel:
         self.uzytkownicy_plik: str = 'uzytkownicy.json'
         self.limity: Dict[str, float] = {}
         self.wydatki_kategorie: Dict[str, float] = {}
+        self.przychody_kategorie: Dict[str, float] = {}
         self.zalogowany_uzytkownik: Optional[str] = None
         self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
         logging.info("Inicjalizacja modelu budżetu zakończona.")
@@ -43,6 +44,7 @@ class BudzetModel:
             self.wczytaj_dane()
             self.wczytaj_limity()
             self.oblicz_wydatki_kategorie()
+            self.oblicz_przychody_kategorie()
             logging.info(f"Zalogowano użytkownika: {login}")
             return True
         logging.warning(f"Nieudane logowanie dla użytkownika: {login}")
@@ -81,6 +83,8 @@ class BudzetModel:
         self.transakcje.append(transakcja)
         if transakcja.typ.lower() == 'wydatek':
             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+        elif transakcja.typ.lower() == 'przychód':
+            self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
         self.zapisz_dane()
         logging.info(f"Dodano transakcję: {transakcja}")
 
@@ -91,6 +95,10 @@ class BudzetModel:
                 self.wydatki_kategorie[transakcja.kategoria] -= transakcja.kwota
                 if self.wydatki_kategorie[transakcja.kategoria] <= 0:
                     del self.wydatki_kategorie[transakcja.kategoria]
+            elif transakcja.typ.lower() == 'przychód':
+                self.przychody_kategorie[transakcja.kategoria] -= transakcja.kwota
+                if self.przychody_kategorie[transakcja.kategoria] <= 0:
+                    del self.przychody_kategorie[transakcja.kategoria]
             self.zapisz_dane()
             logging.info(f"Usunięto transakcję: {transakcja}")
             return True
@@ -104,8 +112,14 @@ class BudzetModel:
                 self.wydatki_kategorie[transakcja_stara.kategoria] -= transakcja_stara.kwota
                 if self.wydatki_kategorie[transakcja_stara.kategoria] <= 0:
                     del self.wydatki_kategorie[transakcja_stara.kategoria]
+            elif transakcja_stara.typ.lower() == 'przychód':
+                self.przychody_kategorie[transakcja_stara.kategoria] -= transakcja_stara.kwota
+                if self.przychody_kategorie[transakcja_stara.kategoria] <= 0:
+                    del self.przychody_kategorie[transakcja_stara.kategoria]
             if transakcja.typ.lower() == 'wydatek':
                 self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+            elif transakcja.typ.lower() == 'przychód':
+                self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
             self.transakcje[indeks] = transakcja
             self.zapisz_dane()
             logging.info(f"Edytowano transakcję na indeksie {indeks}: {transakcja}")
@@ -178,6 +192,8 @@ class BudzetModel:
                         self.transakcje.append(transakcja)
                         if transakcja.typ.lower() == 'wydatek':
                             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                        elif transakcja.typ.lower() == 'przychód':
+                            self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
                 self.zapisz_dane()
                 logging.info(f"Transakcje zaimportowane z pliku CSV: {nazwa_pliku}")
             except (IOError, ValueError) as e:
@@ -234,9 +250,24 @@ class BudzetModel:
         logging.debug("Generowanie raportu wydatków zakończone.")
         return raport
 
+    def generuj_raport_przychodow(self) -> Dict[str, float]:
+        raport: Dict[str, float] = {}
+        for t in self.transakcje:
+            if t.typ.lower() == 'przychód':
+                raport[t.kategoria] = raport.get(t.kategoria, 0) + t.kwota
+        logging.debug("Generowanie raportu przychodów zakończone.")
+        return raport
+
     def oblicz_wydatki_kategorie(self) -> None:
         self.wydatki_kategorie = {}
         for t in self.transakcje:
             if t.typ.lower() == 'wydatek':
                 self.wydatki_kategorie[t.kategoria] = self.wydatki_kategorie.get(t.kategoria, 0) + t.kwota
         logging.debug("Obliczono wydatki dla każdej kategorii.")
+
+    def oblicz_przychody_kategorie(self) -> None:
+        self.przychody_kategorie = {}
+        for t in self.transakcje:
+            if t.typ.lower() == 'przychód':
+                self.przychody_kategorie[t.kategoria] = self.przychody_kategorie.get(t.kategoria, 0) + t.kwota
+        logging.debug("Obliczono przychody dla każdej kategorii.")

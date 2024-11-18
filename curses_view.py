@@ -93,6 +93,7 @@ class BudzetCursesView:
         menu = [
             'Wyświetl podsumowanie',
             'Generuj raport wydatków',
+            'Generuj raport przychodów',  # Nowa opcja
             'Wyświetl wykresy',
             'Powrót do głównego menu'
         ]
@@ -100,7 +101,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_podsumowania(self) -> str:
-        menu_length = 4
+        menu_length = 5  # Zaktualizowano liczebność menu
         while True:
             self.wyswietl_podmenu_podsumowania()
             key = self.stdscr.getch()
@@ -346,12 +347,25 @@ class BudzetCursesView:
     def potwierdz_ustawienie_limitu(self, kategoria: str, limit: float) -> None:
         self.wyswietl_komunikat(f"Ustawiono limit {limit:.2f} zł dla kategorii '{kategoria}'.")
 
-    def wyswietl_raport(self, raport: Dict[str, float]) -> None:
+    def wyswietl_raport_wydatkow(self, raport: Dict[str, float]) -> None:
         self.stdscr.clear()
         if not raport:
             self.stdscr.addstr(1, 1, "Brak wydatków do wyświetlenia.")
         else:
             self.stdscr.addstr(0, 1, "Raport wydatków według kategorii:")
+            row = 1
+            for kategoria, suma in raport.items():
+                self.stdscr.addstr(row, 1, f"{kategoria}: {suma:.2f} zł")
+                row += 1
+        self.stdscr.refresh()
+        self.stdscr.getch()
+
+    def wyswietl_raport_przychodow(self, raport: Dict[str, float]) -> None:
+        self.stdscr.clear()
+        if not raport:
+            self.stdscr.addstr(1, 1, "Brak przychodów do wyświetlenia.")
+        else:
+            self.stdscr.addstr(0, 1, "Raport przychodów według kategorii:")
             row = 1
             for kategoria, suma in raport.items():
                 self.stdscr.addstr(row, 1, f"{kategoria}: {suma:.2f} zł")

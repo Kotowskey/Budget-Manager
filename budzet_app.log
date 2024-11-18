@@ -226,3 +226,28 @@
 2024-11-18 17:21:33,758 - INFO - Zalogowano u\u017cytkownika: lukasz
 2024-11-18 17:21:41,805 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
 2024-11-18 17:22:37,949 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 17:23:04,563 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 17:23:08,843 - DEBUG - Dane wczytane z pliku.
+2024-11-18 17:23:08,843 - DEBUG - Limity wczytane z pliku.
+2024-11-18 17:23:08,843 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 17:23:08,843 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 17:24:12,773 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 17:24:25,379 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 17:24:26,159 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 17:24:30,676 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 17:24:35,430 - DEBUG - Dane wczytane z pliku.
+2024-11-18 17:24:35,431 - DEBUG - Limity wczytane z pliku.
+2024-11-18 17:24:35,431 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 17:24:35,431 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 17:27:16,451 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 17:27:21,278 - DEBUG - Dane wczytane z pliku.
+2024-11-18 17:27:21,278 - DEBUG - Limity wczytane z pliku.
+2024-11-18 17:27:21,278 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 17:27:21,278 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-18 17:27:21,278 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 17:27:24,519 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 17:27:27,378 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 17:27:28,972 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 17:27:28,972 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-18 17:27:32,775 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-18 17:27:32,776 - DEBUG - Generowanie raportu przychodów zako\u0144czone.

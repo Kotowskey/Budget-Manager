@@ -55,10 +55,12 @@ class BudzetController:
             if opcja == '1':
                 self.wyswietl_podsumowanie()
             elif opcja == '2':
-                self.generuj_raport()
+                self.generuj_raport_wydatkow()
             elif opcja == '3':
-                self.wyswietl_wykresy()
+                self.generuj_raport_przychodow()
             elif opcja == '4':
+                self.wyswietl_wykresy()
+            elif opcja == '5':
                 break
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
@@ -132,10 +134,16 @@ class BudzetController:
                 kwota = dane['kwota']
                 kategoria = dane['kategoria']
                 # Sprawdzenie, czy dodanie nowej kwoty przekroczy limit, uwzględniając oryginalny wydatek
+                # Najpierw usuwamy oryginalny wydatek z kategorii, aby sprawdzić nowy
+                self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] -= transakcja_oryginalna.kwota
+                if self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] <= 0:
+                    del self.model.wydatki_kategorie[transakcja_oryginalna.kategoria]
                 if not self.model.sprawdz_limit(kategoria, kwota):
                     komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to zaktualizować transakcję?"
                     potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
                     if not potwierdzenie:
+                        # Przywracamy oryginalny wydatek w kategorii
+                        self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] = self.model.wydatki_kategorie.get(transakcja_oryginalna.kategoria, 0) + transakcja_oryginalna.kwota
                         self.view.wyswietl_komunikat("Transakcja nie została zaktualizowana.")
                         return
             self.model.edytuj_transakcje(indeks, Transakcja(**dane))
@@ -179,10 +187,17 @@ class BudzetController:
         else:
             self.view.wyswietl_komunikat("Nieprawidłowe dane. Limit nie został ustawiony.")
 
-    def generuj_raport(self) -> None:
+    def generuj_raport_wydatkow(self) -> None:
         raport = self.model.generuj_raport_wydatkow()
-        self.view.wyswietl_raport(raport)
+        self.view.wyswietl_raport_wydatkow(raport)
+
+    def generuj_raport_przychodow(self) -> None:
+        raport = self.model.generuj_raport_przychodow()
+        self.view.wyswietl_raport_przychodow(raport)
 
     def wyswietl_wykresy(self) -> None:
-        raport = self.model.generuj_raport_wydatkow()
-        self.view.wyswietl_wykresy(raport)
+        raport_wydatkow = self.model.generuj_raport_wydatkow()
+        raport_przychodow = self.model.generuj_raport_przychodow()
+        # Możesz wyświetlić osobne wykresy dla wydatków i przychodów lub połączyć je w jednym
+        # Tutaj wyświetlimy tylko wykres wydatków jako przykład
+        self.view.wyswietl_wykresy(raport_wydatkow)
