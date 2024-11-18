@@ -154,3 +154,22 @@
 2024-11-18 14:58:57,596 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
 2024-11-18 14:59:04,278 - DEBUG - Limity zapisane do pliku.
 2024-11-18 14:59:04,278 - INFO - Ustawiono limit dla kategorii 'jedzenie': 100.0 z\u0142
+2024-11-18 15:04:10,664 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:04:15,684 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:04:15,684 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:04:15,684 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:04:15,684 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:04:26,094 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-18 15:04:30,758 - DEBUG - Dane wczytane z pliku.
+2024-11-18 15:04:30,760 - DEBUG - Limity wczytane z pliku.
+2024-11-18 15:04:30,760 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-18 15:04:30,762 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-18 15:04:38,405 - DEBUG - Limity zapisane do pliku.
+2024-11-18 15:04:38,405 - INFO - Ustawiono limit dla kategorii 'jedzenie': 50.0 z\u0142
+2024-11-18 15:04:59,147 - DEBUG - Dane zapisane do pliku.
+2024-11-18 15:04:59,147 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=101.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-01-01')
+2024-11-18 15:05:05,303 - WARNING - Próba usuni\u0119cia nieistniej\u0105cej transakcji o indeksie: -1
+2024-11-18 15:05:22,579 - DEBUG - Pobrano limit dla kategorii 'jedzenie': 50.0
+2024-11-18 15:05:22,579 - DEBUG - Sprawdzanie limitu dla 'jedzenie': 0 <= 50.0 -> True
+2024-11-18 15:05:22,579 - DEBUG - Dane zapisane do pliku.
+2024-11-18 15:05:22,579 - INFO - Dodano transakcj\u0119: Transakcja(kwota=55.0, kategoria='jedzenie', typ='wydatek', opis='', data='2024-11-11')

@@ -38,7 +38,7 @@ class BudzetController:
                 elif opcja == '11':
                     self.wyswietl_wykresy()
                 elif opcja == '12':
-                    self.view.wyswietl_komunikat("Do widzenia!")
+                    self.view.wyswietl_wyjscie()  # Zmiana tutaj
                     break
                 else:
                     self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")

@@ -329,6 +329,33 @@ class BudzetCursesView:
         self.stdscr.refresh()
         self.stdscr.getch()
 
+    def wyswietl_wyjscie(self) -> None:
+        ascii_art = [
+            "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
+            " |  _ \\| |  | |  __ \\ / ____|  ____|__   __| |  \\/  |   /\\   | \\ | |   /\\   / ____|  ____|  __ \\ ",
+            " | |_) | |  | | |  | | |  __| |__     | |    | \\  / |  /  \\  |  \\| |  /  \\ | |  __| |__  | |__) |",
+            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | . ` | / /\\ \\| | |_ |  __| |  _  / ",
+            " | |_) | |__| | |__| | |__| | |____   | |    | |  | |/ ____ \\| |\\  |/ ____ \\ |__| | |____| | \\ \\ ",
+            " |____/ \\____/|_____/ \\_____|______|  |_|    |_|  |_/_/    \\_\\_| \\_/_/    \\_\\_____|______|_|  \\_\\",
+            "",
+            "Wylogowano oraz zamknięto program" 
+        ]
+        self.stdscr.clear()
+        h, w = self.stdscr.getmaxyx()
+        for idx, line in enumerate(ascii_art):
+            # Obliczanie pozycji x, aby wyśrodkować linię
+            x = max((w // 2) - (len(line) // 2), 0)
+            # Obliczanie pozycji y, aby wyśrodkować grafikę
+            y = max((h // 2) - (len(ascii_art) // 2) + idx, 0)
+            try:
+                self.stdscr.addstr(y, x, line)
+            except curses.error:
+                # Jeśli linia jest zbyt długa dla terminala, pomiń ją
+                pass
+        self.stdscr.refresh()
+        # Poczekaj na naciśnięcie dowolnego klawisza
+        self.stdscr.getch()
+
     def zakoncz(self) -> None:
         curses.nocbreak()
         self.stdscr.keypad(False)
