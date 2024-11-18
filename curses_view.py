@@ -12,6 +12,35 @@ class BudzetCursesView:
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
         self.current_row = 0
 
+    def wyswietl_welcome_screen(self) -> None:
+        self.stdscr.clear()
+        ascii_art = [
+            "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
+            " |  _ \\| |  | |  __ \\ / ____|  ____|__   __| |  \\/  |   /\\   | \\ | |   /\\   / ____|  ____|  __ \\ ",
+            " | |_) | |  | | |  | | |  __| |__     | |    | \\  / |  /  \\  |  \\| |  /  \\ | |  __| |__  | |__) |",
+            " |  _ <| |  | | |  | | | |_ |  __|    | |    | |\\/| | / /\\ \\ | . ` | / /\\ \\| | |_ |  __| |  _  / ",
+            " | |_) | |__| | |__| | |__| | |____   | |    | |  | |/ ____ \\| |\\  |/ ____ \\ |__| | |____| | \\ \\ ",
+            " |____/ \\____/|_____/ \\_____|______|  |_|    |_|  |_/_/    \\_\\_| \\_/_/    \\_\\_____|______|_|  \\_\\",
+            "",
+            "Kliknij Enter aby rozpocząć"
+        ]
+        h, w = self.stdscr.getmaxyx()
+        for idx, line in enumerate(ascii_art):
+            # Obliczanie pozycji x, aby wyśrodkować linię
+            x = max((w // 2) - (len(line) // 2), 0)
+            # Obliczanie pozycji y, aby wyśrodkować grafikę
+            y = max((h // 2) - (len(ascii_art) // 2) + idx, 0)
+            try:
+                self.stdscr.addstr(y, x, line)
+            except curses.error:
+                # Jeśli linia jest zbyt długa dla terminala, pomiń ją
+                pass
+        self.stdscr.refresh()
+        while True:
+            key = self.stdscr.getch()
+            if key in [10, 13, curses.KEY_ENTER]:
+                break
+
     def wyswietl_menu(self) -> None:
         self.stdscr.clear()
         menu = [
@@ -34,8 +63,8 @@ class BudzetCursesView:
     def wyswietl_menu_opcje(self, menu: list) -> None:
         h, w = self.stdscr.getmaxyx()
         for idx, row in enumerate(menu):
-            x = w//2 - len(row)//2
-            y = h//2 - len(menu)//2 + idx
+            x = max((w // 2) - (len(row) // 2), 0)
+            y = max((h // 2) - (len(menu) // 2) + idx, 0)
             if idx == self.current_row:
                 self.stdscr.attron(curses.color_pair(1))
                 self.stdscr.addstr(y, x, row)

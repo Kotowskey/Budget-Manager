@@ -10,6 +10,7 @@ class BudzetController:
 
     def uruchom(self) -> None:
         try:
+            self.view.wyswietl_welcome_screen()  # Wyświetlenie ekranu powitalnego
             self.logowanie()
             while True:
                 self.view.wyswietl_menu()
@@ -41,6 +42,8 @@ class BudzetController:
                     break
                 else:
                     self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+        except Exception as e:
+            self.view.wyswietl_komunikat(f"Wystąpił błąd: {e}")
         finally:
             self.view.zakoncz()
 
