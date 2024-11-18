@@ -649,3 +649,28 @@ class BudzetCursesView:
         if kategoria is None or kategoria.strip() == "":
             return None
         return kategoria.strip()
+    def wyswietl_podmenu_import_eksport(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            'Eksportuj transakcje do CSV',
+            'Importuj transakcje z CSV',
+            'Powrót do głównego menu'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
+        self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
+        menu_length = 3
+        while True:
+            self.wyswietl_podmenu_import_eksport()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            elif key == ESC:
+                return None  # Zwracamy None, gdy naciśnięto ESC
+            self.stdscr.refresh()
