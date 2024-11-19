@@ -720,3 +720,23 @@
 2024-11-18 23:31:44,926 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
 2024-11-18 23:31:44,926 - INFO - Zalogowano u\u017cytkownika: lukasz
 2024-11-18 23:31:46,598 - DEBUG - Obliczone saldo: 534039.0
+2024-11-19 17:53:15,559 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-19 17:53:23,423 - DEBUG - Dane wczytane z pliku.
+2024-11-19 17:53:23,425 - DEBUG - Limity wczytane z pliku.
+2024-11-19 17:53:23,425 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-19 17:53:23,425 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-19 17:53:23,425 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-19 17:53:48,336 - DEBUG - Dane zapisane do pliku.
+2024-11-19 17:53:48,336 - INFO - Usuni\u0119to transakcj\u0119: Transakcja(kwota=200.0, kategoria='transport', typ='wydatek', opis='Autobus', data='2024-06-16')
+2024-11-19 17:53:50,431 - DEBUG - Obliczone saldo: 534239.0
+2024-11-19 17:53:50,431 - DEBUG - Generowanie raportu wydatków zako\u0144czone.
+2024-11-19 17:53:50,431 - DEBUG - Generowanie raportu przychodów zako\u0144czone.
+2024-11-19 17:54:00,177 - INFO - Inicjalizacja modelu bud\u017cetu zako\u0144czona.
+2024-11-19 17:54:06,347 - DEBUG - Dane wczytane z pliku.
+2024-11-19 17:54:06,347 - DEBUG - Limity wczytane z pliku.
+2024-11-19 17:54:06,347 - DEBUG - Obliczono wydatki dla ka\u017cdej kategorii.
+2024-11-19 17:54:06,347 - DEBUG - Obliczono przychody dla ka\u017cdej kategorii.
+2024-11-19 17:54:06,347 - INFO - Zalogowano u\u017cytkownika: lukasz
+2024-11-19 17:54:09,814 - INFO - Transakcje wyeksportowane do pliku CSV: transakcje.csv
+2024-11-19 17:54:11,977 - DEBUG - Dane zapisane do pliku.
+2024-11-19 17:54:11,977 - INFO - Transakcje zaimportowane z pliku CSV: transakcje.csv
