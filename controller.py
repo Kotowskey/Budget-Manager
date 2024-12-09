@@ -1,13 +1,19 @@
+# controller.py
 from model import BudzetModel, Transakcja
-from curses_view import BudzetCursesView
+from typing import Optional
 
 class BudzetController:
-    def __init__(self) -> None:
+    def __init__(self, view: Optional[object] = None) -> None:
         self.model = BudzetModel()
-        self.view = BudzetCursesView()
+        self.view = view
         self.zalogowany_uzytkownik = None
 
+    def set_view(self, view: object) -> None:
+        self.view = view
+
     def uruchom(self) -> None:
+        if self.view is None:
+            raise ValueError("Widok nie został ustawiony dla kontrolera.")
         try:
             self.view.wyswietl_welcome_screen()  # Wyświetlenie ekranu powitalnego
             if not self.logowanie():
@@ -16,7 +22,7 @@ class BudzetController:
                 self.view.wyswietl_glowne_menu_kategorii()
                 opcja = self.view.pobierz_opcje_glownego_menu()
                 if opcja is None:
-                    # Użytkownik nacisnął ESC na głównym menu, pytamy czy chce wyjść
+                    # Użytkownik anulował lub zamknął aplikację
                     potwierdzenie = self.view.pobierz_potwierdzenie("Czy chcesz wyjść z aplikacji?")
                     if potwierdzenie:
                         self.view.wyswietl_wyjscie()
@@ -40,7 +46,6 @@ class BudzetController:
             self.view.wyswietl_komunikat(f"Wystąpił błąd: {e}")
         finally:
             self.view.zakoncz()
-
     def obsluz_podmenu_transakcje(self) -> None:
         while True:
             self.view.wyswietl_podmenu_transakcje()

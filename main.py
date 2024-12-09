@@ -11,11 +11,13 @@ def main():
 
     choice = input("Wybór (1/2): ").strip()
     if choice == "1":
-        controller = BudzetController()
+        view = BudzetCursesView()
+        controller = BudzetController(view)
         controller.uruchom()
     elif choice == "2":
-        controller = BudzetController()  # Wymagany kontroler
+        controller = BudzetController()  # Inicjalizacja bez widoku
         gui = BudzetGUIView(controller)
+        controller.set_view(gui)  # Ustawienie widoku po utworzeniu GUI
         gui.run()
     else:
         print("Nieprawidłowy wybór. Zamykam program.")
