@@ -14,3 +14,4 @@ __pycache__/curses_view.cpython-312.pyc
 *.pyc
 __pycache__/
 *.pyc
+*.log
