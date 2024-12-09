@@ -222,6 +222,7 @@ class TransactionsFrame(ttk.Frame):
         if dialog.result:
             # Przekazujemy dane do kontrolera
             self.controller.controller.dodaj_transakcje(dialog.result)
+            self.wyswietl_transakcje()
 
     def edytuj_transakcje(self):
         selected = self.tree.selection()
@@ -235,6 +236,7 @@ class TransactionsFrame(ttk.Frame):
         if dialog.result:
             # Przekazujemy dane do kontrolera
             self.controller.controller.edytuj_transakcje(indeks, dialog.result)
+            self.wyswietl_transakcje()
 
     def usun_transakcje(self):
         selected = self.tree.selection()
@@ -245,6 +247,7 @@ class TransactionsFrame(ttk.Frame):
         confirm = self.controller.pobierz_potwierdzenie("Czy na pewno chcesz usunąć wybraną transakcję?")
         if confirm:
             self.controller.controller.usun_transakcje(indeks)
+            self.wyswietl_transakcje()
 
     def wyswietl_transakcje(self):
         transakcje = self.controller.controller.model.transakcje
@@ -286,20 +289,16 @@ class SummaryFrame(ttk.Frame):
         self.saldo_label.config(text=f"Aktualne saldo: {saldo:.2f} zł")
 
     def generuj_raport_wydatkow(self):
-        raport = self.controller.controller.model.generuj_raport_wydatkow()
-        self.controller.wyswietl_raport_wydatkow(raport)
+        self.controller.controller.generuj_raport_wydatkow()
 
     def generuj_raport_przychodow(self):
-        raport = self.controller.controller.model.generuj_raport_przychodow()
-        self.controller.wyswietl_raport_przychodow(raport)
+        self.controller.controller.generuj_raport_przychodow()
 
     def wyswietl_wykres_wydatkow(self):
-        raport = self.controller.controller.model.generuj_raport_wydatkow()
-        self.controller.wyswietl_wykres_wydatkow(raport)
+        self.controller.controller.wyswietl_wykres_wydatkow()
 
     def wyswietl_wykres_przychodow(self):
-        raport = self.controller.controller.model.generuj_raport_przychodow()
-        self.controller.wyswietl_wykres_przychodow(raport)
+        self.controller.controller.wyswietl_wykres_przychodow()
 
 class LimitsFrame(ttk.Frame):
     def __init__(self, parent, controller):
@@ -335,11 +334,9 @@ class LimitsFrame(ttk.Frame):
     def usun_limit(self):
         kategoria = simpledialog.askstring("Usuń Limit", "Podaj kategorię do usunięcia limitu:", parent=self)
         if kategoria:
-            success = self.controller.controller.model.usun_limit(kategoria)
-            if success:
-                self.controller.wyswietl_komunikat(f"Limit dla kategorii '{kategoria}' został usunięty.")
-            else:
-                self.controller.wyswietl_komunikat(f"Limit dla kategorii '{kategoria}' nie istnieje.")
+            self.controller.controller.usun_limit(kategoria)
+            # Aktualizacja widoku limity
+            self.wyswietl_limity()
 
     def update_limity(self, limity: Dict[str, float]):
         message = "Aktualne limity:\n"

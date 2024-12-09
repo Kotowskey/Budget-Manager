@@ -1,6 +1,6 @@
 # controller.py
 from model import BudzetModel, Transakcja
-from typing import Optional
+from typing import Optional, Dict
 
 class BudzetController:
     def __init__(self, view: Optional[object] = None) -> None:
@@ -46,12 +46,13 @@ class BudzetController:
             self.view.wyswietl_komunikat(f"Wystąpił błąd: {e}")
         finally:
             self.view.zakoncz()
+
     def obsluz_podmenu_transakcje(self) -> None:
         while True:
             self.view.wyswietl_podmenu_transakcje()
             opcja = self.view.pobierz_opcje_podmenu_transakcje()
             if opcja is None:
-                # Użytkownik nacisnął ESC, wracamy do głównego menu
+                # Użytkownik anulował lub zamknął podmenu, wracamy do głównego menu
                 break
             if opcja == '1':
                 self.dodaj_transakcje()
@@ -118,7 +119,6 @@ class BudzetController:
             self.view.wyswietl_podmenu_limity()
             opcja = self.view.pobierz_opcje_podmenu_limity()
             if opcja is None:
-                # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
             if opcja == '1':
                 self.ustaw_limit_budzetowy()
@@ -136,7 +136,6 @@ class BudzetController:
             self.view.wyswietl_podmenu_import_eksport()
             opcja = self.view.pobierz_opcje_podmenu_import_eksport()
             if opcja is None:
-                # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
             if opcja == '1':
                 self.eksportuj_transakcje()
@@ -152,7 +151,7 @@ class BudzetController:
             self.view.wyswietl_ekran_logowania()
             opcja = self.view.pobierz_opcje_logowania()
             if opcja is None:
-                # Użytkownik nacisnął ESC podczas logowania, pytamy czy chce wyjść
+                # Użytkownik anulował logowanie, pytamy czy chce wyjść
                 potwierdzenie = self.view.pobierz_potwierdzenie("Czy chcesz wyjść z aplikacji?")
                 if potwierdzenie:
                     self.view.wyswietl_wyjscie()
@@ -191,10 +190,7 @@ class BudzetController:
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja.")
 
-    def dodaj_transakcje(self) -> None:
-        dane = self.view.pobierz_dane_transakcji()
-        if not dane:
-            return
+    def dodaj_transakcje(self, dane: Dict) -> None:
         if dane['typ'] == 'wydatek':
             kwota = dane['kwota']
             kategoria = dane['kategoria']
@@ -208,44 +204,28 @@ class BudzetController:
         self.model.dodaj_transakcje(transakcja)
         self.view.wyswietl_komunikat("Transakcja dodana.")
 
-    def edytuj_transakcje(self) -> None:
-        self.view.wyswietl_transakcje(self.model.transakcje)
-        indeks = self.view.pobierz_indeks_transakcji()
-        if indeks == -1:
-            return  # Anulowano operację
-        if 0 <= indeks < len(self.model.transakcje):
-            transakcja_oryginalna = self.model.transakcje[indeks]
-            self.view.wyswietl_komunikat("Wprowadź nowe dane transakcji:")
-            dane = self.view.pobierz_dane_transakcji(edycja=True)
-            if not dane:
-                return
-            dane['typ'] = transakcja_oryginalna.typ  # Utrzymanie oryginalnego typu
-            if dane['typ'] == 'wydatek':
-                kwota = dane['kwota']
-                kategoria = dane['kategoria']
-                # Sprawdzenie, czy dodanie nowej kwoty przekroczy limit, uwzględniając oryginalny wydatek
-                # Najpierw usuwamy oryginalny wydatek z kategorii, aby sprawdzić nowy
-                self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] -= transakcja_oryginalna.kwota
-                if self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] <= 0:
-                    del self.model.wydatki_kategorie[transakcja_oryginalna.kategoria]
-                if not self.model.sprawdz_limit(kategoria, kwota):
-                    komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to zaktualizować transakcję?"
-                    potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
-                    if not potwierdzenie:
-                        # Przywracamy oryginalny wydatek w kategorii
-                        self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] = self.model.wydatki_kategorie.get(transakcja_oryginalna.kategoria, 0) + transakcja_oryginalna.kwota
-                        self.view.wyswietl_komunikat("Transakcja nie została zaktualizowana.")
-                        return
-            self.model.edytuj_transakcje(indeks, Transakcja(**dane))
-            self.view.wyswietl_komunikat("Transakcja zaktualizowana.")
-        else:
-            self.view.wyswietl_komunikat("Nieprawidłowy numer transakcji.")
+    def edytuj_transakcje(self, indeks: int, nowe_dane: Dict) -> None:
+        transakcja_oryginalna = self.model.transakcje[indeks]
+        if nowe_dane['typ'] == 'wydatek':
+            kwota = nowe_dane['kwota']
+            kategoria = nowe_dane['kategoria']
+            # Sprawdzenie, czy dodanie nowej kwoty przekroczy limit, uwzględniając oryginalny wydatek
+            self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] -= transakcja_oryginalna.kwota
+            if self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] <= 0:
+                del self.model.wydatki_kategorie[transakcja_oryginalna.kategoria]
+            if not self.model.sprawdz_limit(kategoria, kwota):
+                komunikat = "Przekroczono limit budżetowy dla tej kategorii!\nCzy chcesz mimo to zaktualizować transakcję?"
+                potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
+                if not potwierdzenie:
+                    # Przywracamy oryginalny wydatek w kategorii
+                    self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] = self.model.wydatki_kategorie.get(transakcja_oryginalna.kategoria, 0) + transakcja_oryginalna.kwota
+                    self.view.wyswietl_komunikat("Transakcja nie została zaktualizowana.")
+                    return
+        transakcja = Transakcja(**nowe_dane)
+        self.model.edytuj_transakcje(indeks, transakcja)
+        self.view.wyswietl_komunikat("Transakcja zaktualizowana.")
 
-    def usun_transakcje(self) -> None:
-        self.view.wyswietl_transakcje(self.model.transakcje)
-        indeks = self.view.pobierz_indeks_transakcji()
-        if indeks == -1:
-            return  # Anulowano operację
+    def usun_transakcje(self, indeks: int) -> None:
         if self.model.usun_transakcje(indeks):
             self.view.wyswietl_komunikat("Transakcja usunięta.")
         else:
@@ -266,16 +246,7 @@ class BudzetController:
         else:
             self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.csv'.")
 
-    def filtruj_transakcje(self) -> None:
-        start_date, end_date = self.view.pobierz_zakres_dat()
-        if not start_date or not end_date:
-            self.view.wyswietl_komunikat("Nieprawidłowy zakres dat.")
-            return
-        filtrowane = self.model.filtruj_transakcje_po_dacie(start_date, end_date)
-        self.view.wyswietl_transakcje(filtrowane)
-
-    def ustaw_limit_budzetowy(self) -> None:
-        kategoria, limit = self.view.pobierz_limit()
+    def ustaw_limit_budzetowy(self, kategoria: str, limit: float) -> None:
         if kategoria and limit > 0:
             self.model.ustaw_limit(kategoria, limit)
             self.view.potwierdz_ustawienie_limitu(kategoria, limit)
@@ -286,11 +257,7 @@ class BudzetController:
         limity = self.model.limity
         self.view.wyswietl_limity(limity)
 
-    def usun_limit(self) -> None:
-        kategoria = self.view.pobierz_kategorie_do_usuniecia()
-        if kategoria is None:
-            self.view.wyswietl_komunikat("Anulowano operację.")
-            return
+    def usun_limit(self, kategoria: str) -> None:
         if self.model.usun_limit(kategoria):
             self.view.wyswietl_komunikat(f"Limit dla kategorii '{kategoria}' został usunięty.")
         else:
