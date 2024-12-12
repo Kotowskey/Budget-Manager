@@ -4,6 +4,7 @@ from typing import List, Dict, Optional, Tuple
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from model import Transakcja
 
 class BudzetGUIView:
     def __init__(self, controller):
@@ -128,15 +129,15 @@ class BudzetGUIView:
                 transaction_type = type_var.get()
                 description = description_entry.get()
                 
-                transaction = {
-                    "kwota": amount,
-                    "kategoria": category,
-                    "typ": transaction_type,
-                    "opis": description,
-                    "data": datetime.now().strftime('%Y-%m-%d')
-                }
+                transaction = Transakcja(
+                    kwota=amount,
+                    kategoria=category,
+                    typ=transaction_type,
+                    opis=description,
+                    data=datetime.now().strftime('%Y-%m-%d')
+                )
                 
-                self.controller.dodaj_transakcje(transaction)
+                self.controller.model.dodaj_transakcje(transaction)
                 messagebox.showinfo("Sukces", "Transakcja dodana pomyślnie")
                 add_window.destroy()
                 self.update_main_frame_after_login()
