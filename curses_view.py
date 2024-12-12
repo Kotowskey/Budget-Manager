@@ -6,13 +6,50 @@ ESC = 27  # Stała dla klawisza ESC
 
 class BudzetCursesView:
     def __init__(self):
+        self.controller = None  # Będziemy ustawiać w momencie przełączania z GUI
         self.stdscr = curses.initscr()
         curses.curs_set(0)
         self.stdscr.keypad(True)
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
-        curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)  # Nowy kolor dla potwierdzenia
+        curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
         self.current_row = 0
+
+    def run(self):
+        # Główna pętla curses - załóżmy, że wyświetlamy ekran logowania, a potem menu.
+        self.wyswietl_welcome_screen()
+        # Przykładowo logowanie „na sztywno”
+        self.controller.model.zaloguj("admin","admin")
+        # Po zalogowaniu przechodzimy do menu
+        self.glowna_petla()
+
+    def glowna_petla(self):
+        while True:
+            opcja = self.pobierz_opcje_glownego_menu()
+            if opcja is None:
+                # ESC - wyjście
+                self.wyswietl_wyjscie()
+                self.zakoncz()
+                break
+            elif opcja == '5':
+                # Ostatnia opcja to przełączenie na widok GUI
+                self.przelacz_na_gui()
+                break
+            elif opcja == '6':
+                # Wyjście
+                self.wyswietl_wyjscie()
+                self.zakoncz()
+                break
+            else:
+                # Obsługa innych opcji pominięta dla uproszczenia
+                pass
+
+    def przelacz_na_gui(self):
+        self.zakoncz()
+        from gui_view import BudzetGUIView
+        new_view = BudzetGUIView(self.controller)
+        self.controller.view = new_view
+        self.controller.view.run()
 
     def wyswietl_welcome_screen(self) -> None:
         self.stdscr.clear()

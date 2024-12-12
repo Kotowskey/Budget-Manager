@@ -1,3 +1,4 @@
+# gui_view.py
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog
 from typing import List, Dict, Optional, Tuple
@@ -15,11 +16,10 @@ class BudzetGUIView:
         self.root.minsize(800, 600)
 
         self.style = ttk.Style(self.root)
-        self.style.theme_use('clam')  # Możesz wypróbować inne motywy, np. 'vista', 'alt', 'default'
+        self.style.theme_use('clam')
 
         self.create_main_menu()
         self.create_frames()
-        # self.create_notebook()  # Usunięto metodę tworzenia notebooka
 
     def run(self):
         self.root.mainloop()
@@ -61,6 +61,11 @@ class BudzetGUIView:
         import_export_menu.add_command(label="Eksportuj do CSV", command=self.export_to_csv)
         import_export_menu.add_command(label="Importuj z CSV", command=self.import_from_csv)
 
+        # Widok Menu - DODANE
+        view_menu = tk.Menu(menu_bar, tearoff=0)
+        menu_bar.add_cascade(label="Widok", menu=view_menu)
+        view_menu.add_command(label="Przełącz na tryb tekstowy (curses)", command=self.switch_to_curses)
+
     def create_frames(self):
         self.main_frame = ttk.Frame(self.root, padding="20")
         self.main_frame.pack(fill=tk.BOTH, expand=True)
@@ -96,59 +101,43 @@ class BudzetGUIView:
                     messagebox.showerror("Błąd rejestracji", "Użytkownik o takim loginie już istnieje")
 
     def update_main_frame_after_login(self):
-        # Ukryj główną ramkę logowania/rejestracji
         self.main_frame.pack_forget()
-
-        # Stwórz nową ramkę dla po zalogowaniu
         self.logged_in_frame = ttk.Frame(self.root, padding="20")
         self.logged_in_frame.pack(fill=tk.BOTH, expand=True)
-
-        # Powitanie użytkownika
         welcome_label = ttk.Label(self.logged_in_frame, text=f"Witaj, {self.controller.model.zalogowany_uzytkownik}!", font=("Helvetica", 16))
         welcome_label.pack(pady=20)
 
-        # Wyświetlenie salda
         balance = self.controller.model.oblicz_saldo()
         balance_label = ttk.Label(self.logged_in_frame, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14))
         balance_label.pack(pady=10)
 
-        # Dodaj przyciski funkcji
         self.add_logged_in_buttons()
 
     def add_logged_in_buttons(self):
-        # Ramka na przyciski
         buttons_frame = ttk.Frame(self.logged_in_frame, padding="10")
         buttons_frame.pack(pady=20)
 
-        # Dodaj Transakcję
         add_transaction_button = ttk.Button(buttons_frame, text="Dodaj Transakcję", command=self.show_add_transaction, width=25)
         add_transaction_button.grid(row=0, column=0, padx=10, pady=10)
 
-        # Pokaż Transakcje
         view_transactions_button = ttk.Button(buttons_frame, text="Pokaż Transakcje", command=self.show_transactions, width=25)
         view_transactions_button.grid(row=0, column=1, padx=10, pady=10)
 
-        # Raport Wydatków
         expense_report_button = ttk.Button(buttons_frame, text="Raport Wydatków", command=self.show_expense_report, width=25)
         expense_report_button.grid(row=1, column=0, padx=10, pady=10)
 
-        # Raport Przychodów
         income_report_button = ttk.Button(buttons_frame, text="Raport Przychodów", command=self.show_income_report, width=25)
         income_report_button.grid(row=1, column=1, padx=10, pady=10)
 
-        # Wykres Wydatków
         expense_chart_button = ttk.Button(buttons_frame, text="Wykres Wydatków", command=self.show_expense_chart, width=25)
         expense_chart_button.grid(row=2, column=0, padx=10, pady=10)
 
-        # Wykres Przychodów
         income_chart_button = ttk.Button(buttons_frame, text="Wykres Przychodów", command=self.show_income_chart, width=25)
         income_chart_button.grid(row=2, column=1, padx=10, pady=10)
 
-        # Ustaw Limity
         set_limit_button = ttk.Button(buttons_frame, text="Ustaw Limity", command=self.set_limit, width=25)
         set_limit_button.grid(row=3, column=0, padx=10, pady=10)
 
-        # Pokaż Limity
         show_limits_button = ttk.Button(buttons_frame, text="Pokaż Limity", command=self.show_limits, width=25)
         show_limits_button.grid(row=3, column=1, padx=10, pady=10)
 
@@ -163,36 +152,28 @@ class BudzetGUIView:
         add_window.title("Dodaj transakcję")
         add_window.geometry("400x350")
         add_window.resizable(False, False)
-
-        # Stylizacja
         add_window.configure(bg="#f0f0f0")
 
-        # Ramka główna
         frame = ttk.Frame(add_window, padding="20")
         frame.pack(fill=tk.BOTH, expand=True)
 
-        # Kwota
         ttk.Label(frame, text="Kwota:", font=("Helvetica", 12)).grid(row=0, column=0, sticky=tk.W, pady=5)
         amount_entry = ttk.Entry(frame)
         amount_entry.grid(row=0, column=1, pady=5, sticky=tk.EW)
 
-        # Kategoria
         ttk.Label(frame, text="Kategoria:", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5)
         category_entry = ttk.Entry(frame)
         category_entry.grid(row=1, column=1, pady=5, sticky=tk.EW)
 
-        # Typ
         ttk.Label(frame, text="Typ:", font=("Helvetica", 12)).grid(row=2, column=0, sticky=tk.W, pady=5)
         type_var = tk.StringVar(value="wydatek")
         type_combobox = ttk.Combobox(frame, textvariable=type_var, values=["wydatek", "przychód"], state="readonly")
         type_combobox.grid(row=2, column=1, pady=5, sticky=tk.EW)
 
-        # Opis
         ttk.Label(frame, text="Opis:", font=("Helvetica", 12)).grid(row=3, column=0, sticky=tk.W, pady=5)
         description_entry = ttk.Entry(frame)
         description_entry.grid(row=3, column=1, pady=5, sticky=tk.EW)
 
-        # Konfiguracja kolumn
         frame.columnconfigure(1, weight=1)
 
         def add_transaction():
@@ -220,7 +201,6 @@ class BudzetGUIView:
             except ValueError as ve:
                 messagebox.showerror("Błąd", f"Nieprawidłowa wartość: {ve}")
 
-        # Przycisk Dodaj
         add_button = ttk.Button(frame, text="Dodaj", command=add_transaction)
         add_button.grid(row=4, column=0, columnspan=2, pady=20)
 
@@ -229,28 +209,22 @@ class BudzetGUIView:
         transactions_window.title("Lista transakcji")
         transactions_window.geometry("700x500")
         transactions_window.resizable(True, True)
-
-        # Stylizacja
         transactions_window.configure(bg="#f0f0f0")
 
-        # Ramka główna
         frame = ttk.Frame(transactions_window, padding="10")
         frame.pack(fill=tk.BOTH, expand=True)
 
-        # Treeview
         columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
         tree = ttk.Treeview(frame, columns=columns, show="headings")
         for col in columns:
             tree.heading(col, text=col)
             tree.column(col, anchor=tk.CENTER)
 
-        # Dodanie przewijania
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
         tree.configure(yscroll=scrollbar.set)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         tree.pack(fill=tk.BOTH, expand=True)
 
-        # Wstawienie danych
         for transaction in self.controller.model.transakcje:
             tree.insert("", "end", values=(transaction.kwota, transaction.kategoria, transaction.typ, transaction.opis, transaction.data))
 
@@ -271,28 +245,22 @@ class BudzetGUIView:
         report_window.title(title)
         report_window.geometry("500x400")
         report_window.resizable(True, True)
-
-        # Stylizacja
         report_window.configure(bg="#f0f0f0")
 
-        # Ramka główna
         frame = ttk.Frame(report_window, padding="10")
         frame.pack(fill=tk.BOTH, expand=True)
 
-        # Treeview
         columns = ("Kategoria", "Kwota")
         tree = ttk.Treeview(frame, columns=columns, show="headings")
         for col in columns:
             tree.heading(col, text=col)
             tree.column(col, anchor=tk.CENTER)
 
-        # Dodanie przewijania
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
         tree.configure(yscroll=scrollbar.set)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         tree.pack(fill=tk.BOTH, expand=True)
 
-        # Wstawienie danych
         for category, amount in report.items():
             tree.insert("", "end", values=(category, f"{amount:.2f} zł"))
 
@@ -354,3 +322,12 @@ class BudzetGUIView:
                 messagebox.showerror("Import", "Nie udało się zaimportować danych z pliku CSV")
         except Exception as e:
             messagebox.showerror("Import", f"Nie udało się zaimportować danych: {e}")
+
+    def switch_to_curses(self):
+        # Zamknij okno GUI
+        self.root.destroy()
+        from curses_view import BudzetCursesView
+        new_view = BudzetCursesView()
+        new_view.controller = self.controller
+        self.controller.view = new_view
+        self.controller.view.run()
