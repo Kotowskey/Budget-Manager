@@ -1,25 +1,28 @@
-# gui_view.py
 import tkinter as tk
-from tkinter import ttk, messagebox, simpledialog
-from typing import List, Dict, Optional, Tuple
+from tkinter import messagebox
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from model import Transakcja
+import customtkinter as ctk
+from tkinter import ttk
+
 
 class BudzetGUIView:
     def __init__(self, controller):
         self.controller = controller
-        self.root = tk.Tk()
+
+        # Ustawienia customtkinter
+        ctk.set_appearance_mode("System")  # lub "Dark", "Light"
+        ctk.set_default_color_theme("blue")
+
+        self.root = ctk.CTk()
         self.root.title("Aplikacja Budżetowa")
         self.root.geometry("900x700")
         self.root.minsize(800, 600)
 
-        self.style = ttk.Style(self.root)
-        self.style.theme_use('clam')
-
         self.create_main_menu()
-        self.create_frames()
+        self.create_initial_frames()
 
     def run(self):
         self.root.mainloop()
@@ -61,118 +64,169 @@ class BudzetGUIView:
         import_export_menu.add_command(label="Eksportuj do CSV", command=self.export_to_csv)
         import_export_menu.add_command(label="Importuj z CSV", command=self.import_from_csv)
 
-        # Widok Menu - DODANE
+        # Widok Menu
         view_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="Widok", menu=view_menu)
         view_menu.add_command(label="Przełącz na tryb tekstowy (curses)", command=self.switch_to_curses)
 
-    def create_frames(self):
-        self.main_frame = ttk.Frame(self.root, padding="20")
-        self.main_frame.pack(fill=tk.BOTH, expand=True)
+    def create_initial_frames(self):
+        self.main_frame = ctk.CTkFrame(self.root, corner_radius=10)
+        self.main_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        self.welcome_label = ttk.Label(self.main_frame, text="Witaj w aplikacji budżetowej!", font=("Helvetica", 18, "bold"))
+        self.show_welcome_screen()
+
+    def show_welcome_screen(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+        self.welcome_label = ctk.CTkLabel(self.main_frame, text="Witaj w aplikacji budżetowej!",
+                                          font=("Helvetica", 18, "bold"))
         self.welcome_label.pack(pady=30)
 
-        self.login_button = ttk.Button(self.main_frame, text="Zaloguj się", command=self.show_login, width=20)
+        self.login_button = ctk.CTkButton(self.main_frame, text="Zaloguj się", command=self.show_login, width=200)
         self.login_button.pack(pady=10)
 
-        self.register_button = ttk.Button(self.main_frame, text="Zarejestruj się", command=self.show_register, width=20)
+        self.register_button = ctk.CTkButton(self.main_frame, text="Zarejestruj się", command=self.show_register, width=200)
         self.register_button.pack(pady=10)
 
     def show_login(self):
-        login = simpledialog.askstring("Logowanie", "Podaj login:")
-        if login:
-            password = simpledialog.askstring("Logowanie", "Podaj hasło:", show='*')
-            if password:
-                if self.controller.model.zaloguj(login, password):
-                    messagebox.showinfo("Logowanie", f"Zalogowano jako {login}")
-                    self.update_main_frame_after_login()
-                else:
-                    messagebox.showerror("Błąd logowania", "Nieprawidłowy login lub hasło")
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+        ctk.CTkLabel(self.main_frame, text="Logowanie", font=("Helvetica", 16, "bold")).pack(pady=20)
+
+        login_frame = ctk.CTkFrame(self.main_frame)
+        login_frame.pack(pady=20)
+
+        ctk.CTkLabel(login_frame, text="Login:", font=("Helvetica", 12)).grid(row=0, column=0, sticky=tk.W, pady=5, padx=5)
+        login_entry = ctk.CTkEntry(login_frame)
+        login_entry.grid(row=0, column=1, pady=5, padx=5)
+
+        ctk.CTkLabel(login_frame, text="Hasło:", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5, padx=5)
+        password_entry = ctk.CTkEntry(login_frame, show='*')
+        password_entry.grid(row=1, column=1, pady=5, padx=5)
+
+        def attempt_login():
+            login = login_entry.get()
+            password = password_entry.get()
+            if self.controller.model.zaloguj(login, password):
+                messagebox.showinfo("Logowanie", f"Zalogowano jako {login}")
+                self.update_main_frame_after_login()
+            else:
+                messagebox.showerror("Błąd logowania", "Nieprawidłowy login lub hasło")
+
+        ctk.CTkButton(self.main_frame, text="Zaloguj", command=attempt_login, width=200).pack(pady=10)
+        ctk.CTkButton(self.main_frame, text="Powrót", command=self.show_welcome_screen, width=200).pack(pady=10)
 
     def show_register(self):
-        login = simpledialog.askstring("Rejestracja", "Podaj nowy login:")
-        if login:
-            password = simpledialog.askstring("Rejestracja", "Podaj hasło:", show='*')
-            if password:
-                if self.controller.model.zarejestruj(login, password):
-                    messagebox.showinfo("Rejestracja", "Rejestracja udana. Możesz się teraz zalogować.")
-                else:
-                    messagebox.showerror("Błąd rejestracji", "Użytkownik o takim loginie już istnieje")
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+        ctk.CTkLabel(self.main_frame, text="Rejestracja", font=("Helvetica", 16, "bold")).pack(pady=20)
+
+        register_frame = ctk.CTkFrame(self.main_frame)
+        register_frame.pack(pady=20)
+
+        ctk.CTkLabel(register_frame, text="Nowy login:", font=("Helvetica", 12)).grid(row=0, column=0, sticky=tk.W, pady=5, padx=5)
+        login_entry = ctk.CTkEntry(register_frame)
+        login_entry.grid(row=0, column=1, pady=5, padx=5)
+
+        ctk.CTkLabel(register_frame, text="Hasło:", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5, padx=5)
+        password_entry = ctk.CTkEntry(register_frame, show='*')
+        password_entry.grid(row=1, column=1, pady=5, padx=5)
+
+        def attempt_register():
+            login = login_entry.get()
+            password = password_entry.get()
+            if self.controller.model.zarejestruj(login, password):
+                messagebox.showinfo("Rejestracja", "Rejestracja udana. Możesz się teraz zalogować.")
+                self.show_login()
+            else:
+                messagebox.showerror("Błąd rejestracji", "Użytkownik o takim loginie już istnieje")
+
+        ctk.CTkButton(self.main_frame, text="Zarejestruj", command=attempt_register, width=200).pack(pady=10)
+        ctk.CTkButton(self.main_frame, text="Powrót", command=self.show_welcome_screen, width=200).pack(pady=10)
 
     def update_main_frame_after_login(self):
+        # Usunięcie starej ramki
         self.main_frame.pack_forget()
-        self.logged_in_frame = ttk.Frame(self.root, padding="20")
-        self.logged_in_frame.pack(fill=tk.BOTH, expand=True)
-        welcome_label = ttk.Label(self.logged_in_frame, text=f"Witaj, {self.controller.model.zalogowany_uzytkownik}!", font=("Helvetica", 16))
+
+        # Główna ramka dla zalogowanego użytkownika
+        self.logged_in_frame = ctk.CTkFrame(self.root, corner_radius=10)
+        self.logged_in_frame.pack(fill="both", expand=True, padx=20, pady=20)
+
+        welcome_label = ctk.CTkLabel(self.logged_in_frame,
+                                     text=f"Witaj, {self.controller.model.zalogowany_uzytkownik}!",
+                                     font=("Helvetica", 16))
         welcome_label.pack(pady=20)
 
         balance = self.controller.model.oblicz_saldo()
-        balance_label = ttk.Label(self.logged_in_frame, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14))
+        balance_label = ctk.CTkLabel(self.logged_in_frame, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14))
         balance_label.pack(pady=10)
 
-        self.add_logged_in_buttons()
+        self.buttons_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
+        self.buttons_frame.pack(pady=20)
 
-    def add_logged_in_buttons(self):
-        buttons_frame = ttk.Frame(self.logged_in_frame, padding="10")
-        buttons_frame.pack(pady=20)
-
-        add_transaction_button = ttk.Button(buttons_frame, text="Dodaj Transakcję", command=self.show_add_transaction, width=25)
+        add_transaction_button = ctk.CTkButton(self.buttons_frame, text="Dodaj Transakcję", command=self.show_add_transaction, width=200)
         add_transaction_button.grid(row=0, column=0, padx=10, pady=10)
 
-        view_transactions_button = ttk.Button(buttons_frame, text="Pokaż Transakcje", command=self.show_transactions, width=25)
+        view_transactions_button = ctk.CTkButton(self.buttons_frame, text="Pokaż Transakcje", command=self.show_transactions, width=200)
         view_transactions_button.grid(row=0, column=1, padx=10, pady=10)
 
-        expense_report_button = ttk.Button(buttons_frame, text="Raport Wydatków", command=self.show_expense_report, width=25)
+        expense_report_button = ctk.CTkButton(self.buttons_frame, text="Raport Wydatków", command=self.show_expense_report, width=200)
         expense_report_button.grid(row=1, column=0, padx=10, pady=10)
 
-        income_report_button = ttk.Button(buttons_frame, text="Raport Przychodów", command=self.show_income_report, width=25)
+        income_report_button = ctk.CTkButton(self.buttons_frame, text="Raport Przychodów", command=self.show_income_report, width=200)
         income_report_button.grid(row=1, column=1, padx=10, pady=10)
 
-        expense_chart_button = ttk.Button(buttons_frame, text="Wykres Wydatków", command=self.show_expense_chart, width=25)
+        expense_chart_button = ctk.CTkButton(self.buttons_frame, text="Wykres Wydatków", command=self.show_expense_chart, width=200)
         expense_chart_button.grid(row=2, column=0, padx=10, pady=10)
 
-        income_chart_button = ttk.Button(buttons_frame, text="Wykres Przychodów", command=self.show_income_chart, width=25)
+        income_chart_button = ctk.CTkButton(self.buttons_frame, text="Wykres Przychodów", command=self.show_income_chart, width=200)
         income_chart_button.grid(row=2, column=1, padx=10, pady=10)
 
-        set_limit_button = ttk.Button(buttons_frame, text="Ustaw Limity", command=self.set_limit, width=25)
+        set_limit_button = ctk.CTkButton(self.buttons_frame, text="Ustaw Limity", command=self.set_limit, width=200)
         set_limit_button.grid(row=3, column=0, padx=10, pady=10)
 
-        show_limits_button = ttk.Button(buttons_frame, text="Pokaż Limity", command=self.show_limits, width=25)
+        show_limits_button = ctk.CTkButton(self.buttons_frame, text="Pokaż Limity", command=self.show_limits, width=200)
         show_limits_button.grid(row=3, column=1, padx=10, pady=10)
 
+        # Ramka na dynamiczną zawartość
+        self.content_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
+        self.content_frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+    def clear_content_frame(self):
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
+
     def logout(self):
+        if hasattr(self, 'logged_in_frame'):
+            self.logged_in_frame.pack_forget()
         self.controller.model.zalogowany_uzytkownik = None
         messagebox.showinfo("Wylogowanie", "Wylogowano pomyślnie")
-        self.logged_in_frame.pack_forget()
-        self.create_frames()
+        self.create_initial_frames()
 
     def show_add_transaction(self):
-        add_window = tk.Toplevel(self.root)
-        add_window.title("Dodaj transakcję")
-        add_window.geometry("400x350")
-        add_window.resizable(False, False)
-        add_window.configure(bg="#f0f0f0")
+        self.clear_content_frame()
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        frame = ttk.Frame(add_window, padding="20")
-        frame.pack(fill=tk.BOTH, expand=True)
+        ctk.CTkLabel(frame, text="Kwota:", font=("Helvetica", 12)).grid(row=0, column=0, sticky=tk.W, pady=5)
+        amount_entry = ctk.CTkEntry(frame)
+        amount_entry.grid(row=0, column=1, pady=5, sticky="ew")
 
-        ttk.Label(frame, text="Kwota:", font=("Helvetica", 12)).grid(row=0, column=0, sticky=tk.W, pady=5)
-        amount_entry = ttk.Entry(frame)
-        amount_entry.grid(row=0, column=1, pady=5, sticky=tk.EW)
+        ctk.CTkLabel(frame, text="Kategoria:", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5)
+        category_entry = ctk.CTkEntry(frame)
+        category_entry.grid(row=1, column=1, pady=5, sticky="ew")
 
-        ttk.Label(frame, text="Kategoria:", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5)
-        category_entry = ttk.Entry(frame)
-        category_entry.grid(row=1, column=1, pady=5, sticky=tk.EW)
-
-        ttk.Label(frame, text="Typ:", font=("Helvetica", 12)).grid(row=2, column=0, sticky=tk.W, pady=5)
+        ctk.CTkLabel(frame, text="Typ:", font=("Helvetica", 12)).grid(row=2, column=0, sticky=tk.W, pady=5)
         type_var = tk.StringVar(value="wydatek")
-        type_combobox = ttk.Combobox(frame, textvariable=type_var, values=["wydatek", "przychód"], state="readonly")
-        type_combobox.grid(row=2, column=1, pady=5, sticky=tk.EW)
+        type_combobox = ctk.CTkComboBox(frame, values=["wydatek", "przychód"], variable=type_var)
+        type_combobox.grid(row=2, column=1, pady=5, sticky="ew")
 
-        ttk.Label(frame, text="Opis:", font=("Helvetica", 12)).grid(row=3, column=0, sticky=tk.W, pady=5)
-        description_entry = ttk.Entry(frame)
-        description_entry.grid(row=3, column=1, pady=5, sticky=tk.EW)
+        ctk.CTkLabel(frame, text="Opis:", font=("Helvetica", 12)).grid(row=3, column=0, sticky=tk.W, pady=5)
+        description_entry = ctk.CTkEntry(frame)
+        description_entry.grid(row=3, column=1, pady=5, sticky="ew")
 
         frame.columnconfigure(1, weight=1)
 
@@ -196,23 +250,17 @@ class BudzetGUIView:
 
                 self.controller.model.dodaj_transakcje(transaction)
                 messagebox.showinfo("Sukces", "Transakcja dodana pomyślnie")
-                add_window.destroy()
                 self.update_main_frame_after_login()
             except ValueError as ve:
                 messagebox.showerror("Błąd", f"Nieprawidłowa wartość: {ve}")
 
-        add_button = ttk.Button(frame, text="Dodaj", command=add_transaction)
+        add_button = ctk.CTkButton(frame, text="Dodaj", command=add_transaction)
         add_button.grid(row=4, column=0, columnspan=2, pady=20)
 
     def show_transactions(self):
-        transactions_window = tk.Toplevel(self.root)
-        transactions_window.title("Lista transakcji")
-        transactions_window.geometry("700x500")
-        transactions_window.resizable(True, True)
-        transactions_window.configure(bg="#f0f0f0")
-
-        frame = ttk.Frame(transactions_window, padding="10")
-        frame.pack(fill=tk.BOTH, expand=True)
+        self.clear_content_frame()
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
         tree = ttk.Treeview(frame, columns=columns, show="headings")
@@ -223,7 +271,7 @@ class BudzetGUIView:
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
         tree.configure(yscroll=scrollbar.set)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        tree.pack(fill=tk.BOTH, expand=True)
+        tree.pack(fill="both", expand=True)
 
         for transaction in self.controller.model.transakcje:
             tree.insert("", "end", values=(transaction.kwota, transaction.kategoria, transaction.typ, transaction.opis, transaction.data))
@@ -237,18 +285,13 @@ class BudzetGUIView:
         self.show_report("Raport przychodów", report)
 
     def show_report(self, title, report):
+        self.clear_content_frame()
         if not report:
             messagebox.showinfo(title, "Brak danych do wyświetlenia raportu.")
             return
 
-        report_window = tk.Toplevel(self.root)
-        report_window.title(title)
-        report_window.geometry("500x400")
-        report_window.resizable(True, True)
-        report_window.configure(bg="#f0f0f0")
-
-        frame = ttk.Frame(report_window, padding="10")
-        frame.pack(fill=tk.BOTH, expand=True)
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         columns = ("Kategoria", "Kwota")
         tree = ttk.Treeview(frame, columns=columns, show="headings")
@@ -259,7 +302,7 @@ class BudzetGUIView:
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
         tree.configure(yscroll=scrollbar.set)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        tree.pack(fill=tk.BOTH, expand=True)
+        tree.pack(fill="both", expand=True)
 
         for category, amount in report.items():
             tree.insert("", "end", values=(category, f"{amount:.2f} zł"))
@@ -273,28 +316,27 @@ class BudzetGUIView:
         self.show_chart("Wykres przychodów", report)
 
     def show_chart(self, title, data):
+        self.clear_content_frame()
         if not data:
             messagebox.showinfo("Brak danych", "Brak danych do wyświetlenia wykresu.")
             return
 
-        chart_window = tk.Toplevel(self.root)
-        chart_window.title(title)
-        chart_window.geometry("600x500")
-        chart_window.resizable(True, True)
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         fig, ax = plt.subplots(figsize=(6, 4), dpi=100)
         ax.pie(data.values(), labels=data.keys(), autopct='%1.1f%%', startangle=90)
         ax.axis('equal')
         plt.title(title)
 
-        canvas = FigureCanvasTkAgg(fig, master=chart_window)
+        canvas = FigureCanvasTkAgg(fig, master=frame)
         canvas.draw()
-        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+        canvas.get_tk_widget().pack(fill="both", expand=True)
 
     def set_limit(self):
-        category = simpledialog.askstring("Ustaw limit", "Podaj kategorię:")
+        category = tk.simpledialog.askstring("Ustaw limit", "Podaj kategorię:")
         if category:
-            limit = simpledialog.askfloat("Ustaw limit", f"Podaj limit dla kategorii '{category}':", minvalue=0)
+            limit = tk.simpledialog.askfloat("Ustaw limit", f"Podaj limit dla kategorii '{category}':", minvalue=0)
             if limit is not None:
                 self.controller.model.ustaw_limit(category, limit)
                 messagebox.showinfo("Sukces", f"Ustawiono limit {limit:.2f} zł dla kategorii '{category}'")
@@ -324,7 +366,6 @@ class BudzetGUIView:
             messagebox.showerror("Import", f"Nie udało się zaimportować danych: {e}")
 
     def switch_to_curses(self):
-        # Zamknij okno GUI
         self.root.destroy()
         from curses_view import BudzetCursesView
         new_view = BudzetCursesView()
