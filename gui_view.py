@@ -19,7 +19,7 @@ class BudzetGUIView:
 
         self.create_main_menu()
         self.create_frames()
-        self.create_notebook()
+        # self.create_notebook()  # Usunięto metodę tworzenia notebooka
 
     def run(self):
         self.root.mainloop()
@@ -74,29 +74,6 @@ class BudzetGUIView:
         self.register_button = ttk.Button(self.main_frame, text="Zarejestruj się", command=self.show_register, width=20)
         self.register_button.pack(pady=10)
 
-    def create_notebook(self):
-        self.notebook = ttk.Notebook(self.root)
-        self.notebook.pack(fill=tk.BOTH, expand=True)
-
-        # Dodaj zakładki
-        self.home_tab = ttk.Frame(self.notebook)
-        self.notebook.add(self.home_tab, text="Strona Główna")
-
-        self.transactions_tab = ttk.Frame(self.notebook)
-        self.notebook.add(self.transactions_tab, text="Transakcje")
-
-        self.reports_tab = ttk.Frame(self.notebook)
-        self.notebook.add(self.reports_tab, text="Raporty")
-
-        self.limits_tab = ttk.Frame(self.notebook)
-        self.notebook.add(self.limits_tab, text="Limity")
-
-        # Ukryj notebook na początku
-        self.notebook.pack_forget()
-
-    def run(self):
-        self.root.mainloop()
-
     def show_login(self):
         login = simpledialog.askstring("Logowanie", "Podaj login:")
         if login:
@@ -119,25 +96,66 @@ class BudzetGUIView:
                     messagebox.showerror("Błąd rejestracji", "Użytkownik o takim loginie już istnieje")
 
     def update_main_frame_after_login(self):
+        # Ukryj główną ramkę logowania/rejestracji
         self.main_frame.pack_forget()
-        self.notebook.pack(fill=tk.BOTH, expand=True)
-        self.notebook.select(self.home_tab)
 
-        # Aktualizacja strony głównej
-        for widget in self.home_tab.winfo_children():
-            widget.destroy()
+        # Stwórz nową ramkę dla po zalogowaniu
+        self.logged_in_frame = ttk.Frame(self.root, padding="20")
+        self.logged_in_frame.pack(fill=tk.BOTH, expand=True)
 
-        welcome_label = ttk.Label(self.home_tab, text=f"Witaj, {self.controller.model.zalogowany_uzytkownik}!", font=("Helvetica", 16))
+        # Powitanie użytkownika
+        welcome_label = ttk.Label(self.logged_in_frame, text=f"Witaj, {self.controller.model.zalogowany_uzytkownik}!", font=("Helvetica", 16))
         welcome_label.pack(pady=20)
 
+        # Wyświetlenie salda
         balance = self.controller.model.oblicz_saldo()
-        balance_label = ttk.Label(self.home_tab, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14))
+        balance_label = ttk.Label(self.logged_in_frame, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14))
         balance_label.pack(pady=10)
+
+        # Dodaj przyciski funkcji
+        self.add_logged_in_buttons()
+
+    def add_logged_in_buttons(self):
+        # Ramka na przyciski
+        buttons_frame = ttk.Frame(self.logged_in_frame, padding="10")
+        buttons_frame.pack(pady=20)
+
+        # Dodaj Transakcję
+        add_transaction_button = ttk.Button(buttons_frame, text="Dodaj Transakcję", command=self.show_add_transaction, width=25)
+        add_transaction_button.grid(row=0, column=0, padx=10, pady=10)
+
+        # Pokaż Transakcje
+        view_transactions_button = ttk.Button(buttons_frame, text="Pokaż Transakcje", command=self.show_transactions, width=25)
+        view_transactions_button.grid(row=0, column=1, padx=10, pady=10)
+
+        # Raport Wydatków
+        expense_report_button = ttk.Button(buttons_frame, text="Raport Wydatków", command=self.show_expense_report, width=25)
+        expense_report_button.grid(row=1, column=0, padx=10, pady=10)
+
+        # Raport Przychodów
+        income_report_button = ttk.Button(buttons_frame, text="Raport Przychodów", command=self.show_income_report, width=25)
+        income_report_button.grid(row=1, column=1, padx=10, pady=10)
+
+        # Wykres Wydatków
+        expense_chart_button = ttk.Button(buttons_frame, text="Wykres Wydatków", command=self.show_expense_chart, width=25)
+        expense_chart_button.grid(row=2, column=0, padx=10, pady=10)
+
+        # Wykres Przychodów
+        income_chart_button = ttk.Button(buttons_frame, text="Wykres Przychodów", command=self.show_income_chart, width=25)
+        income_chart_button.grid(row=2, column=1, padx=10, pady=10)
+
+        # Ustaw Limity
+        set_limit_button = ttk.Button(buttons_frame, text="Ustaw Limity", command=self.set_limit, width=25)
+        set_limit_button.grid(row=3, column=0, padx=10, pady=10)
+
+        # Pokaż Limity
+        show_limits_button = ttk.Button(buttons_frame, text="Pokaż Limity", command=self.show_limits, width=25)
+        show_limits_button.grid(row=3, column=1, padx=10, pady=10)
 
     def logout(self):
         self.controller.model.zalogowany_uzytkownik = None
         messagebox.showinfo("Wylogowanie", "Wylogowano pomyślnie")
-        self.notebook.pack_forget()
+        self.logged_in_frame.pack_forget()
         self.create_frames()
 
     def show_add_transaction(self):
@@ -245,6 +263,10 @@ class BudzetGUIView:
         self.show_report("Raport przychodów", report)
 
     def show_report(self, title, report):
+        if not report:
+            messagebox.showinfo(title, "Brak danych do wyświetlenia raportu.")
+            return
+
         report_window = tk.Toplevel(self.root)
         report_window.title(title)
         report_window.geometry("500x400")
