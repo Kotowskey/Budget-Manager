@@ -1,3 +1,4 @@
+# view.py
 import tkinter as tk
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -5,6 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from model import Transakcja  # Upewnij się, że ten moduł istnieje
 import customtkinter as ctk
 from tkinter import ttk
+from tkinter import filedialog, messagebox
 
 class BudzetGUIView:
     def __init__(self, controller):
@@ -19,8 +21,6 @@ class BudzetGUIView:
         self.root.geometry("900x700")
         self.root.minsize(800, 600)
 
-        # Usunięto wywołanie create_main_menu
-        # self.create_main_menu()
         self.create_initial_frames()
 
     def run(self):
@@ -131,14 +131,18 @@ class BudzetGUIView:
         ctk.CTkButton(self.buttons_frame, text="Ustaw Limity", command=self.set_limit, width=200).grid(row=3, column=0, padx=10, pady=10)
         ctk.CTkButton(self.buttons_frame, text="Pokaż Limity", command=self.show_limits, width=200).grid(row=3, column=1, padx=10, pady=10)
         
+        # Nowe przyciski importu i eksportu
+        ctk.CTkButton(self.buttons_frame, text="Import CSV", command=self.import_from_csv, width=200).grid(row=4, column=0, padx=10, pady=10)
+        ctk.CTkButton(self.buttons_frame, text="Eksport CSV", command=self.export_to_csv, width=200).grid(row=4, column=1, padx=10, pady=10)
+
         # Dodanie przycisku "Wyloguj się"
         ctk.CTkButton(
-        self.buttons_frame,
-        text="Wyloguj się",
-        command=self.logout,
-        width=200,
-        fg_color="red"  # Kolor tła przycisku
-        ).grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+            self.buttons_frame,
+            text="Wyloguj się",
+            command=self.logout,
+            width=200,
+            fg_color="red"  # Kolor tła przycisku
+        ).grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
         # Ramka na dynamiczną zawartość
         self.content_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
@@ -330,36 +334,36 @@ class BudzetGUIView:
         self.show_report("Limity budżetowe", limits)
 
     def export_to_csv(self):
-        self.clear_content_frame()
-        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
-        frame.pack(fill="both", expand=True, padx=20, pady=20)
-
-        ctk.CTkLabel(frame, text="Eksport do CSV", font=("Helvetica", 16, "bold")).pack(pady=20)
-
-        message_label = ctk.CTkLabel(frame, text="", font=("Helvetica", 12))
-        message_label.pack(pady=10)
+        # Otwórz okno dialogowe do wyboru lokalizacji zapisu
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Eksportuj do CSV"
+        )
+        if not file_path:
+            return  # Użytkownik anulował operację
 
         try:
-            self.controller.model.eksportuj_do_csv()
-            message_label.configure(text="Dane zostały wyeksportowane do pliku CSV", text_color="green")
+            self.controller.model.eksportuj_do_csv(file_path)
+            messagebox.showinfo("Sukces", "Dane zostały wyeksportowane do pliku CSV.")
         except Exception as e:
-            message_label.configure(text=f"Nie udało się wyeksportować danych: {e}", text_color="red")
+            messagebox.showerror("Błąd", f"Nie udało się wyeksportować danych: {e}")
 
     def import_from_csv(self):
-        self.clear_content_frame()
-        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
-        frame.pack(fill="both", expand=True, padx=20, pady=20)
-
-        ctk.CTkLabel(frame, text="Import z CSV", font=("Helvetica", 16, "bold")).pack(pady=20)
-
-        message_label = ctk.CTkLabel(frame, text="", font=("Helvetica", 12))
-        message_label.pack(pady=10)
+        # Otwórz okno dialogowe do wyboru pliku do importu
+        file_path = filedialog.askopenfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Importuj z CSV"
+        )
+        if not file_path:
+            return  # Użytkownik anulował operację
 
         try:
-            if self.controller.model.importuj_z_csv():
-                message_label.configure(text="Dane zostały zaimportowane z pliku CSV", text_color="green")
+            if self.controller.model.importuj_z_csv(file_path):
+                messagebox.showinfo("Sukces", "Dane zostały zaimportowane z pliku CSV.")
                 self.show_transactions()
             else:
-                message_label.configure(text="Nie udało się zaimportować danych z pliku CSV", text_color="red")
+                messagebox.showwarning("Ostrzeżenie", "Nie udało się zaimportować danych z pliku CSV.")
         except Exception as e:
-            message_label.configure(text=f"Nie udało się zaimportować danych: {e}", text_color="red")
+            messagebox.showerror("Błąd", f"Nie udało się zaimportować danych: {e}")
