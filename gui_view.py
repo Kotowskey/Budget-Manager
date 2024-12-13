@@ -62,10 +62,7 @@ class BudzetGUIView:
         import_export_menu.add_command(label="Eksportuj do CSV", command=self.export_to_csv)
         import_export_menu.add_command(label="Importuj z CSV", command=self.import_from_csv)
 
-        # Widok Menu
-        view_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Widok", menu=view_menu)
-        view_menu.add_command(label="Przełącz na tryb tekstowy (curses)", command=self.switch_to_curses)
+        # Usunięto opcję przełączania na curses
 
     def create_initial_frames(self):
         self.main_frame = ctk.CTkFrame(self.root, corner_radius=10)
@@ -394,11 +391,3 @@ class BudzetGUIView:
                 message_label.configure(text="Nie udało się zaimportować danych z pliku CSV", text_color="red")
         except Exception as e:
             message_label.configure(text=f"Nie udało się zaimportować danych: {e}", text_color="red")
-
-    def switch_to_curses(self):
-        self.root.destroy()
-        from curses_view import BudzetCursesView  # Upewnij się, że ten moduł istnieje
-        new_view = BudzetCursesView()
-        new_view.controller = self.controller
-        self.controller.view = new_view
-        self.controller.view.run()
