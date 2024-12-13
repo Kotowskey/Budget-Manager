@@ -20494,5 +20494,12 @@
         "typ": "wydatek",
         "opis": "Teatr",
         "data": "2025-01-04"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "jedzenie",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-13"
     }
 ]

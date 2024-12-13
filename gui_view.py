@@ -2,10 +2,9 @@ import tkinter as tk
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from model import Transakcja
+from model import Transakcja  # Upewnij się, że ten moduł istnieje
 import customtkinter as ctk
 from tkinter import ttk
-
 
 class BudzetGUIView:
     def __init__(self, controller):
@@ -233,9 +232,11 @@ class BudzetGUIView:
 
                 self.controller.model.dodaj_transakcje(transaction)
                 message_label.configure(text="Transakcja dodana pomyślnie", text_color="green")
-                self.update_main_frame_after_login()
+                self.show_transactions()  # Odśwież listę transakcji
             except ValueError as ve:
                 message_label.configure(text=f"Błąd: {ve}", text_color="red")
+            except Exception as e:
+                message_label.configure(text=f"Nieoczekiwany błąd: {e}", text_color="red")
 
         ctk.CTkButton(frame, text="Dodaj", command=add_transaction).grid(row=4, column=0, columnspan=2, pady=20)
 
@@ -388,7 +389,7 @@ class BudzetGUIView:
         try:
             if self.controller.model.importuj_z_csv():
                 message_label.configure(text="Dane zostały zaimportowane z pliku CSV", text_color="green")
-                self.update_main_frame_after_login()
+                self.show_transactions()
             else:
                 message_label.configure(text="Nie udało się zaimportować danych z pliku CSV", text_color="red")
         except Exception as e:
@@ -396,7 +397,7 @@ class BudzetGUIView:
 
     def switch_to_curses(self):
         self.root.destroy()
-        from curses_view import BudzetCursesView
+        from curses_view import BudzetCursesView  # Upewnij się, że ten moduł istnieje
         new_view = BudzetCursesView()
         new_view.controller = self.controller
         self.controller.view = new_view

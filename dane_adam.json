@@ -12,5 +12,89 @@
         "typ": "przychód",
         "opis": "",
         "data": "2024-12-12"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "wydatek",
+        "opis": "ds",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "wydatek",
+        "opis": "ds",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
+    },
+    {
+        "kwota": 50.0,
+        "kategoria": "subskrybcje",
+        "typ": "przychód",
+        "opis": "dsfdfd",
+        "data": "2024-12-13"
     }
 ]
