@@ -121,6 +121,7 @@ class BudzetGUIView:
         self.buttons_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
         self.buttons_frame.pack(pady=20)
 
+        # Dodanie przycisków funkcjonalnych
         ctk.CTkButton(self.buttons_frame, text="Dodaj Transakcję", command=self.show_add_transaction, width=200).grid(row=0, column=0, padx=10, pady=10)
         ctk.CTkButton(self.buttons_frame, text="Pokaż Transakcje", command=self.show_transactions, width=200).grid(row=0, column=1, padx=10, pady=10)
         ctk.CTkButton(self.buttons_frame, text="Raport Wydatków", command=self.show_expense_report, width=200).grid(row=1, column=0, padx=10, pady=10)
@@ -129,6 +130,15 @@ class BudzetGUIView:
         ctk.CTkButton(self.buttons_frame, text="Wykres Przychodów", command=self.show_income_chart, width=200).grid(row=2, column=1, padx=10, pady=10)
         ctk.CTkButton(self.buttons_frame, text="Ustaw Limity", command=self.set_limit, width=200).grid(row=3, column=0, padx=10, pady=10)
         ctk.CTkButton(self.buttons_frame, text="Pokaż Limity", command=self.show_limits, width=200).grid(row=3, column=1, padx=10, pady=10)
+        
+        # Dodanie przycisku "Wyloguj się"
+        ctk.CTkButton(
+        self.buttons_frame,
+        text="Wyloguj się",
+        command=self.logout,
+        width=200,
+        fg_color="red"  # Kolor tła przycisku
+        ).grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
         # Ramka na dynamiczną zawartość
         self.content_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
