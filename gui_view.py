@@ -35,7 +35,7 @@ class BudzetGUIView:
         for widget in self.main_frame.winfo_children():
             widget.destroy()
 
-        ctk.CTkLabel(self.main_frame, text="Witaj w aplikacji budżetowej!",
+        ctk.CTkLabel(self.main_frame, text="Budget Manager",
                      font=("Helvetica", 18, "bold")).pack(pady=30)
 
         ctk.CTkButton(self.main_frame, text="Zaloguj się", command=self.show_login_form, width=200).pack(pady=10)
