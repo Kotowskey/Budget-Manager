@@ -19,50 +19,12 @@ class BudzetGUIView:
         self.root.geometry("900x700")
         self.root.minsize(800, 600)
 
-        self.create_main_menu()
+        # Usunięto wywołanie create_main_menu
+        # self.create_main_menu()
         self.create_initial_frames()
 
     def run(self):
         self.root.mainloop()
-
-    def create_main_menu(self):
-        menu_bar = tk.Menu(self.root)
-        self.root.config(menu=menu_bar)
-
-        # Plik Menu
-        file_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Plik", menu=file_menu)
-        file_menu.add_command(label="Wyloguj", command=self.logout)
-        file_menu.add_separator()
-        file_menu.add_command(label="Wyjście", command=self.root.quit)
-
-        # Transakcje Menu
-        transactions_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Transakcje", menu=transactions_menu)
-        transactions_menu.add_command(label="Dodaj transakcję", command=self.show_add_transaction)
-        transactions_menu.add_command(label="Pokaż transakcje", command=self.show_transactions)
-
-        # Podsumowania Menu
-        summary_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Podsumowania", menu=summary_menu)
-        summary_menu.add_command(label="Raport wydatków", command=self.show_expense_report)
-        summary_menu.add_command(label="Raport przychodów", command=self.show_income_report)
-        summary_menu.add_command(label="Wykres wydatków", command=self.show_expense_chart)
-        summary_menu.add_command(label="Wykres przychodów", command=self.show_income_chart)
-
-        # Limity Menu
-        limits_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Limity", menu=limits_menu)
-        limits_menu.add_command(label="Ustaw limit", command=self.set_limit)
-        limits_menu.add_command(label="Pokaż limity", command=self.show_limits)
-
-        # Import/Eksport Menu
-        import_export_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Import/Eksport", menu=import_export_menu)
-        import_export_menu.add_command(label="Eksportuj do CSV", command=self.export_to_csv)
-        import_export_menu.add_command(label="Importuj z CSV", command=self.import_from_csv)
-
-        # Usunięto opcję przełączania na curses
 
     def create_initial_frames(self):
         self.main_frame = ctk.CTkFrame(self.root, corner_radius=10)
