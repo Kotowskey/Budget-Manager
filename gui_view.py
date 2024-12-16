@@ -224,15 +224,27 @@ class BudzetGUIView:
         frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
         frame.pack(fill="both", expand=True, padx=10, pady=10)
 
-               # Dodanie przycisku "Usuń"
+        # Dodanie przycisków "Usuń" i "Edytuj"
+        buttons_frame = ctk.CTkFrame(frame)
+        buttons_frame.pack(pady=10)
+
         delete_button = ctk.CTkButton(
-            frame,
+            buttons_frame,
             text="Usuń Wybraną Transakcję",
             command=lambda: self.delete_selected_transaction(tree),
             fg_color="red",
             hover_color="darkred"
         )
-        delete_button.pack(pady=10)
+        delete_button.pack(side=tk.LEFT, padx=10)
+
+        edit_button = ctk.CTkButton(
+            buttons_frame,
+            text="Edytuj Wybraną Transakcję",
+            command=lambda: self.edit_selected_transaction(tree),
+            fg_color="orange",
+            hover_color="darkorange"
+        )
+        edit_button.pack(side=tk.LEFT, padx=10)
 
         columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
         tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
@@ -284,8 +296,100 @@ class BudzetGUIView:
         if success:
             messagebox.showinfo("Sukces", "Transakcja została pomyślnie usunięta.")
             self.show_transactions()  # Odświeżenie listy transakcji
+            self.balance_label.configure(text=f"Saldo: {self.controller.model.oblicz_saldo():.2f} zł")
         else:
             messagebox.showerror("Błąd", "Nie udało się usunąć transakcji.")
+
+    def edit_selected_transaction(self, tree):
+        selected_item = tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Brak wyboru", "Proszę wybrać transakcję do edycji.")
+            return
+
+        item_id = selected_item[0]
+        index = self.transaction_id_map.get(item_id)
+
+        if index is None:
+            messagebox.showerror("Błąd", "Nie można znaleźć wybranej transakcji.")
+            return
+
+        transaction = self.controller.model.transakcje[index]
+
+        # Tworzenie okna edycji
+        edit_window = ctk.CTkToplevel(self.root)
+        edit_window.title("Edytuj Transakcję")
+        edit_window.geometry("400x350")
+
+        frame = ctk.CTkFrame(edit_window, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=20, pady=20)
+
+        ctk.CTkLabel(frame, text="Kwota:", font=("Helvetica", 12)).grid(row=0, column=0, sticky=tk.W, pady=5)
+        amount_entry = ctk.CTkEntry(frame)
+        amount_entry.grid(row=0, column=1, pady=5, sticky="ew")
+        amount_entry.insert(0, f"{transaction.kwota:.2f}")
+
+        ctk.CTkLabel(frame, text="Kategoria:", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5)
+        category_entry = ctk.CTkEntry(frame)
+        category_entry.grid(row=1, column=1, pady=5, sticky="ew")
+        category_entry.insert(0, transaction.kategoria)
+
+        ctk.CTkLabel(frame, text="Typ:", font=("Helvetica", 12)).grid(row=2, column=0, sticky=tk.W, pady=5)
+        type_var = tk.StringVar(value=transaction.typ)
+        type_combobox = ctk.CTkComboBox(frame, values=["wydatek", "przychód"], variable=type_var)
+        type_combobox.grid(row=2, column=1, pady=5, sticky="ew")
+
+        ctk.CTkLabel(frame, text="Opis:", font=("Helvetica", 12)).grid(row=3, column=0, sticky=tk.W, pady=5)
+        description_entry = ctk.CTkEntry(frame)
+        description_entry.grid(row=3, column=1, pady=5, sticky="ew")
+        description_entry.insert(0, transaction.opis)
+
+        # Opcjonalnie: Możesz również umożliwić edycję daty
+        # ctk.CTkLabel(frame, text="Data:", font=("Helvetica", 12)).grid(row=4, column=0, sticky=tk.W, pady=5)
+        # date_entry = ctk.CTkEntry(frame)
+        # date_entry.grid(row=4, column=1, pady=5, sticky="ew")
+        # date_entry.insert(0, transaction.data)
+
+        message_label = ctk.CTkLabel(frame, text="", font=("Helvetica", 12), text_color="red")
+        message_label.grid(row=5, column=0, columnspan=2, pady=10)
+
+        frame.columnconfigure(1, weight=1)
+
+        def save_changes():
+            try:
+                amount = float(amount_entry.get())
+                category = category_entry.get().strip()
+                transaction_type = type_var.get()
+                description = description_entry.get().strip()
+                # data = date_entry.get().strip()  # Jeśli edytujesz datę
+
+                if not category:
+                    raise ValueError("Kategoria nie może być pusta")
+
+                if transaction_type.lower() == 'wydatek' and not self.controller.model.sprawdz_limit(category, amount):
+                    raise ValueError(f"Przekroczono limit dla kategorii '{category}'")
+
+                updated_transaction = Transakcja(
+                    kwota=amount,
+                    kategoria=category,
+                    typ=transaction_type,
+                    opis=description,
+                    data=transaction.data  # Zakładam, że data nie jest edytowana
+                )
+
+                success = self.controller.model.edytuj_transakcje(index, updated_transaction)
+                if success:
+                    message_label.configure(text="Transakcja zaktualizowana pomyślnie", text_color="green")
+                    self.balance_label.configure(text=f"Saldo: {self.controller.model.oblicz_saldo():.2f} zł")
+                    self.show_transactions()
+                    edit_window.destroy()
+                else:
+                    message_label.configure(text="Nie udało się zaktualizować transakcji", text_color="red")
+            except ValueError as ve:
+                message_label.configure(text=f"Błąd: {ve}", text_color="red")
+            except Exception as e:
+                message_label.configure(text=f"Nieoczekiwany błąd: {e}", text_color="red")
+
+        ctk.CTkButton(frame, text="Zapisz Zmiany", command=save_changes).grid(row=6, column=0, columnspan=2, pady=20)
 
     def show_expense_report(self):
         report = self.controller.model.generuj_raport_wydatkow()
