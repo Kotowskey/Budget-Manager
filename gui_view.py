@@ -135,7 +135,7 @@ class BudzetGUIView:
         # Nowe przyciski importu i eksportu
         ctk.CTkButton(self.buttons_frame, text="Import CSV", command=self.import_from_csv, width=200).grid(row=4, column=0, padx=10, pady=10)
         ctk.CTkButton(self.buttons_frame, text="Eksport CSV", command=self.export_to_csv, width=200).grid(row=4, column=1, padx=10, pady=10)
-
+        
         # Dodanie przycisku "Wyloguj się"
         ctk.CTkButton(
             self.buttons_frame,
@@ -144,7 +144,7 @@ class BudzetGUIView:
             width=200,
             fg_color="red",  # Kolor tła przycisku
             hover_color="darkred"
-        ).grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+        ).grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
         # Ramka na dynamiczną zawartość
         self.content_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
@@ -182,8 +182,14 @@ class BudzetGUIView:
         description_entry = ctk.CTkEntry(frame)
         description_entry.grid(row=3, column=1, pady=5, sticky="ew")
 
+        # Dodanie pola do wpisywania daty
+        ctk.CTkLabel(frame, text="Data (YYYY-MM-DD):", font=("Helvetica", 12)).grid(row=4, column=0, sticky=tk.W, pady=5)
+        date_entry = ctk.CTkEntry(frame)
+        date_entry.grid(row=4, column=1, pady=5, sticky="ew")
+        date_entry.insert(0, datetime.now().strftime('%Y-%m-%d'))  # Domyślna data
+
         message_label = ctk.CTkLabel(frame, text="", font=("Helvetica", 12), text_color="red")
-        message_label.grid(row=5, column=0, columnspan=2, pady=10)
+        message_label.grid(row=6, column=0, columnspan=2, pady=10)
 
         frame.columnconfigure(1, weight=1)
 
@@ -193,9 +199,17 @@ class BudzetGUIView:
                 category = category_entry.get().strip()
                 transaction_type = type_var.get()
                 description = description_entry.get().strip()
+                date_str = date_entry.get().strip()
 
                 if not category:
                     raise ValueError("Kategoria nie może być pusta")
+
+                # Walidacja daty
+                try:
+                    datetime_obj = datetime.strptime(date_str, '%Y-%m-%d')
+                    date_formatted = datetime_obj.strftime('%Y-%m-%d')
+                except ValueError:
+                    raise ValueError("Nieprawidłowy format daty. Użyj YYYY-MM-DD.")
 
                 if transaction_type.lower() == 'wydatek' and not self.controller.model.sprawdz_limit(category, amount):
                     raise ValueError(f"Przekroczono limit dla kategorii '{category}'")
@@ -205,7 +219,7 @@ class BudzetGUIView:
                     kategoria=category,
                     typ=transaction_type,
                     opis=description,
-                    data=datetime.now().strftime('%Y-%m-%d')
+                    data=date_formatted
                 )
 
                 self.controller.model.dodaj_transakcje(transaction)
@@ -217,7 +231,7 @@ class BudzetGUIView:
             except Exception as e:
                 message_label.configure(text=f"Nieoczekiwany błąd: {e}", text_color="red")
 
-        ctk.CTkButton(frame, text="Dodaj", command=add_transaction).grid(row=4, column=0, columnspan=2, pady=20)
+        ctk.CTkButton(frame, text="Dodaj", command=add_transaction).grid(row=5, column=0, columnspan=2, pady=20)
 
     def show_transactions(self):
         self.clear_content_frame()
@@ -245,6 +259,16 @@ class BudzetGUIView:
             hover_color="darkorange"
         )
         edit_button.pack(side=tk.LEFT, padx=10)
+
+        # Nowy przycisk do filtrowania transakcji
+        filter_button = ctk.CTkButton(
+            buttons_frame,
+            text="Filtruj Transakcje",
+            command=self.show_filter_transactions,
+            fg_color="blue",
+            hover_color="darkblue"
+        )
+        filter_button.pack(side=tk.LEFT, padx=10)
 
         columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
         tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
@@ -318,7 +342,7 @@ class BudzetGUIView:
         # Tworzenie okna edycji
         edit_window = ctk.CTkToplevel(self.root)
         edit_window.title("Edytuj Transakcję")
-        edit_window.geometry("400x350")
+        edit_window.geometry("400x400")
 
         frame = ctk.CTkFrame(edit_window, corner_radius=10)
         frame.pack(fill="both", expand=True, padx=20, pady=20)
@@ -343,14 +367,14 @@ class BudzetGUIView:
         description_entry.grid(row=3, column=1, pady=5, sticky="ew")
         description_entry.insert(0, transaction.opis)
 
-        # Opcjonalnie: Możesz również umożliwić edycję daty
-        # ctk.CTkLabel(frame, text="Data:", font=("Helvetica", 12)).grid(row=4, column=0, sticky=tk.W, pady=5)
-        # date_entry = ctk.CTkEntry(frame)
-        # date_entry.grid(row=4, column=1, pady=5, sticky="ew")
-        # date_entry.insert(0, transaction.data)
+        # Dodanie pola do edycji daty
+        ctk.CTkLabel(frame, text="Data (YYYY-MM-DD):", font=("Helvetica", 12)).grid(row=4, column=0, sticky=tk.W, pady=5)
+        date_entry = ctk.CTkEntry(frame)
+        date_entry.grid(row=4, column=1, pady=5, sticky="ew")
+        date_entry.insert(0, transaction.data)
 
         message_label = ctk.CTkLabel(frame, text="", font=("Helvetica", 12), text_color="red")
-        message_label.grid(row=5, column=0, columnspan=2, pady=10)
+        message_label.grid(row=6, column=0, columnspan=2, pady=10)
 
         frame.columnconfigure(1, weight=1)
 
@@ -360,10 +384,17 @@ class BudzetGUIView:
                 category = category_entry.get().strip()
                 transaction_type = type_var.get()
                 description = description_entry.get().strip()
-                # data = date_entry.get().strip()  # Jeśli edytujesz datę
+                date_str = date_entry.get().strip()
 
                 if not category:
                     raise ValueError("Kategoria nie może być pusta")
+
+                # Walidacja daty
+                try:
+                    datetime_obj = datetime.strptime(date_str, '%Y-%m-%d')
+                    date_formatted = datetime_obj.strftime('%Y-%m-%d')
+                except ValueError:
+                    raise ValueError("Nieprawidłowy format daty. Użyj YYYY-MM-DD.")
 
                 if transaction_type.lower() == 'wydatek' and not self.controller.model.sprawdz_limit(category, amount):
                     raise ValueError(f"Przekroczono limit dla kategorii '{category}'")
@@ -373,7 +404,7 @@ class BudzetGUIView:
                     kategoria=category,
                     typ=transaction_type,
                     opis=description,
-                    data=transaction.data  # Zakładam, że data nie jest edytowana
+                    data=date_formatted
                 )
 
                 success = self.controller.model.edytuj_transakcje(index, updated_transaction)
@@ -389,7 +420,7 @@ class BudzetGUIView:
             except Exception as e:
                 message_label.configure(text=f"Nieoczekiwany błąd: {e}", text_color="red")
 
-        ctk.CTkButton(frame, text="Zapisz Zmiany", command=save_changes).grid(row=6, column=0, columnspan=2, pady=20)
+        ctk.CTkButton(frame, text="Zapisz Zmiany", command=save_changes).grid(row=5, column=0, columnspan=2, pady=20)
 
     def show_expense_report(self):
         report = self.controller.model.generuj_raport_wydatkow()
@@ -551,7 +582,6 @@ class BudzetGUIView:
         else:
             messagebox.showerror("Błąd", f"Nie udało się usunąć limitu dla kategorii '{kategoria}'.")
 
-
     def export_to_csv(self):
         # Otwórz okno dialogowe do wyboru lokalizacji zapisu
         file_path = filedialog.asksaveasfilename(
@@ -587,3 +617,85 @@ class BudzetGUIView:
                 messagebox.showwarning("Ostrzeżenie", "Nie udało się zaimportować danych z pliku CSV.")
         except Exception as e:
             messagebox.showerror("Błąd", f"Nie udało się zaimportować danych: {e}")
+
+    # --- Dodane metody do filtrowania transakcji ---
+
+    def show_filter_transactions(self):
+        self.clear_content_frame()
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=20, pady=20)
+
+        ctk.CTkLabel(frame, text="Filtruj Transakcje", font=("Helvetica", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
+
+        ctk.CTkLabel(frame, text="Data początkowa (YYYY-MM-DD):", font=("Helvetica", 12)).grid(row=1, column=0, sticky=tk.W, pady=5)
+        start_date_entry = ctk.CTkEntry(frame)
+        start_date_entry.grid(row=1, column=1, pady=5, sticky="ew")
+
+        ctk.CTkLabel(frame, text="Data końcowa (YYYY-MM-DD):", font=("Helvetica", 12)).grid(row=2, column=0, sticky=tk.W, pady=5)
+        end_date_entry = ctk.CTkEntry(frame)
+        end_date_entry.grid(row=2, column=1, pady=5, sticky="ew")
+
+        message_label = ctk.CTkLabel(frame, text="", font=("Helvetica", 12), text_color="red")
+        message_label.grid(row=4, column=0, columnspan=2, pady=10)
+
+        frame.columnconfigure(1, weight=1)
+
+        def apply_filter():
+            start_date = start_date_entry.get().strip()
+            end_date = end_date_entry.get().strip()
+            try:
+                # Walidacja dat
+                datetime.strptime(start_date, '%Y-%m-%d')
+                datetime.strptime(end_date, '%Y-%m-%d')
+
+                filtered_transactions = self.controller.model.filtruj_transakcje_po_dacie(start_date, end_date)
+                if not filtered_transactions:
+                    message_label.configure(text="Brak transakcji w podanym zakresie dat.", text_color="orange")
+                else:
+                    self.display_filtered_transactions(filtered_transactions)
+            except ValueError:
+                message_label.configure(text="Nieprawidłowy format daty. Użyj YYYY-MM-DD.", text_color="red")
+            except Exception as e:
+                message_label.configure(text=f"Nieoczekiwany błąd: {e}", text_color="red")
+
+        ctk.CTkButton(frame, text="Filtruj", command=apply_filter).grid(row=3, column=0, columnspan=2, pady=20)
+
+    def display_filtered_transactions(self, transactions):
+        self.clear_content_frame()
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+        # Dodanie przycisków "Powrót"
+        buttons_frame = ctk.CTkFrame(frame)
+        buttons_frame.pack(pady=10)
+
+        back_button = ctk.CTkButton(
+            buttons_frame,
+            text="Powrót do Transakcji",
+            command=self.show_transactions,
+            fg_color="blue",
+            hover_color="darkblue"
+        )
+        back_button.pack(side=tk.LEFT, padx=10)
+
+        columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
+        tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
+        for col in columns:
+            tree.heading(col, text=col)
+            tree.column(col, anchor=tk.CENTER, width=100)
+
+        scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
+        tree.configure(yscroll=scrollbar.set)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        tree.pack(fill="both", expand=True)
+
+        for transaction in transactions:
+            tree.insert("", "end", values=(
+                f"{transaction.kwota:.2f} zł",
+                transaction.kategoria,
+                transaction.typ.capitalize(),
+                transaction.opis,
+                transaction.data
+            ))
+
+    # --- Koniec dodanych metod ---

@@ -12,5 +12,26 @@
         "typ": "przychód",
         "opis": "",
         "data": "2024-12-12"
+    },
+    {
+        "kwota": 250.0,
+        "kategoria": "jedzenie",
+        "typ": "wydatek",
+        "opis": "uber eats",
+        "data": "2024-12-16"
+    },
+    {
+        "kwota": 250.0,
+        "kategoria": "jedzenie",
+        "typ": "wydatek",
+        "opis": "uber eats",
+        "data": "2024-12-16"
+    },
+    {
+        "kwota": 250.0,
+        "kategoria": "jedzenie",
+        "typ": "wydatek",
+        "opis": "uber eats",
+        "data": "2024-01-01"
     }
 ]
