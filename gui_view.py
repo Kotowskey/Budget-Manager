@@ -489,8 +489,68 @@ class BudzetGUIView:
         ctk.CTkButton(frame, text="Zapisz", command=save_limit).grid(row=3, column=0, columnspan=2, pady=20)
 
     def show_limits(self):
+        self.clear_content_frame()
         limits = self.controller.model.limity
-        self.show_report("Limity budżetowe", limits)
+
+        if not limits:
+            frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+            frame.pack(fill="both", expand=True, padx=10, pady=10)
+            ctk.CTkLabel(frame, text="Brak ustawionych limitów.", font=("Helvetica", 12)).pack(pady=20)
+            return
+
+        frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
+        frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+        ctk.CTkLabel(frame, text="Limity Budżetowe", font=("Helvetica", 16, "bold")).pack(pady=10)
+
+        columns = ("Kategoria", "Limit (zł)")
+        tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
+        for col in columns:
+            tree.heading(col, text=col)
+            tree.column(col, anchor=tk.CENTER, width=150)
+
+        scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
+        tree.configure(yscroll=scrollbar.set)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        tree.pack(fill="both", expand=True)
+
+        for kategoria, limit in limits.items():
+            tree.insert("", "end", values=(kategoria, f"{limit:.2f} zł"))
+
+        buttons_frame = ctk.CTkFrame(frame)
+        buttons_frame.pack(pady=10)
+
+        delete_button = ctk.CTkButton(
+            buttons_frame,
+            text="Usuń Wybrany Limit",
+            command=lambda: self.delete_selected_limit(tree),
+            fg_color="red",
+            hover_color="darkred"
+        )
+        delete_button.pack(side=tk.LEFT, padx=10)
+
+    def delete_selected_limit(self, tree):
+        selected_item = tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Brak wyboru", "Proszę wybrać limit do usunięcia.")
+            return
+
+        item = tree.item(selected_item)
+        kategoria = item['values'][0]
+
+        # Potwierdzenie usunięcia
+        confirm = messagebox.askyesno("Potwierdzenie", f"Czy na pewno chcesz usunąć limit dla kategorii '{kategoria}'?")
+        if not confirm:
+            return
+
+        # Próba usunięcia limitu z modelu
+        success = self.controller.model.usun_limit(kategoria)
+        if success:
+            messagebox.showinfo("Sukces", f"Limit dla kategorii '{kategoria}' został usunięty.")
+            self.show_limits()  # Odświeżenie widoku limitów
+        else:
+            messagebox.showerror("Błąd", f"Nie udało się usunąć limitu dla kategorii '{kategoria}'.")
+
 
     def export_to_csv(self):
         # Otwórz okno dialogowe do wyboru lokalizacji zapisu
