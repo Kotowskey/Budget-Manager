@@ -12,12 +12,5 @@
         "typ": "przychód",
         "opis": "",
         "data": "2024-12-12"
-    },
-    {
-        "kwota": 50.0,
-        "kategoria": "subskrybcje",
-        "typ": "wydatek",
-        "opis": "",
-        "data": "2024-12-13"
     }
 ]

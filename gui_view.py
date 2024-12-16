@@ -224,6 +224,16 @@ class BudzetGUIView:
         frame = ctk.CTkFrame(self.content_frame, corner_radius=10)
         frame.pack(fill="both", expand=True, padx=10, pady=10)
 
+               # Dodanie przycisku "Usuń"
+        delete_button = ctk.CTkButton(
+            frame,
+            text="Usuń Wybraną Transakcję",
+            command=lambda: self.delete_selected_transaction(tree),
+            fg_color="red",
+            hover_color="darkred"
+        )
+        delete_button.pack(pady=10)
+
         columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
         tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
         for col in columns:
@@ -247,16 +257,6 @@ class BudzetGUIView:
                 transaction.data
             ))
             self.transaction_id_map[item_id] = index
-
-        # Dodanie przycisku "Usuń"
-        delete_button = ctk.CTkButton(
-            frame,
-            text="Usuń Wybraną Transakcję",
-            command=lambda: self.delete_selected_transaction(tree),
-            fg_color="red",
-            hover_color="darkred"
-        )
-        delete_button.pack(pady=10)
 
         # Aktualizacja salda po wyświetleniu transakcji
         self.balance_label.configure(text=f"Saldo: {self.controller.model.oblicz_saldo():.2f} zł")
