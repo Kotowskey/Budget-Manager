@@ -116,7 +116,8 @@ class BudzetGUIView:
                      font=("Helvetica", 16)).pack(pady=20)
 
         balance = self.controller.model.oblicz_saldo()
-        ctk.CTkLabel(self.logged_in_frame, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14)).pack(pady=10)
+        self.balance_label = ctk.CTkLabel(self.logged_in_frame, text=f"Saldo: {balance:.2f} zł", font=("Helvetica", 14))
+        self.balance_label.pack(pady=10)
 
         self.buttons_frame = ctk.CTkFrame(self.logged_in_frame, corner_radius=10)
         self.buttons_frame.pack(pady=20)
@@ -141,7 +142,8 @@ class BudzetGUIView:
             text="Wyloguj się",
             command=self.logout,
             width=200,
-            fg_color="red"  # Kolor tła przycisku
+            fg_color="red",  # Kolor tła przycisku
+            hover_color="darkred"
         ).grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
         # Ramka na dynamiczną zawartość
@@ -195,6 +197,9 @@ class BudzetGUIView:
                 if not category:
                     raise ValueError("Kategoria nie może być pusta")
 
+                if transaction_type.lower() == 'wydatek' and not self.controller.model.sprawdz_limit(category, amount):
+                    raise ValueError(f"Przekroczono limit dla kategorii '{category}'")
+
                 transaction = Transakcja(
                     kwota=amount,
                     kategoria=category,
@@ -204,6 +209,7 @@ class BudzetGUIView:
                 )
 
                 self.controller.model.dodaj_transakcje(transaction)
+                self.balance_label.configure(text=f"Saldo: {self.controller.model.oblicz_saldo():.2f} zł")
                 message_label.configure(text="Transakcja dodana pomyślnie", text_color="green")
                 self.show_transactions()  # Odśwież listę transakcji
             except ValueError as ve:
@@ -219,18 +225,67 @@ class BudzetGUIView:
         frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         columns = ("Kwota", "Kategoria", "Typ", "Opis", "Data")
-        tree = ttk.Treeview(frame, columns=columns, show="headings")
+        tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
         for col in columns:
             tree.heading(col, text=col)
-            tree.column(col, anchor=tk.CENTER)
+            tree.column(col, anchor=tk.CENTER, width=100)
 
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=tree.yview)
         tree.configure(yscroll=scrollbar.set)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         tree.pack(fill="both", expand=True)
 
-        for transaction in self.controller.model.transakcje:
-            tree.insert("", "end", values=(transaction.kwota, transaction.kategoria, transaction.typ, transaction.opis, transaction.data))
+        # Przechowujemy mapowanie id Treeview do indeksów
+        self.transaction_id_map = {}
+
+        for index, transaction in enumerate(self.controller.model.transakcje):
+            item_id = tree.insert("", "end", values=(
+                f"{transaction.kwota:.2f} zł",
+                transaction.kategoria,
+                transaction.typ.capitalize(),
+                transaction.opis,
+                transaction.data
+            ))
+            self.transaction_id_map[item_id] = index
+
+        # Dodanie przycisku "Usuń"
+        delete_button = ctk.CTkButton(
+            frame,
+            text="Usuń Wybraną Transakcję",
+            command=lambda: self.delete_selected_transaction(tree),
+            fg_color="red",
+            hover_color="darkred"
+        )
+        delete_button.pack(pady=10)
+
+        # Aktualizacja salda po wyświetleniu transakcji
+        self.balance_label.configure(text=f"Saldo: {self.controller.model.oblicz_saldo():.2f} zł")
+
+    def delete_selected_transaction(self, tree):
+        selected_item = tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Brak wyboru", "Proszę wybrać transakcję do usunięcia.")
+            return
+
+        item_id = selected_item[0]
+        index = self.transaction_id_map.get(item_id)
+
+        if index is None:
+            messagebox.showerror("Błąd", "Nie można znaleźć wybranej transakcji.")
+            return
+
+        # Potwierdzenie usunięcia
+        confirm = messagebox.askyesno("Potwierdzenie", "Czy na pewno chcesz usunąć wybraną transakcję?")
+        if not confirm:
+            return
+
+        # Próba usunięcia transakcji z modelu
+        success = self.controller.model.usun_transakcje(index)
+        if success:
+            messagebox.showinfo("Sukces", "Transakcja została pomyślnie usunięta.")
+            self.show_transactions()  # Odświeżenie listy transakcji
+        else:
+            messagebox.showerror("Błąd", "Nie udało się usunąć transakcji.")
 
     def show_expense_report(self):
         report = self.controller.model.generuj_raport_wydatkow()
@@ -363,6 +418,7 @@ class BudzetGUIView:
             if self.controller.model.importuj_z_csv(file_path):
                 messagebox.showinfo("Sukces", "Dane zostały zaimportowane z pliku CSV.")
                 self.show_transactions()
+                self.balance_label.configure(text=f"Saldo: {self.controller.model.oblicz_saldo():.2f} zł")
             else:
                 messagebox.showwarning("Ostrzeżenie", "Nie udało się zaimportować danych z pliku CSV.")
         except Exception as e:
