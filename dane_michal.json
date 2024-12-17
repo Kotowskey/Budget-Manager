@@ -1,0 +1,51 @@
+[
+    {
+        "kwota": 250.0,
+        "kategoria": "jedzenie",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-17"
+    },
+    {
+        "kwota": 2500.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2024-12-17"
+    },
+    {
+        "kwota": 5000.0,
+        "kategoria": "b2b",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2024-12-17"
+    },
+    {
+        "kwota": 800.0,
+        "kategoria": "czynsz",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-17"
+    },
+    {
+        "kwota": 600.0,
+        "kategoria": "ubrania",
+        "typ": "wydatek",
+        "opis": "reserved",
+        "data": "2024-12-01"
+    },
+    {
+        "kwota": 700.0,
+        "kategoria": "kryptowaluty",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2024-12-02"
+    },
+    {
+        "kwota": 300.0,
+        "kategoria": "dywidendy",
+        "typ": "przychód",
+        "opis": "akcje",
+        "data": "2024-12-17"
+    }
+]

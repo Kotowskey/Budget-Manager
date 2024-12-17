@@ -1,9 +1,8 @@
-# view.py
 import tkinter as tk
 from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from model import Transakcja  # Upewnij się, że ten moduł istnieje
+from model import Transakcja 
 import customtkinter as ctk
 from tkinter import ttk
 from tkinter import filedialog, messagebox
@@ -13,7 +12,7 @@ class BudzetGUIView:
         self.controller = controller
 
         # Ustawienia customtkinter
-        ctk.set_appearance_mode("System")  # lub "Dark", "Light"
+        ctk.set_appearance_mode("System")
         ctk.set_default_color_theme("blue")
 
         self.root = ctk.CTk()
