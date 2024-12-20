@@ -5,7 +5,7 @@ from curses_view import BudzetCursesView
 
 def main():
     parser = argparse.ArgumentParser(description="Aplikacja Budżetowa")
-    parser.add_argument("--interface", choices=["gui", "tui"], default="gui", 
+    parser.add_argument("--interface", choices=["gui", "tui"], default="tui", 
                         help="Wybierz interfejs: 'gui' (graficzny) lub 'tui' (terminalowy)")
     args = parser.parse_args()
 
