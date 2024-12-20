@@ -1,3 +1,4 @@
+# model.py
 import json
 import os
 from datetime import datetime
@@ -12,6 +13,73 @@ logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
+##########################################
+# Wzorzec projektowy: OBSERVER (Obserwator)
+##########################################
+
+class Obserwator:
+    def aktualizuj(self, podmiot: 'Podmiot'):
+        raise NotImplementedError
+
+class Podmiot:
+    def __init__(self):
+        self.obserwatorzy: List[Obserwator] = []
+
+    def dodaj(self, obserwator: Obserwator) -> None:
+        self.obserwatorzy.append(obserwator)
+
+    def usun(self, obserwator: Obserwator) -> None:
+        if obserwator in self.obserwatorzy:
+            self.obserwatorzy.remove(obserwator)
+
+    def powiadomObserwatorow(self) -> None:
+        for obs in self.obserwatorzy:
+            obs.aktualizuj(self)
+
+class Cel(Obserwator):
+    def __init__(self, cel_oszczednosci: float):
+        self.cel_oszczednosci = cel_oszczednosci
+        self.obecneOszczednosci = 0.0
+
+    def aktualizuj(self, podmiot: 'Podmiot'):
+        # Aktualizacja celu na podstawie zmian w podmiocie (dochód/wydatek)
+        if isinstance(podmiot, Dochod):
+            # Dochód zwiększa obecne oszczędności
+            self.obecneOszczednosci += podmiot.ostatnia_kwota
+        elif isinstance(podmiot, Wydatek):
+            # Wydatek zmniejsza obecne oszczędności
+            self.obecneOszczednosci -= podmiot.ostatnia_kwota
+        self.monitorujPostep()
+
+    def monitorujPostep(self):
+        if self.cel_oszczednosci > 0:
+            procent = (self.obecneOszczednosci / self.cel_oszczednosci) * 100
+            logging.info(f"Postęp w realizacji celu oszczędności: {procent:.2f}%")
+        else:
+            logging.info("Brak zdefiniowanego celu oszczędnościowego lub cel jest równy 0.")
+
+class Dochod(Podmiot):
+    def __init__(self):
+        super().__init__()
+        self.ostatnia_kwota = 0.0
+
+    def dodajDochód(self, kwota: float):
+        self.ostatnia_kwota = kwota
+        self.powiadomObserwatorow()
+
+class Wydatek(Podmiot):
+    def __init__(self):
+        super().__init__()
+        self.ostatnia_kwota = 0.0
+
+    def dodajWydatek(self, kwota: float):
+        self.ostatnia_kwota = kwota
+        self.powiadomObserwatorow()
+
+##########################################
+# Klasy modelu budżetu
+##########################################
 
 @dataclass
 class Transakcja:
@@ -33,6 +101,18 @@ class BudzetModel:
         self.przychody_kategorie: Dict[str, float] = {}
         self.zalogowany_uzytkownik: Optional[str] = None
         self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
+
+        # Inicjalizacja podmiotów i obserwatora (cele)
+        # Załóżmy cel 10000 zł oszczędności - można zmienić według potrzeb
+        self.cel_oszczedzania = Cel(10000.0)
+
+        self.dochod = Dochod()
+        self.wydatek = Wydatek()
+
+        # Podłączanie obserwatora do podmiotów
+        self.dochod.dodaj(self.cel_oszczedzania)
+        self.wydatek.dodaj(self.cel_oszczedzania)
+
         logging.info("Inicjalizacja modelu budżetu zakończona.")
 
     def zaloguj(self, login: str, haslo: str) -> bool:
@@ -82,8 +162,13 @@ class BudzetModel:
         self.transakcje.append(transakcja)
         if transakcja.typ.lower() == 'wydatek':
             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+            # Wywołanie obserwatora przez podmiot Wydatek
+            self.wydatek.dodajWydatek(transakcja.kwota)
         elif transakcja.typ.lower() == 'przychód':
             self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+            # Wywołanie obserwatora przez podmiot Dochod
+            self.dochod.dodajDochód(transakcja.kwota)
+
         self.zapisz_dane()
         logging.info(f"Dodano transakcję: {transakcja}")
 
@@ -115,10 +200,17 @@ class BudzetModel:
                 self.przychody_kategorie[transakcja_stara.kategoria] -= transakcja_stara.kwota
                 if self.przychody_kategorie[transakcja_stara.kategoria] <= 0:
                     del self.przychody_kategorie[transakcja_stara.kategoria]
+
+            # Dodajemy nową transakcję
             if transakcja.typ.lower() == 'wydatek':
                 self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                # Wywołanie obserwatora przez podmiot Wydatek
+                self.wydatek.dodajWydatek(transakcja.kwota)
             elif transakcja.typ.lower() == 'przychód':
                 self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                # Wywołanie obserwatora przez podmiot Dochod
+                self.dochod.dodajDochód(transakcja.kwota)
+
             self.transakcje[indeks] = transakcja
             self.zapisz_dane()
             logging.info(f"Edytowano transakcję na indeksie {indeks}: {transakcja}")
@@ -136,7 +228,7 @@ class BudzetModel:
             logging.error(f"Błąd zapisu danych: {e}")
 
     def wczytaj_dane(self) -> None:
-        if os.path.exists(self.plik_danych):
+        if hasattr(self, 'plik_danych') and os.path.exists(self.plik_danych):
             try:
                 with open(self.plik_danych, 'r', encoding='utf-8') as plik:
                     dane = json.load(plik)
@@ -191,8 +283,11 @@ class BudzetModel:
                         self.transakcje.append(transakcja)
                         if transakcja.typ.lower() == 'wydatek':
                             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                            self.wydatek.dodajWydatek(transakcja.kwota)
                         elif transakcja.typ.lower() == 'przychód':
                             self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                            self.dochod.dodajDochód(transakcja.kwota)
+
                 self.zapisz_dane()
                 logging.info(f"Transakcje zaimportowane z pliku CSV: {nazwa_pliku}")
                 return True
@@ -204,7 +299,7 @@ class BudzetModel:
             return False
 
     def wczytaj_limity(self) -> None:
-        if os.path.exists(self.plik_limity):
+        if hasattr(self, 'plik_limity') and os.path.exists(self.plik_limity):
             try:
                 with open(self.plik_limity, 'r', encoding='utf-8') as plik:
                     self.limity = json.load(plik)
@@ -283,3 +378,4 @@ class BudzetModel:
             if t.typ.lower() == 'przychód':
                 self.przychody_kategorie[t.kategoria] = self.przychody_kategorie.get(t.kategoria, 0) + t.kwota
         logging.debug("Obliczono przychody dla każdej kategorii.")
+

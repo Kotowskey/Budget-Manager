@@ -1,3 +1,4 @@
+# view.py
 import curses
 from datetime import datetime
 from typing import Optional, Tuple, Dict
@@ -59,7 +60,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
-        menu_length = 5  # Zaktualizowano długość menu
+        menu_length = 5
         while True:
             self.wyswietl_glowne_menu_kategorii()
             key = self.stdscr.getch()
@@ -69,10 +70,10 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
-                return None  # Zwracamy None, gdy naciśnięto ESC
+                return None
             self.stdscr.refresh()
 
     def wyswietl_podmenu_limity(self) -> None:
@@ -98,7 +99,7 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
                 return None
@@ -114,7 +115,7 @@ class BudzetCursesView:
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
-        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
+        self.wyswietl_footer()
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_transakcje(self) -> Optional[str]:
@@ -128,10 +129,10 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
-                return None  # Zwracamy None, gdy naciśnięto ESC
+                return None
             self.stdscr.refresh()
 
     def wyswietl_podmenu_podsumowania(self) -> None:
@@ -143,11 +144,11 @@ class BudzetCursesView:
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
-        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
+        self.wyswietl_footer()
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_podsumowania(self) -> Optional[str]:
-        menu_length = 4  # Zaktualizowano liczebność menu
+        menu_length = 4
         while True:
             self.wyswietl_podmenu_podsumowania()
             key = self.stdscr.getch()
@@ -157,10 +158,10 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
-                return None  # Zwracamy None, gdy naciśnięto ESC
+                return None
             self.stdscr.refresh()
 
     def wyswietl_podmenu_raportow(self) -> None:
@@ -185,7 +186,7 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
                 return None
@@ -213,7 +214,7 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
                 return None
@@ -230,10 +231,6 @@ class BudzetCursesView:
                 self.stdscr.attroff(curses.color_pair(1))
             else:
                 self.stdscr.addstr(y, x, row)
-
-
-    def pobierz_opcje(self) -> str:
-        pass
 
     def wyswietl_ekran_logowania(self) -> None:
         self.stdscr.clear()
@@ -259,7 +256,7 @@ class BudzetCursesView:
                 self.stdscr.attroff(curses.color_pair(1))
             else:
                 self.stdscr.addstr(y, x, row)
-        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
+        self.wyswietl_footer()
         self.stdscr.refresh()
 
     def pobierz_opcje_logowania(self) -> Optional[str]:
@@ -273,10 +270,10 @@ class BudzetCursesView:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
-                self.current_row = 0  # Reset pozycji po wyborze
+                self.current_row = 0
                 return opcja
             elif key == ESC:
-                return None  # Zwracamy None, gdy naciśnięto ESC
+                return None
             self.stdscr.refresh()
 
     def pobierz_dane_logowania(self) -> Tuple[str, str]:
@@ -535,7 +532,7 @@ class BudzetCursesView:
             row = 1
             for kategoria, suma in raport.items():
                 procent = (suma / total) * 100 if total > 0 else 0
-                wykres = '*' * int(procent // 2)  # Skala wykresu
+                wykres = '*' * int(procent // 2)
                 self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
                 row += 1
         self.wyswietl_footer()
@@ -552,7 +549,7 @@ class BudzetCursesView:
             row = 1
             for kategoria, suma in raport.items():
                 procent = (suma / total) * 100 if total > 0 else 0
-                wykres = '*' * int(procent // 2)  # Skala wykresu
+                wykres = '*' * int(procent // 2)
                 self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
                 row += 1
         self.wyswietl_footer()
@@ -587,7 +584,7 @@ class BudzetCursesView:
         self.stdscr.keypad(False)
         curses.echo()
         curses.endwin()
-        
+
     def pobierz_potwierdzenie(self, komunikat: str) -> bool:
         menu = ['Tak', 'Nie']
         self.current_row = 0
@@ -602,7 +599,7 @@ class BudzetCursesView:
                 x = max((w // 2) - (len(row) // 2), 0)
                 y = max((h // 2) - 1 + idx, 0)
                 if idx == self.current_row:
-                    self.stdscr.attron(curses.color_pair(2))  # Używamy innego koloru
+                    self.stdscr.attron(curses.color_pair(2))
                     self.stdscr.addstr(y, x, row)
                     self.stdscr.attroff(curses.color_pair(2))
                 else:
@@ -615,9 +612,9 @@ class BudzetCursesView:
             elif key == curses.KEY_DOWN and self.current_row < len(menu) - 1:
                 self.current_row += 1
             elif key in [curses.KEY_ENTER, 10, 13]:
-                return self.current_row == 0  # 'Tak' to indeks 0
+                return self.current_row == 0
             elif key == ESC:
-                return False  # Anulowanie potwierdzenia
+                return False
 
     def wyswietl_footer(self) -> None:
         h, w = self.stdscr.getmaxyx()
@@ -626,7 +623,6 @@ class BudzetCursesView:
             self.stdscr.addstr(h - 1, max((w // 2) - (len(footer_text) // 2), 0), footer_text, curses.A_DIM)
         except curses.error:
             pass
-
 
     def wyswietl_limity(self, limity: Dict[str, float]) -> None:
         self.stdscr.clear()
@@ -651,6 +647,7 @@ class BudzetCursesView:
         if kategoria is None or kategoria.strip() == "":
             return None
         return kategoria.strip()
+
     def wyswietl_podmenu_import_eksport(self) -> None:
         self.stdscr.clear()
         menu = [
@@ -659,7 +656,7 @@ class BudzetCursesView:
             'Powrót do głównego menu'
         ]
         self.wyswietl_menu_opcje(menu)
-        self.wyswietl_footer()  # Dodajemy wyświetlanie stopki
+        self.wyswietl_footer()
         self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
@@ -674,5 +671,5 @@ class BudzetCursesView:
             elif key in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
             elif key == ESC:
-                return None  # Zwracamy None, gdy naciśnięto ESC
+                return None
             self.stdscr.refresh()

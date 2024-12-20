@@ -1,3 +1,4 @@
+# controller.py
 from model import BudzetModel, Transakcja
 from curses_view import BudzetCursesView
 
@@ -218,8 +219,7 @@ class BudzetController:
             if dane['typ'] == 'wydatek':
                 kwota = dane['kwota']
                 kategoria = dane['kategoria']
-                # Sprawdzenie, czy dodanie nowej kwoty przekroczy limit, uwzględniając oryginalny wydatek
-                # Najpierw usuwamy oryginalny wydatek z kategorii, aby sprawdzić nowy
+                # Sprawdzenie limitu
                 self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] -= transakcja_oryginalna.kwota
                 if self.model.wydatki_kategorie[transakcja_oryginalna.kategoria] <= 0:
                     del self.model.wydatki_kategorie[transakcja_oryginalna.kategoria]

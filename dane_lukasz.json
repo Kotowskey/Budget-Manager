@@ -257,5 +257,12 @@
         "typ": "wydatek",
         "opis": "Teatr",
         "data": "2024-05-30"
+    },
+    {
+        "kwota": 200.0,
+        "kategoria": "prezenty",
+        "typ": "wydatek",
+        "opis": "",
+        "data": "2024-12-20"
     }
 ]
