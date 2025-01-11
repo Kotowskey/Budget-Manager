@@ -5,6 +5,7 @@ from typing import Optional, Tuple, Dict
 
 ESC = 27  # Stała dla klawisza ESC
 
+
 class BudzetCursesView:
     def __init__(self):
         self.stdscr = curses.initscr()
@@ -522,39 +523,6 @@ class BudzetCursesView:
         finally:
             curses.noecho()
 
-    def wyswietl_wykres_wydatkow(self, raport: Dict[str, float]) -> None:
-        self.stdscr.clear()
-        if not raport:
-            self.stdscr.addstr(1, 1, "Brak danych do wyświetlenia.")
-        else:
-            total = sum(raport.values())
-            self.stdscr.addstr(0, 1, "Udział kategorii w wydatkach:")
-            row = 1
-            for kategoria, suma in raport.items():
-                procent = (suma / total) * 100 if total > 0 else 0
-                wykres = '*' * int(procent // 2)
-                self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
-                row += 1
-        self.wyswietl_footer()
-        self.stdscr.refresh()
-        self.stdscr.getch()
-
-    def wyswietl_wykres_przychodow(self, raport: Dict[str, float]) -> None:
-        self.stdscr.clear()
-        if not raport:
-            self.stdscr.addstr(1, 1, "Brak danych do wyświetlenia.")
-        else:
-            total = sum(raport.values())
-            self.stdscr.addstr(0, 1, "Udział kategorii w przychodach:")
-            row = 1
-            for kategoria, suma in raport.items():
-                procent = (suma / total) * 100 if total > 0 else 0
-                wykres = '*' * int(procent // 2)
-                self.stdscr.addstr(row, 1, f"{kategoria}: {wykres} ({procent:.2f}%)")
-                row += 1
-        self.wyswietl_footer()
-        self.stdscr.refresh()
-        self.stdscr.getch()
 
     def wyswietl_wyjscie(self) -> None:
         ascii_art = [

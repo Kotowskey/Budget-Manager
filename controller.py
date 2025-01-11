@@ -1,6 +1,7 @@
 # controller.py
 from model import BudzetModel, Transakcja
 from curses_view import BudzetCursesView
+from fabrica import FabrykaWykresow
 
 class BudzetController:
     def __init__(self) -> None:
@@ -101,13 +102,12 @@ class BudzetController:
             if opcja is None:
                 break
             if opcja == '1':
-                self.wyswietl_wykres_wydatkow()
+                self.wyswietl_wykres('wydatki')
             elif opcja == '2':
-                self.wyswietl_wykres_przychodow()
+                self.wyswietl_wykres('przychody')
             elif opcja == '3':
                 break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
 
     def obsluz_podmenu_limity(self) -> None:
         while True:
@@ -299,10 +299,17 @@ class BudzetController:
         raport = self.model.generuj_raport_przychodow()
         self.view.wyswietl_raport_przychodow(raport)
 
-    def wyswietl_wykres_wydatkow(self) -> None:
-        raport_wydatkow = self.model.generuj_raport_wydatkow()
-        self.view.wyswietl_wykres_wydatkow(raport_wydatkow)
+    def wyswietl_wykres(self, typ_wykresu: str) -> None:
+        # Pobieramy raport z modelu
+        if typ_wykresu == 'wydatki':
+            raport = self.model.generuj_raport_wydatkow()
+        elif typ_wykresu == 'przychody':
+            raport = self.model.generuj_raport_przychodow()
+        else:
+            raport = {}
 
-    def wyswietl_wykres_przychodow(self) -> None:
-        raport_przychodow = self.model.generuj_raport_przychodow()
-        self.view.wyswietl_wykres_przychodow(raport_przychodow)
+        # Używamy fabryki do stworzenia odpowiedniego wykresu
+        wykres = FabrykaWykresow.utworz_wykres(typ_wykresu)
+
+        # Wyświetlamy wykres za pomocą metody rysuj() konkretnego wykresu
+        wykres.rysuj(raport, self.view)
