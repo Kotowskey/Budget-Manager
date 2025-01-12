@@ -179,10 +179,14 @@ class BudzetModel:
                 self.wydatki_kategorie[transakcja.kategoria] -= transakcja.kwota
                 if self.wydatki_kategorie[transakcja.kategoria] <= 0:
                     del self.wydatki_kategorie[transakcja.kategoria]
+                # Wywołanie obserwatora przez podmiot Wydatek
+                self.wydatek.dodajWydatek(-transakcja.kwota)
             elif transakcja.typ.lower() == 'przychód':
                 self.przychody_kategorie[transakcja.kategoria] -= transakcja.kwota
                 if self.przychody_kategorie[transakcja.kategoria] <= 0:
                     del self.przychody_kategorie[transakcja.kategoria]
+                # Wywołanie obserwatora przez podmiot Dochod
+                self.dochod.dodajDochód(-transakcja.kwota)
             self.zapisz_dane()
             logging.info(f"Usunięto transakcję: {transakcja}")
             return True
