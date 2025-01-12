@@ -41,6 +41,8 @@ class Cel(Obserwator):
     def __init__(self, cel_oszczednosci: float):
         self.cel_oszczednosci = cel_oszczednosci
         self.obecneOszczednosci = 0.0
+        self.plik_celu = 'cel_oszczednosci.json'
+        self.wczytaj_cel()
 
     def aktualizuj(self, podmiot: 'Podmiot'):
         # Aktualizacja celu na podstawie zmian w podmiocie (dochód/wydatek)
@@ -51,13 +53,42 @@ class Cel(Obserwator):
             # Wydatek zmniejsza obecne oszczędności
             self.obecneOszczednosci -= podmiot.ostatnia_kwota
         self.monitorujPostep()
+        self.zapisz_cel()
 
     def monitorujPostep(self):
         if self.cel_oszczednosci > 0:
             procent = (self.obecneOszczednosci / self.cel_oszczednosci) * 100
             logging.info(f"Postęp w realizacji celu oszczędności: {procent:.2f}%")
+            if procent >= 100:
+                self.powiadomCelOsiagniety()
         else:
             logging.info("Brak zdefiniowanego celu oszczędnościowego lub cel jest równy 0.")
+
+    def powiadomCelOsiagniety(self):
+        logging.info("Gratulacje! Osiągnąłeś swój cel oszczędnościowy!")
+        # Można dodać dodatkowe powiadomienia, np. wysyłanie e-maila
+
+    def zapisz_cel(self) -> None:
+        try:
+            with open(self.plik_celu, 'w', encoding='utf-8') as plik:
+                json.dump({
+                    'cel_oszczednosci': self.cel_oszczednosci,
+                    'obecneOszczednosci': self.obecneOszczednosci
+                }, plik, ensure_ascii=False, indent=4)
+            logging.debug("Cel oszczędności zapisany do pliku.")
+        except IOError as e:
+            logging.error(f"Błąd zapisu celu oszczędności: {e}")
+
+    def wczytaj_cel(self) -> None:
+        if os.path.exists(self.plik_celu):
+            try:
+                with open(self.plik_celu, 'r', encoding='utf-8') as plik:
+                    dane = json.load(plik)
+                    self.cel_oszczednosci = dane.get('cel_oszczednosci', self.cel_oszczednosci)
+                    self.obecneOszczednosci = dane.get('obecneOszczednosci', self.obecneOszczednosci)
+                logging.debug("Cel oszczędności wczytany z pliku.")
+            except (IOError, json.JSONDecodeError) as e:
+                logging.error(f"Błąd wczytywania celu oszczędności: {e}")
 
 class Dochod(Podmiot):
     def __init__(self):

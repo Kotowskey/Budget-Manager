@@ -691,6 +691,8 @@ class BudzetCursesView:
     def wyswietl_postep_celu(self, procent: float) -> None:
         self.stdscr.clear()
         self.stdscr.addstr(1, 1, f"Postęp w realizacji celu oszczędności: {procent:.2f}%")
+        if procent >= 100:
+            self.stdscr.addstr(2, 1, "Gratulacje! Osiągnąłeś swój cel oszczędnościowy!", curses.A_BOLD)
         self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()

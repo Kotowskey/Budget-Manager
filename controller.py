@@ -164,7 +164,15 @@ class BudzetController:
         nowy_cel = self.view.pobierz_cel_oszczednosci()
         if nowy_cel is not None:
             self.model.cel_oszczedzania.cel_oszczednosci = nowy_cel
+            self.model.cel_oszczedzania.zapisz_cel()  # Save the goal progress
             self.view.wyswietl_komunikat(f"Ustawiono nowy cel oszczędności: {nowy_cel} zł")
+            self.sprawdz_cel_osiagniety()
+
+    def sprawdz_cel_osiagniety(self) -> None:
+        cel = self.model.cel_oszczedzania
+        procent = (cel.obecneOszczednosci / cel.cel_oszczednosci) * 100 if cel.cel_oszczednosci > 0 else 0
+        if procent >= 100:
+            self.view.wyswietl_komunikat("Gratulacje! Osiągnąłeś swój cel oszczędnościowy!")
 
     def wyswietl_postep_celu(self) -> None:
         cel = self.model.cel_oszczedzania
