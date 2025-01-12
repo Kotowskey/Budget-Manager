@@ -53,6 +53,7 @@ class BudzetCursesView:
             'Transakcje',
             'Podsumowania',
             'Limity',
+            'Cele',  # New menu item for Goals
             'Importowanie i eksportowanie',
             'Wyjście'
         ]
@@ -61,7 +62,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
-        menu_length = 5
+        menu_length = 6  # Updated menu length
         while True:
             self.wyswietl_glowne_menu_kategorii()
             key = self.stdscr.getch()
@@ -641,3 +642,55 @@ class BudzetCursesView:
             elif key == ESC:
                 return None
             self.stdscr.refresh()
+
+    def wyswietl_podmenu_cele(self) -> None:
+        self.stdscr.clear()
+        menu = [
+            'Ustaw cel oszczędności',
+            'Wyświetl postęp celu',
+            'Powrót do głównego menu'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()
+        self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_cele(self) -> Optional[str]:
+        menu_length = 3
+        while True:
+            self.wyswietl_podmenu_cele()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                opcja = str(self.current_row + 1)
+                self.current_row = 0
+                return opcja
+            elif key == ESC:
+                return None
+            self.stdscr.refresh()
+
+    def pobierz_cel_oszczednosci(self) -> Optional[float]:
+        curses.echo()
+        self.stdscr.clear()
+        self.stdscr.addstr(1, 1, "Podaj nowy cel oszczędności (w zł): ")
+        cel_input = self.pobierz_input(1, 35, 20)
+        curses.noecho()
+        if cel_input is None:
+            return None
+        try:
+            cel = float(cel_input)
+            if cel <= 0:
+                raise ValueError("Cel musi być większy od zera.")
+            return cel
+        except ValueError:
+            self.wyswietl_komunikat("Nieprawidłowy format celu.")
+            return None
+
+    def wyswietl_postep_celu(self, procent: float) -> None:
+        self.stdscr.clear()
+        self.stdscr.addstr(1, 1, f"Postęp w realizacji celu oszczędności: {procent:.2f}%")
+        self.wyswietl_footer()
+        self.stdscr.refresh()
+        self.stdscr.getch()

@@ -31,9 +31,11 @@ class BudzetController:
                     self.obsluz_podmenu_podsumowania()
                 elif opcja == '3':  # Limity
                     self.obsluz_podmenu_limity()
-                elif opcja == '4':  # Importowanie i eksportowanie
+                elif opcja == '4':  # Cele
+                    self.obsluz_podmenu_cele()
+                elif opcja == '5':  # Importowanie i eksportowanie
                     self.obsluz_podmenu_import_eksport()
-                elif opcja == '5':  # Wyjście
+                elif opcja == '6':  # Wyjście
                     self.view.wyswietl_wyjscie()
                     break
                 else:
@@ -142,6 +144,32 @@ class BudzetController:
                 break
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def obsluz_podmenu_cele(self) -> None:
+        while True:
+            self.view.wyswietl_podmenu_cele()
+            opcja = self.view.pobierz_opcje_podmenu_cele()
+            if opcja is None:
+                break
+            if opcja == '1':
+                self.ustaw_cel_oszczednosci()
+            elif opcja == '2':
+                self.wyswietl_postep_celu()
+            elif opcja == '3':
+                break
+            else:
+                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+
+    def ustaw_cel_oszczednosci(self) -> None:
+        nowy_cel = self.view.pobierz_cel_oszczednosci()
+        if nowy_cel is not None:
+            self.model.cel_oszczedzania.cel_oszczednosci = nowy_cel
+            self.view.wyswietl_komunikat(f"Ustawiono nowy cel oszczędności: {nowy_cel} zł")
+
+    def wyswietl_postep_celu(self) -> None:
+        cel = self.model.cel_oszczedzania
+        procent = (cel.obecneOszczednosci / cel.cel_oszczednosci) * 100 if cel.cel_oszczednosci > 0 else 0
+        self.view.wyswietl_postep_celu(procent)
 
     def logowanie(self) -> bool:
         while True:
