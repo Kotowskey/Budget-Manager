@@ -47,5 +47,12 @@
         "typ": "wydatek",
         "opis": "",
         "data": "2024-12-13"
+    },
+    {
+        "kwota": 2500.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2025-01-12"
     }
 ]

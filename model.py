@@ -38,10 +38,11 @@ class Podmiot:
             obs.aktualizuj(self)
 
 class Cel(Obserwator):
-    def __init__(self, cel_oszczednosci: float):
+    def __init__(self, cel_oszczednosci: float, uzytkownik: str):
         self.cel_oszczednosci = cel_oszczednosci
         self.obecneOszczednosci = 0.0
-        self.plik_celu = 'cel_oszczednosci.json'
+        self.uzytkownik = uzytkownik
+        self.plik_celu = f'cel_oszczednosci_{uzytkownik}.json'
         self.wczytaj_cel()
 
     def aktualizuj(self, podmiot: 'Podmiot'):
@@ -133,16 +134,8 @@ class BudzetModel:
         self.zalogowany_uzytkownik: Optional[str] = None
         self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
 
-        # Inicjalizacja podmiotów i obserwatora (cele)
-        # Załóżmy cel 10000 zł oszczędności - można zmienić według potrzeb
-        self.cel_oszczedzania = Cel(10000.0)
-
         self.dochod = Dochod()
         self.wydatek = Wydatek()
-
-        # Podłączanie obserwatora do podmiotów
-        self.dochod.dodaj(self.cel_oszczedzania)
-        self.wydatek.dodaj(self.cel_oszczedzania)
 
         logging.info("Inicjalizacja modelu budżetu zakończona.")
 
@@ -151,6 +144,9 @@ class BudzetModel:
             self.zalogowany_uzytkownik = login
             self.plik_danych = f'dane_{login}.json'
             self.plik_limity = f'limity_{login}.json'
+            self.cel_oszczedzania = Cel(10000.0, login)  # Initialize goal for the user
+            self.dochod.dodaj(self.cel_oszczedzania)
+            self.wydatek.dodaj(self.cel_oszczedzania)
             self.wczytaj_dane()
             self.wczytaj_limity()
             self.oblicz_wydatki_kategorie()
