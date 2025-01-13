@@ -6,6 +6,9 @@ import csv
 from dataclasses import dataclass, asdict
 from typing import List, Dict, Optional
 import logging
+import json
+import EksporterCSV
+import EksporterJSON
 
 # Konfiguracja logowania
 logging.basicConfig(
@@ -138,6 +141,17 @@ class BudzetModel:
         self.wydatek = Wydatek()
 
         logging.info("Inicjalizacja modelu budżetu zakończona.")
+
+    def eksportuj(self, format: str) -> None:
+        if format == 'csv':
+            eksporter = EksporterCSV()
+        elif format == 'json':
+            eksporter = EksporterJSON()
+        else:
+            print("Niezrozumiany format eksportu.")
+            return
+
+        eksporter.eksportuj(self.transakcje)
 
     def zaloguj(self, login: str, haslo: str) -> bool:
         if login in self.uzytkownicy and self.uzytkownicy[login] == haslo:
@@ -284,19 +298,6 @@ class BudzetModel:
         ]
         logging.debug(f"Filtrowano transakcje od {start_date} do {end_date}: {len(filtrowane)} znalezionych.")
         return filtrowane
-
-    def eksportuj_do_csv(self, nazwa_pliku: str = 'transakcje.csv') -> None:
-        try:
-            with open(nazwa_pliku, 'w', newline='', encoding='utf-8') as csvfile:
-                fieldnames = ['kwota', 'kategoria', 'typ', 'opis', 'data']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-                writer.writeheader()
-                for t in self.transakcje:
-                    writer.writerow(t.to_dict())
-            logging.info(f"Transakcje wyeksportowane do pliku CSV: {nazwa_pliku}")
-        except IOError as e:
-            logging.error(f"Błąd eksportu do CSV: {e}")
 
     def importuj_z_csv(self, nazwa_pliku: str = 'transakcje.csv') -> bool:
         if os.path.exists(nazwa_pliku):
