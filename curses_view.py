@@ -643,21 +643,23 @@ class BudzetCursesView:
                 return None
             self.stdscr.refresh()
 
-    def wyswietl_podmenu_cele(self) -> None:
+    def wyswietl_podmenu_cele(self, cel_oszczednosci: float, obecneOszczednosci: float) -> None:
         self.stdscr.clear()
         menu = [
             'Ustaw cel oszczędności',
             'Wyświetl postęp celu',
             'Powrót do głównego menu'
         ]
+        self.stdscr.addstr(0, 1, f"Aktualny cel oszczędności: {cel_oszczednosci:.2f} zł")
+        self.stdscr.addstr(1, 1, f"Obecne oszczędności: {obecneOszczednosci:.2f} zł")
         self.wyswietl_menu_opcje(menu)
         self.wyswietl_footer()
         self.stdscr.refresh()
 
-    def pobierz_opcje_podmenu_cele(self) -> Optional[str]:
+    def pobierz_opcje_podmenu_cele(self, cel_oszczednosci: float, obecneOszczednosci: float) -> Optional[str]:
         menu_length = 3
         while True:
-            self.wyswietl_podmenu_cele()
+            self.wyswietl_podmenu_cele(cel_oszczednosci, obecneOszczednosci)
             key = self.stdscr.getch()
             if key == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1

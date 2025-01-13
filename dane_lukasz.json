@@ -306,5 +306,12 @@
         "typ": "przychód",
         "opis": "",
         "data": "2025-01-12"
+    },
+    {
+        "kwota": 5000.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2025-01-13"
     }
 ]

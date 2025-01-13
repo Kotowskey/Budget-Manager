@@ -147,8 +147,8 @@ class BudzetController:
 
     def obsluz_podmenu_cele(self) -> None:
         while True:
-            self.view.wyswietl_podmenu_cele()
-            opcja = self.view.pobierz_opcje_podmenu_cele()
+            cel = self.model.cel_oszczedzania
+            opcja = self.view.pobierz_opcje_podmenu_cele(cel.cel_oszczednosci, cel.obecneOszczednosci)
             if opcja is None:
                 break
             if opcja == '1':
@@ -163,8 +163,7 @@ class BudzetController:
     def ustaw_cel_oszczednosci(self) -> None:
         nowy_cel = self.view.pobierz_cel_oszczednosci()
         if nowy_cel is not None:
-            self.model.cel_oszczedzania.cel_oszczednosci = nowy_cel
-            self.model.cel_oszczedzania.zapisz_cel()  # Save the goal progress
+            self.model.cel_oszczedzania.ustaw_nowy_cel(nowy_cel)  # Reset current savings and set new goal
             self.view.wyswietl_komunikat(f"Ustawiono nowy cel oszczędności: {nowy_cel} zł")
             self.sprawdz_cel_osiagniety()
 

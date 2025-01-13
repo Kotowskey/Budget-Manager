@@ -47,5 +47,12 @@
         "typ": "przychód",
         "opis": "akcje",
         "data": "2024-12-17"
+    },
+    {
+        "kwota": 3000.0,
+        "kategoria": "wynagrodzenie",
+        "typ": "przychód",
+        "opis": "",
+        "data": "2025-01-13"
     }
 ]

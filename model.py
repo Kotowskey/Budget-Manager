@@ -91,6 +91,11 @@ class Cel(Obserwator):
             except (IOError, json.JSONDecodeError) as e:
                 logging.error(f"Błąd wczytywania celu oszczędności: {e}")
 
+    def ustaw_nowy_cel(self, nowy_cel: float) -> None:
+        self.cel_oszczednosci = nowy_cel
+        self.obecneOszczednosci = 0.0  # Reset current savings
+        self.zapisz_cel()
+
 class Dochod(Podmiot):
     def __init__(self):
         super().__init__()
