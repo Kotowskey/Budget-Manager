@@ -466,8 +466,11 @@ class BudzetCursesView:
         finally:
             curses.noecho()
 
-    def potwierdz_eksport(self) -> None:
-        self.wyswietl_komunikat("Transakcje zostały wyeksportowane do pliku 'transakcje.csv'.")
+    
+    def potwierdz_eksport(self, format_pliku: str = '') -> None:
+        """Wyświetla potwierdzenie eksportu"""
+        nazwa_pliku = 'transakcje.csv' if format_pliku.lower() == 'csv' else 'transakcje.json'
+        self.wyswietl_komunikat(f"Transakcje zostały wyeksportowane do pliku '{nazwa_pliku}'.")
 
     def potwierdz_import(self) -> None:
         self.wyswietl_komunikat("Transakcje zostały zaimportowane z pliku 'transakcje.csv'.")
@@ -618,15 +621,32 @@ class BudzetCursesView:
         return kategoria.strip()
 
     def wyswietl_podmenu_import_eksport(self) -> None:
-        self.stdscr.clear()
-        menu = [
-            'Eksportuj transakcje do CSV',
-            'Importuj transakcje z CSV',
-            'Powrót do głównego menu'
-        ]
-        self.wyswietl_menu_opcje(menu)
-        self.wyswietl_footer()
-        self.stdscr.refresh()
+            self.stdscr.clear()
+            menu = [
+                'Eksportuj transakcje do CSV',
+                'Eksportuj transakcje do JSON',
+                'Importuj transakcje z CSV',
+                'Importuj transakcje z JSON',
+                'Powrót do głównego menu'
+            ]
+            self.wyswietl_menu_opcje(menu)
+            self.wyswietl_footer()
+            self.stdscr.refresh()
+
+    def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
+        menu_length = 5  # Zaktualizowana długość menu
+        while True:
+            self.wyswietl_podmenu_import_eksport()
+            key = self.stdscr.getch()
+            if key == curses.KEY_UP and self.current_row > 0:
+                self.current_row -= 1
+            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+                self.current_row += 1
+            elif key in [curses.KEY_ENTER, 10, 13]:
+                return str(self.current_row + 1)
+            elif key == ESC:
+                return None
+            self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
         menu_length = 3
@@ -696,3 +716,23 @@ class BudzetCursesView:
         self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
+
+    def wyswietl_menu_formatu_eksportu(self) -> None:
+        """Wyświetla menu wyboru formatu eksportu"""
+        self.stdscr.clear()
+        menu = [
+            'Eksportuj do CSV',
+            'Eksportuj do JSON',
+            'Powrót'
+        ]
+        h, w = self.stdscr.getmaxyx()
+        header = "=== Wybierz format eksportu ==="
+        try:
+            self.stdscr.addstr(0, max((w // 2) - (len(header) // 2), 0), header)
+        except curses.error:
+            pass
+        
+        self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()
+        self.stdscr.refresh()
+    

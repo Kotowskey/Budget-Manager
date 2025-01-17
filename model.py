@@ -6,9 +6,14 @@ import csv
 from dataclasses import dataclass, asdict
 from typing import List, Dict, Optional
 import logging
+<<<<<<< Updated upstream
 import json
 import EksporterCSV
 import EksporterJSON
+=======
+from abc import ABC, abstractmethod
+from typing import Any, List, Dict
+>>>>>>> Stashed changes
 
 # Konfiguracja logowania
 logging.basicConfig(
@@ -113,6 +118,76 @@ class Wydatek(Podmiot):
         self.powiadomObserwatorow()
 
 ##########################################
+# Wzorzec projektowy: ADAPTER
+##########################################
+
+class UniwersalnyInterfejsEksportu(ABC):
+    @abstractmethod
+    def eksportuj(self, dane: Any, nazwa_pliku: str) -> None:
+        pass
+
+class AdapterEksportu(UniwersalnyInterfejsEksportu):
+    def __init__(self, eksporter: Any) -> None:
+        self.eksporter = eksporter
+
+    def eksportuj(self, dane: Any, nazwa_pliku: str) -> None:
+        pass
+
+class EksporterCSV:
+    def eksportujDoCSV(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        try:
+            with open(nazwa_pliku, 'w', newline='', encoding='utf-8') as csvfile:
+                if dane and len(dane) > 0:
+                    fieldnames = dane[0].keys()
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for row in dane:
+                        writer.writerow(row)
+            logging.info(f"Dane wyeksportowane do pliku CSV: {nazwa_pliku}")
+        except IOError as e:
+            logging.error(f"Błąd eksportu do CSV: {e}")
+            raise
+
+class EksporterJSON:
+    def eksportujDoJSON(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        try:
+            with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
+                json.dump(dane, plik, ensure_ascii=False, indent=4)
+            logging.info(f"Dane wyeksportowane do pliku JSON: {nazwa_pliku}")
+        except IOError as e:
+            logging.error(f"Błąd eksportu do JSON: {e}")
+            raise
+
+class AdapterEksportuCSV(AdapterEksportu):
+    def __init__(self, eksporter: EksporterCSV) -> None:
+        super().__init__(eksporter)
+
+    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        self.eksporter.eksportujDoCSV(dane, nazwa_pliku)
+
+class AdapterEksportuJSON(AdapterEksportu):
+    def __init__(self, eksporter: EksporterJSON) -> None:
+        super().__init__(eksporter)
+
+    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        self.eksporter.eksportujDoJSON(dane, nazwa_pliku)
+
+class EksportDanych:
+    def __init__(self) -> None:
+        self.eksporter: UniwersalnyInterfejsEksportu = None
+        self.eksporter_csv = AdapterEksportuCSV(EksporterCSV())
+        self.eksporter_json = AdapterEksportuJSON(EksporterJSON())
+
+    def ustawEksporter(self, eksporter: UniwersalnyInterfejsEksportu) -> None:
+        self.eksporter = eksporter
+
+    def eksportujDane(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        if self.eksporter:
+            self.eksporter.eksportuj(dane, nazwa_pliku)
+        else:
+            raise ValueError("Nie ustawiono eksportera")
+
+##########################################
 # Klasy modelu budżetu
 ##########################################
 
@@ -136,6 +211,7 @@ class BudzetModel:
         self.przychody_kategorie: Dict[str, float] = {}
         self.zalogowany_uzytkownik: Optional[str] = None
         self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
+        self.eksport_danych = EksportDanych() #Adapter
 
         self.dochod = Dochod()
         self.wydatek = Wydatek()
@@ -299,6 +375,31 @@ class BudzetModel:
         logging.debug(f"Filtrowano transakcje od {start_date} do {end_date}: {len(filtrowane)} znalezionych.")
         return filtrowane
 
+<<<<<<< Updated upstream
+=======
+    def eksportuj_do_csv(self, nazwa_pliku: str = 'transakcje.csv') -> None:
+        
+        #Eksportuje transakcje do pliku CSV używając wzorca Adapter
+        try:
+            dane = [t.to_dict() for t in self.transakcje]
+            self.eksport_danych.ustawEksporter(self.eksport_danych.eksporter_csv)
+            self.eksport_danych.eksportujDane(dane, nazwa_pliku)
+        except Exception as e:
+            logging.error(f"Błąd podczas eksportu do CSV: {e}")
+            raise
+
+    def eksportuj_do_json(self, nazwa_pliku: str = 'transakcje.json') -> None:
+        
+        #Eksportuje transakcje do pliku JSON używając wzorca Adapter
+        try:
+            dane = [t.to_dict() for t in self.transakcje]
+            self.eksport_danych.ustawEksporter(self.eksport_danych.eksporter_json)
+            self.eksport_danych.eksportujDane(dane, nazwa_pliku)
+        except Exception as e:
+            logging.error(f"Błąd podczas eksportu do JSON: {e}")
+            raise
+
+>>>>>>> Stashed changes
     def importuj_z_csv(self, nazwa_pliku: str = 'transakcje.csv') -> bool:
         if os.path.exists(nazwa_pliku):
             try:
