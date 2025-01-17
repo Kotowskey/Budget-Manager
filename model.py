@@ -11,7 +11,6 @@ import EksporterCSV
 import EksporterJSON
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict
->>>>>>> Stashed changes
 
 # Konfiguracja logowania
 logging.basicConfig(
