@@ -6,11 +6,9 @@ import csv
 from dataclasses import dataclass, asdict
 from typing import List, Dict, Optional
 import logging
-<<<<<<< Updated upstream
 import json
 import EksporterCSV
 import EksporterJSON
-=======
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict
 >>>>>>> Stashed changes
@@ -375,8 +373,6 @@ class BudzetModel:
         logging.debug(f"Filtrowano transakcje od {start_date} do {end_date}: {len(filtrowane)} znalezionych.")
         return filtrowane
 
-<<<<<<< Updated upstream
-=======
     def eksportuj_do_csv(self, nazwa_pliku: str = 'transakcje.csv') -> None:
         
         #Eksportuje transakcje do pliku CSV używając wzorca Adapter
@@ -399,7 +395,6 @@ class BudzetModel:
             logging.error(f"Błąd podczas eksportu do JSON: {e}")
             raise
 
->>>>>>> Stashed changes
     def importuj_z_csv(self, nazwa_pliku: str = 'transakcje.csv') -> bool:
         if os.path.exists(nazwa_pliku):
             try:
