@@ -424,6 +424,45 @@ class BudzetModel:
         else:
             logging.warning(f"Plik CSV do importu nie istnieje: {nazwa_pliku}")
             return False
+    
+    def importuj_z_json(self, nazwa_pliku: str = 'transakcje.json') -> bool:
+        """
+        Importuje transakcje z pliku JSON
+        """
+        if os.path.exists(nazwa_pliku):
+            try:
+                with open(nazwa_pliku, 'r', encoding='utf-8') as plik:
+                    dane = json.load(plik)
+                    for rekord in dane:
+                        transakcja = Transakcja(
+                            kwota=float(rekord['kwota']),
+                            kategoria=rekord['kategoria'],
+                            typ=rekord['typ'],
+                            opis=rekord.get('opis', ''),
+                            data=rekord.get('data', datetime.now().strftime('%Y-%m-%d'))
+                        )
+                        self.transakcje.append(transakcja)
+                        # Aktualizacja liczników dla kategorii
+                        if transakcja.typ.lower() == 'wydatek':
+                            self.wydatki_kategorie[transakcja.kategoria] = (
+                                self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                            )
+                            self.wydatek.dodajWydatek(transakcja.kwota)
+                        elif transakcja.typ.lower() == 'przychód':
+                            self.przychody_kategorie[transakcja.kategoria] = (
+                                self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                            )
+                            self.dochod.dodajDochód(transakcja.kwota)
+                
+                self.zapisz_dane()
+                logging.info(f"Transakcje zaimportowane z pliku JSON: {nazwa_pliku}")
+                return True
+            except (IOError, json.JSONDecodeError, ValueError) as e:
+                logging.error(f"Błąd importu z JSON: {e}")
+                return False
+        else:
+            logging.warning(f"Plik JSON do importu nie istnieje: {nazwa_pliku}")
+            return False
 
     def wczytaj_limity(self) -> None:
         if hasattr(self, 'plik_limity') and os.path.exists(self.plik_limity):
