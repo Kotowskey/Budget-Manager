@@ -136,11 +136,29 @@ class BudzetController:
             if opcja is None:
                 # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
-            if opcja == '1':
-                self.eksportuj_transakcje()
-            elif opcja == '2':
-                self.importuj_transakcje()
-            elif opcja == '3':
+            if opcja == '1':  # Eksport CSV
+                try:
+                    self.model.eksportuj_do_csv()
+                    self.view.potwierdz_eksport('CSV')
+                except Exception as e:
+                    self.view.wyswietl_komunikat(f"Błąd podczas eksportu do CSV: {str(e)}")
+            elif opcja == '2':  # Eksport JSON
+                try:
+                    self.model.eksportuj_do_json()
+                    self.view.potwierdz_eksport('JSON')
+                except Exception as e:
+                    self.view.wyswietl_komunikat(f"Błąd podczas eksportu do JSON: {str(e)}")
+            elif opcja == '3':  # Import CSV
+                if self.model.importuj_z_csv():
+                    self.view.potwierdz_import()
+                else:
+                    self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.csv'.")
+            elif opcja == '4':  # Import JSON
+                if self.model.importuj_z_json():
+                    self.view.wyswietl_komunikat("Transakcje zostały zaimportowane z pliku 'transakcje.json'.")
+                else:
+                    self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.json'.")
+            elif opcja == '5':  # Powrót
                 break
             else:
                 self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
@@ -286,8 +304,16 @@ class BudzetController:
         self.view.wyswietl_podsumowanie(saldo)
 
     def eksportuj_transakcje(self) -> None:
-        self.model.eksportuj_do_csv()
-        self.view.potwierdz_eksport()
+            try:
+                format_eksportu = self.view.pobierz_format_eksportu()  # Dodaj tę metodę w widoku
+                if format_eksportu == 'csv':
+                    self.model.eksportuj_do_csv()
+                    self.view.potwierdz_eksport('CSV')
+                elif format_eksportu == 'json':
+                    self.model.eksportuj_do_json()
+                    self.view.potwierdz_eksport('JSON')
+            except Exception as e:
+                self.view.wyswietl_komunikat(f"Błąd podczas eksportu: {str(e)}")
 
     def importuj_transakcje(self) -> None:
         sukces = self.model.importuj_z_csv()
