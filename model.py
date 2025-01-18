@@ -7,8 +7,6 @@ from dataclasses import dataclass, asdict
 from typing import List, Dict, Optional
 import logging
 import json
-import EksporterCSV
-import EksporterJSON
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict
 
