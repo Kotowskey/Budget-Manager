@@ -649,7 +649,7 @@ class BudzetCursesView:
             self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
-        menu_length = 3
+        menu_length = 5
         while True:
             self.wyswietl_podmenu_import_eksport()
             key = self.stdscr.getch()
