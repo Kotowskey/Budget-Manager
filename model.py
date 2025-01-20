@@ -4,11 +4,9 @@ import os
 from datetime import datetime
 import csv
 from dataclasses import dataclass, asdict
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 import logging
-import json
 from abc import ABC, abstractmethod
-from typing import Any, List, Dict
 
 # Konfiguracja logowania
 logging.basicConfig(
@@ -22,100 +20,105 @@ logging.basicConfig(
 ##########################################
 
 class Obserwator:
-    def aktualizuj(self, podmiot: 'Podmiot'):
+    def aktualizuj(self, podmiot: 'Podmiot') -> None:
+        """Metoda wywoływana gdy podmiot zmienia stan"""
         raise NotImplementedError
 
 class Podmiot:
-    def __init__(self):
+    def __init__(self) -> None:
         self.obserwatorzy: List[Obserwator] = []
 
     def dodaj(self, obserwator: Obserwator) -> None:
+        """Dodaje obserwatora do listy"""
         self.obserwatorzy.append(obserwator)
 
     def usun(self, obserwator: Obserwator) -> None:
+        """Usuwa obserwatora z listy"""
         if obserwator in self.obserwatorzy:
             self.obserwatorzy.remove(obserwator)
 
     def powiadomObserwatorow(self) -> None:
+        """Powiadamia wszystkich obserwatorów o zmianie"""
         for obs in self.obserwatorzy:
             obs.aktualizuj(self)
 
+class Dochod(Podmiot):
+    def __init__(self) -> None:
+        super().__init__()
+        self.ostatnia_kwota = 0.0
+
+    def dodajDochod(self, kwota: float) -> None:
+        """Dodaje nowy dochód i powiadamia obserwatorów"""
+        self.ostatnia_kwota = kwota
+        self.powiadomObserwatorow()
+
+class Wydatek(Podmiot):
+    def __init__(self) -> None:
+        super().__init__()
+        self.ostatnia_kwota = 0.0
+
+    def dodajWydatek(self, kwota: float) -> None:
+        """Dodaje nowy wydatek i powiadamia obserwatorów"""
+        self.ostatnia_kwota = kwota
+        self.powiadomObserwatorow()
+
 class Cel(Obserwator):
-    def __init__(self, cel_oszczednosci: float, uzytkownik: str):
+    def __init__(self, cel_oszczednosci: float, uzytkownik: str) -> None:
         self.cel_oszczednosci = cel_oszczednosci
         self.obecneOszczednosci = 0.0
         self.uzytkownik = uzytkownik
-        self.plik_celu = f'cel_oszczednosci_{uzytkownik}.json'
+        self.plik_celu = os.path.join('data', 'users', uzytkownik, 'cel_oszczednosci.json')
         self.wczytaj_cel()
 
-    def aktualizuj(self, podmiot: 'Podmiot'):
-        # Aktualizacja celu na podstawie zmian w podmiocie (dochód/wydatek)
+    def aktualizuj(self, podmiot: Podmiot) -> None:
+        """Aktualizuje stan oszczędności na podstawie nowych transakcji"""
         if isinstance(podmiot, Dochod):
-            # Dochód zwiększa obecne oszczędności
             self.obecneOszczednosci += podmiot.ostatnia_kwota
         elif isinstance(podmiot, Wydatek):
-            # Wydatek zmniejsza obecne oszczędności
             self.obecneOszczednosci -= podmiot.ostatnia_kwota
         self.monitorujPostep()
         self.zapisz_cel()
 
-    def monitorujPostep(self):
+    def monitorujPostep(self) -> None:
+        """Monitoruje postęp w osiąganiu celu oszczędnościowego"""
         if self.cel_oszczednosci > 0:
             procent = (self.obecneOszczednosci / self.cel_oszczednosci) * 100
             logging.info(f"Postęp w realizacji celu oszczędności: {procent:.2f}%")
             if procent >= 100:
                 self.powiadomCelOsiagniety()
-        else:
-            logging.info("Brak zdefiniowanego celu oszczędnościowego lub cel jest równy 0.")
 
-    def powiadomCelOsiagniety(self):
+    def powiadomCelOsiagniety(self) -> None:
+        """Powiadamia o osiągnięciu celu oszczędnościowego"""
         logging.info("Gratulacje! Osiągnąłeś swój cel oszczędnościowy!")
-        # Można dodać dodatkowe powiadomienia, np. wysyłanie e-maila
 
     def zapisz_cel(self) -> None:
+        """Zapisuje stan celu do pliku"""
+        os.makedirs(os.path.dirname(self.plik_celu), exist_ok=True)
         try:
             with open(self.plik_celu, 'w', encoding='utf-8') as plik:
                 json.dump({
                     'cel_oszczednosci': self.cel_oszczednosci,
                     'obecneOszczednosci': self.obecneOszczednosci
                 }, plik, ensure_ascii=False, indent=4)
-            logging.debug("Cel oszczędności zapisany do pliku.")
         except IOError as e:
             logging.error(f"Błąd zapisu celu oszczędności: {e}")
 
     def wczytaj_cel(self) -> None:
+        """Wczytuje stan celu z pliku"""
         if os.path.exists(self.plik_celu):
             try:
                 with open(self.plik_celu, 'r', encoding='utf-8') as plik:
                     dane = json.load(plik)
                     self.cel_oszczednosci = dane.get('cel_oszczednosci', self.cel_oszczednosci)
                     self.obecneOszczednosci = dane.get('obecneOszczednosci', self.obecneOszczednosci)
-                logging.debug("Cel oszczędności wczytany z pliku.")
             except (IOError, json.JSONDecodeError) as e:
                 logging.error(f"Błąd wczytywania celu oszczędności: {e}")
 
     def ustaw_nowy_cel(self, nowy_cel: float) -> None:
+        """Ustawia nowy cel oszczędnościowy"""
         self.cel_oszczednosci = nowy_cel
-        self.obecneOszczednosci = 0.0  # Reset current savings
+        self.obecneOszczednosci = 0.0
         self.zapisz_cel()
-
-class Dochod(Podmiot):
-    def __init__(self):
-        super().__init__()
-        self.ostatnia_kwota = 0.0
-
-    def dodajDochód(self, kwota: float):
-        self.ostatnia_kwota = kwota
-        self.powiadomObserwatorow()
-
-class Wydatek(Podmiot):
-    def __init__(self):
-        super().__init__()
-        self.ostatnia_kwota = 0.0
-
-    def dodajWydatek(self, kwota: float):
-        self.ostatnia_kwota = kwota
-        self.powiadomObserwatorow()
 
 ##########################################
 # Wzorzec projektowy: ADAPTER
@@ -124,6 +127,7 @@ class Wydatek(Podmiot):
 class UniwersalnyInterfejsEksportu(ABC):
     @abstractmethod
     def eksportuj(self, dane: Any, nazwa_pliku: str) -> None:
+        """Interfejs dla eksportu danych"""
         pass
 
 class AdapterEksportu(UniwersalnyInterfejsEksportu):
@@ -135,6 +139,7 @@ class AdapterEksportu(UniwersalnyInterfejsEksportu):
 
 class EksporterCSV:
     def eksportujDoCSV(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        """Eksportuje dane do pliku CSV"""
         try:
             with open(nazwa_pliku, 'w', newline='', encoding='utf-8') as csvfile:
                 if dane and len(dane) > 0:
@@ -150,6 +155,7 @@ class EksporterCSV:
 
 class EksporterJSON:
     def eksportujDoJSON(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        """Eksportuje dane do pliku JSON"""
         try:
             with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
                 json.dump(dane, plik, ensure_ascii=False, indent=4)
@@ -174,7 +180,7 @@ class AdapterEksportuJSON(AdapterEksportu):
 
 class EksportDanych:
     def __init__(self) -> None:
-        self.eksporter: UniwersalnyInterfejsEksportu = None
+        self.eksporter: Optional[UniwersalnyInterfejsEksportu] = None
         self.eksporter_csv = AdapterEksportuCSV(EksporterCSV())
         self.eksporter_json = AdapterEksportuJSON(EksporterJSON())
 
@@ -203,40 +209,51 @@ class Transakcja:
         return asdict(self)
 
 class BudzetModel:
-    def __init__(self):
+    def __init__(self) -> None:
+        # Inicjalizacja struktury katalogów
+        self.data_dir = 'data'
+        self.users_dir = os.path.join(self.data_dir, 'users')
+        self.exports_dir = os.path.join(self.data_dir, 'exports')
+        self.create_directories()
+
+        # Podstawowe atrybuty
         self.transakcje: List[Transakcja] = []
-        self.uzytkownicy_plik: str = 'uzytkownicy.json'
+        self.uzytkownicy_plik: str = os.path.join(self.users_dir, 'uzytkownicy.json')
         self.limity: Dict[str, float] = {}
         self.wydatki_kategorie: Dict[str, float] = {}
         self.przychody_kategorie: Dict[str, float] = {}
         self.zalogowany_uzytkownik: Optional[str] = None
         self.uzytkownicy: Dict[str, str] = self.wczytaj_uzytkownikow()
-        self.eksport_danych = EksportDanych() #Adapter
-
+        
+        # Inicjalizacja komponentów
+        self.eksport_danych = EksportDanych()
         self.dochod = Dochod()
         self.wydatek = Wydatek()
+        self.cel_oszczedzania: Optional[Cel] = None
 
         logging.info("Inicjalizacja modelu budżetu zakończona.")
 
-    def eksportuj(self, format: str) -> None:
-        if format == 'csv':
-            eksporter = EksporterCSV()
-        elif format == 'json':
-            eksporter = EksporterJSON()
-        else:
-            print("Niezrozumiany format eksportu.")
-            return
-
-        eksporter.eksportuj(self.transakcje)
+    def create_directories(self) -> None:
+        """Tworzy wymagane katalogi na dane"""
+        os.makedirs(self.data_dir, exist_ok=True)
+        os.makedirs(self.users_dir, exist_ok=True)
+        os.makedirs(self.exports_dir, exist_ok=True)
+        logging.info("Utworzono katalogi na dane aplikacji")
 
     def zaloguj(self, login: str, haslo: str) -> bool:
+        """Loguje użytkownika i inicjalizuje jego dane"""
         if login in self.uzytkownicy and self.uzytkownicy[login] == haslo:
             self.zalogowany_uzytkownik = login
-            self.plik_danych = f'dane_{login}.json'
-            self.plik_limity = f'limity_{login}.json'
-            self.cel_oszczedzania = Cel(10000.0, login)  # Initialize goal for the user
+            user_dir = os.path.join(self.users_dir, login)
+            os.makedirs(user_dir, exist_ok=True)
+            
+            self.plik_danych = os.path.join(user_dir, 'dane.json')
+            self.plik_limity = os.path.join(user_dir, 'limity.json')
+            
+            self.cel_oszczedzania = Cel(10000.0, login)
             self.dochod.dodaj(self.cel_oszczedzania)
             self.wydatek.dodaj(self.cel_oszczedzania)
+            
             self.wczytaj_dane()
             self.wczytaj_limity()
             self.oblicz_wydatki_kategorie()
@@ -247,6 +264,7 @@ class BudzetModel:
         return False
 
     def zarejestruj(self, login: str, haslo: str) -> bool:
+        """Rejestruje nowego użytkownika"""
         if login not in self.uzytkownicy:
             self.uzytkownicy[login] = haslo
             self.zapisz_uzytkownikow()
@@ -256,54 +274,52 @@ class BudzetModel:
         return False
 
     def wczytaj_uzytkownikow(self) -> Dict[str, str]:
+        """Wczytuje dane użytkowników z pliku"""
         if os.path.exists(self.uzytkownicy_plik):
             try:
                 with open(self.uzytkownicy_plik, 'r', encoding='utf-8') as plik:
-                    uzytkownicy = json.load(plik)
-                return uzytkownicy
+                    return json.load(plik)
             except (IOError, json.JSONDecodeError) as e:
                 logging.error(f"Błąd wczytywania użytkowników: {e}")
                 return {}
-        else:
-            return {}
+        return {}
 
     def zapisz_uzytkownikow(self) -> None:
+        """Zapisuje dane użytkowników do pliku"""
+        os.makedirs(os.path.dirname(self.uzytkownicy_plik), exist_ok=True)
         try:
             with open(self.uzytkownicy_plik, 'w', encoding='utf-8') as plik:
                 json.dump(self.uzytkownicy, plik, ensure_ascii=False, indent=4)
-            logging.debug("Użytkownicy zapisani do pliku.")
         except IOError as e:
             logging.error(f"Błąd zapisu użytkowników: {e}")
 
     def dodaj_transakcje(self, transakcja: Transakcja) -> None:
+        """Dodaje nową transakcję i aktualizuje statystyki"""
         self.transakcje.append(transakcja)
         if transakcja.typ.lower() == 'wydatek':
             self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-            # Wywołanie obserwatora przez podmiot Wydatek
             self.wydatek.dodajWydatek(transakcja.kwota)
         elif transakcja.typ.lower() == 'przychód':
             self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-            # Wywołanie obserwatora przez podmiot Dochod
-            self.dochod.dodajDochód(transakcja.kwota)
+            self.dochod.dodajDochod(transakcja.kwota)
 
         self.zapisz_dane()
         logging.info(f"Dodano transakcję: {transakcja}")
 
     def usun_transakcje(self, indeks: int) -> bool:
+        """Usuwa transakcję o podanym indeksie"""
         if 0 <= indeks < len(self.transakcje):
             transakcja = self.transakcje.pop(indeks)
             if transakcja.typ.lower() == 'wydatek':
                 self.wydatki_kategorie[transakcja.kategoria] -= transakcja.kwota
                 if self.wydatki_kategorie[transakcja.kategoria] <= 0:
                     del self.wydatki_kategorie[transakcja.kategoria]
-                # Wywołanie obserwatora przez podmiot Wydatek
                 self.wydatek.dodajWydatek(-transakcja.kwota)
             elif transakcja.typ.lower() == 'przychód':
                 self.przychody_kategorie[transakcja.kategoria] -= transakcja.kwota
                 if self.przychody_kategorie[transakcja.kategoria] <= 0:
                     del self.przychody_kategorie[transakcja.kategoria]
-                # Wywołanie obserwatora przez podmiot Dochod
-                self.dochod.dodajDochód(-transakcja.kwota)
+                self.dochod.dodajDochod(-transakcja.kwota)
             self.zapisz_dane()
             logging.info(f"Usunięto transakcję: {transakcja}")
             return True
@@ -311,6 +327,7 @@ class BudzetModel:
         return False
 
     def edytuj_transakcje(self, indeks: int, transakcja: Transakcja) -> bool:
+        """Edytuje istniejącą transakcję"""
         if 0 <= indeks < len(self.transakcje):
             transakcja_stara = self.transakcje[indeks]
             if transakcja_stara.typ.lower() == 'wydatek':
@@ -322,15 +339,12 @@ class BudzetModel:
                 if self.przychody_kategorie[transakcja_stara.kategoria] <= 0:
                     del self.przychody_kategorie[transakcja_stara.kategoria]
 
-            # Dodajemy nową transakcję
             if transakcja.typ.lower() == 'wydatek':
                 self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-                # Wywołanie obserwatora przez podmiot Wydatek
                 self.wydatek.dodajWydatek(transakcja.kwota)
             elif transakcja.typ.lower() == 'przychód':
                 self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-                # Wywołanie obserwatora przez podmiot Dochod
-                self.dochod.dodajDochód(transakcja.kwota)
+                self.dochod.dodajDochod(transakcja.kwota)
 
             self.transakcje[indeks] = transakcja
             self.zapisz_dane()
@@ -340,15 +354,19 @@ class BudzetModel:
         return False
 
     def zapisz_dane(self) -> None:
-        dane = [t.to_dict() for t in self.transakcje]
-        try:
-            with open(self.plik_danych, 'w', encoding='utf-8') as plik:
-                json.dump(dane, plik, ensure_ascii=False, indent=4)
-            logging.debug("Dane zapisane do pliku.")
-        except IOError as e:
-            logging.error(f"Błąd zapisu danych: {e}")
+        """Zapisuje transakcje do pliku"""
+        if hasattr(self, 'plik_danych'):
+            os.makedirs(os.path.dirname(self.plik_danych), exist_ok=True)
+            try:
+                dane = [t.to_dict() for t in self.transakcje]
+                with open(self.plik_danych, 'w', encoding='utf-8') as plik:
+                    json.dump(dane, plik, ensure_ascii=False, indent=4)
+                logging.debug("Dane zapisane do pliku.")
+            except IOError as e:
+                logging.error(f"Błąd zapisu danych: {e}")
 
     def wczytaj_dane(self) -> None:
+        """Wczytuje transakcje z pliku"""
         if hasattr(self, 'plik_danych') and os.path.exists(self.plik_danych):
             try:
                 with open(self.plik_danych, 'r', encoding='utf-8') as plik:
@@ -360,14 +378,15 @@ class BudzetModel:
                 self.transakcje = []
         else:
             self.transakcje = []
-            logging.debug("Plik danych nie istnieje. Inicjalizacja pustej listy transakcji.")
 
     def oblicz_saldo(self) -> float:
+        """Oblicza aktualne saldo"""
         saldo = sum(t.kwota if t.typ.lower() == 'przychód' else -t.kwota for t in self.transakcje)
         logging.debug(f"Obliczone saldo: {saldo}")
         return saldo
 
     def filtruj_transakcje_po_dacie(self, start_date: str, end_date: str) -> List[Transakcja]:
+        """Filtruje transakcje według zakresu dat"""
         filtrowane = [
             t for t in self.transakcje
             if start_date <= t.data <= end_date
@@ -375,9 +394,10 @@ class BudzetModel:
         logging.debug(f"Filtrowano transakcje od {start_date} do {end_date}: {len(filtrowane)} znalezionych.")
         return filtrowane
 
-    def eksportuj_do_csv(self, nazwa_pliku: str = 'transakcje.csv') -> None:
-        
-        #Eksportuje transakcje do pliku CSV używając wzorca Adapter
+    def eksportuj_do_csv(self, nazwa_pliku: str = None) -> None:
+        """Eksportuje transakcje do pliku CSV"""
+        if nazwa_pliku is None:
+            nazwa_pliku = os.path.join(self.exports_dir, 'transakcje.csv')
         try:
             dane = [t.to_dict() for t in self.transakcje]
             self.eksport_danych.ustawEksporter(self.eksport_danych.eksporter_csv)
@@ -386,9 +406,10 @@ class BudzetModel:
             logging.error(f"Błąd podczas eksportu do CSV: {e}")
             raise
 
-    def eksportuj_do_json(self, nazwa_pliku: str = 'transakcje.json') -> None:
-        
-        #Eksportuje transakcje do pliku JSON używając wzorca Adapter
+    def eksportuj_do_json(self, nazwa_pliku: str = None) -> None:
+        """Eksportuje transakcje do pliku JSON"""
+        if nazwa_pliku is None:
+            nazwa_pliku = os.path.join(self.exports_dir, 'transakcje.json')
         try:
             dane = [t.to_dict() for t in self.transakcje]
             self.eksport_danych.ustawEksporter(self.eksport_danych.eksporter_json)
@@ -397,7 +418,10 @@ class BudzetModel:
             logging.error(f"Błąd podczas eksportu do JSON: {e}")
             raise
 
-    def importuj_z_csv(self, nazwa_pliku: str = 'transakcje.csv') -> bool:
+    def importuj_z_csv(self, nazwa_pliku: str = None) -> bool:
+        """Importuje transakcje z pliku CSV"""
+        if nazwa_pliku is None:
+            nazwa_pliku = os.path.join(self.exports_dir, 'transakcje.csv')
         if os.path.exists(nazwa_pliku):
             try:
                 with open(nazwa_pliku, 'r', encoding='utf-8') as csvfile:
@@ -416,7 +440,7 @@ class BudzetModel:
                             self.wydatek.dodajWydatek(transakcja.kwota)
                         elif transakcja.typ.lower() == 'przychód':
                             self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-                            self.dochod.dodajDochód(transakcja.kwota)
+                            self.dochod.dodajDochod(transakcja.kwota)
 
                 self.zapisz_dane()
                 logging.info(f"Transakcje zaimportowane z pliku CSV: {nazwa_pliku}")
@@ -427,11 +451,11 @@ class BudzetModel:
         else:
             logging.warning(f"Plik CSV do importu nie istnieje: {nazwa_pliku}")
             return False
-    
-    def importuj_z_json(self, nazwa_pliku: str = 'transakcje.json') -> bool:
-        """
-        Importuje transakcje z pliku JSON
-        """
+
+    def importuj_z_json(self, nazwa_pliku: str = None) -> bool:
+        """Importuje transakcje z pliku JSON"""
+        if nazwa_pliku is None:
+            nazwa_pliku = os.path.join(self.exports_dir, 'transakcje.json')
         if os.path.exists(nazwa_pliku):
             try:
                 with open(nazwa_pliku, 'r', encoding='utf-8') as plik:
@@ -445,22 +469,17 @@ class BudzetModel:
                             data=rekord.get('data', datetime.now().strftime('%Y-%m-%d'))
                         )
                         self.transakcje.append(transakcja)
-                        # Aktualizacja liczników dla kategorii
                         if transakcja.typ.lower() == 'wydatek':
-                            self.wydatki_kategorie[transakcja.kategoria] = (
-                                self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-                            )
+                            self.wydatki_kategorie[transakcja.kategoria] = self.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
                             self.wydatek.dodajWydatek(transakcja.kwota)
                         elif transakcja.typ.lower() == 'przychód':
-                            self.przychody_kategorie[transakcja.kategoria] = (
-                                self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-                            )
-                            self.dochod.dodajDochód(transakcja.kwota)
-                
+                            self.przychody_kategorie[transakcja.kategoria] = self.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+                            self.dochod.dodajDochod(transakcja.kwota)
+
                 self.zapisz_dane()
                 logging.info(f"Transakcje zaimportowane z pliku JSON: {nazwa_pliku}")
                 return True
-            except (IOError, json.JSONDecodeError, ValueError) as e:
+            except (IOError, json.JSONDecodeError) as e:
                 logging.error(f"Błąd importu z JSON: {e}")
                 return False
         else:
@@ -468,6 +487,7 @@ class BudzetModel:
             return False
 
     def wczytaj_limity(self) -> None:
+        """Wczytuje limity budżetowe z pliku"""
         if hasattr(self, 'plik_limity') and os.path.exists(self.plik_limity):
             try:
                 with open(self.plik_limity, 'r', encoding='utf-8') as plik:
@@ -478,47 +498,47 @@ class BudzetModel:
                 self.limity = {}
         else:
             self.limity = {}
-            logging.debug("Plik limitów nie istnieje. Inicjalizacja pustych limitów.")
 
     def zapisz_limity(self) -> None:
-        try:
-            with open(self.plik_limity, 'w', encoding='utf-8') as plik:
-                json.dump(self.limity, plik, ensure_ascii=False, indent=4)
-            logging.debug("Limity zapisane do pliku.")
-        except IOError as e:
-            logging.error(f"Błąd zapisu limitów: {e}")
+        """Zapisuje limity budżetowe do pliku"""
+        if hasattr(self, 'plik_limity'):
+            os.makedirs(os.path.dirname(self.plik_limity), exist_ok=True)
+            try:
+                with open(self.plik_limity, 'w', encoding='utf-8') as plik:
+                    json.dump(self.limity, plik, ensure_ascii=False, indent=4)
+                logging.debug("Limity zapisane do pliku.")
+            except IOError as e:
+                logging.error(f"Błąd zapisu limitów: {e}")
 
     def ustaw_limit(self, kategoria: str, limit: float) -> None:
+        """Ustawia limit dla kategorii"""
         self.limity[kategoria] = limit
         self.zapisz_limity()
         logging.info(f"Ustawiono limit dla kategorii '{kategoria}': {limit} zł")
 
     def pobierz_limit(self, kategoria: str) -> Optional[float]:
-        limit = self.limity.get(kategoria)
-        logging.debug(f"Pobrano limit dla kategorii '{kategoria}': {limit}")
-        return limit
+        """Pobiera limit dla kategorii"""
+        return self.limity.get(kategoria)
 
     def usun_limit(self, kategoria: str) -> bool:
+        """Usuwa limit dla kategorii"""
         if kategoria in self.limity:
             del self.limity[kategoria]
             self.zapisz_limity()
             logging.info(f"Usunięto limit dla kategorii '{kategoria}'")
             return True
-        else:
-            logging.warning(f"Próba usunięcia nieistniejącego limitu dla kategorii '{kategoria}'")
-            return False
+        return False
 
     def sprawdz_limit(self, kategoria: str, kwota: float) -> bool:
+        """Sprawdza czy transakcja nie przekracza limitu"""
         limit = self.pobierz_limit(kategoria)
         if limit is None:
-            logging.debug(f"Brak limitu dla kategorii '{kategoria}'.")
-            return True  # Brak limitu
+            return True
         wydatki = self.wydatki_kategorie.get(kategoria, 0)
-        sprawdzony = (wydatki + kwota) <= limit
-        logging.debug(f"Sprawdzanie limitu dla '{kategoria}': {wydatki} + {kwota} <= {limit} -> {sprawdzony}")
-        return sprawdzony
+        return (wydatki + kwota) <= limit
 
     def generuj_raport_wydatkow(self) -> Dict[str, float]:
+        """Generuje raport wydatków według kategorii"""
         raport: Dict[str, float] = {}
         for t in self.transakcje:
             if t.typ.lower() == 'wydatek':
@@ -527,6 +547,7 @@ class BudzetModel:
         return raport
 
     def generuj_raport_przychodow(self) -> Dict[str, float]:
+        """Generuje raport przychodów według kategorii"""
         raport: Dict[str, float] = {}
         for t in self.transakcje:
             if t.typ.lower() == 'przychód':
@@ -535,6 +556,7 @@ class BudzetModel:
         return raport
 
     def oblicz_wydatki_kategorie(self) -> None:
+        """Oblicza sumę wydatków dla każdej kategorii"""
         self.wydatki_kategorie = {}
         for t in self.transakcje:
             if t.typ.lower() == 'wydatek':
@@ -542,9 +564,9 @@ class BudzetModel:
         logging.debug("Obliczono wydatki dla każdej kategorii.")
 
     def oblicz_przychody_kategorie(self) -> None:
+        """Oblicza sumę przychodów dla każdej kategorii"""
         self.przychody_kategorie = {}
         for t in self.transakcje:
             if t.typ.lower() == 'przychód':
                 self.przychody_kategorie[t.kategoria] = self.przychody_kategorie.get(t.kategoria, 0) + t.kwota
         logging.debug("Obliczono przychody dla każdej kategorii.")
-
