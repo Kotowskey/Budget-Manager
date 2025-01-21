@@ -25,21 +25,22 @@ class BudzetController:
                         break
                     else:
                         continue
-                if opcja == '1':  # Transakcje
-                    self.obsluz_podmenu_transakcje()
-                elif opcja == '2':  # Podsumowania
-                    self.obsluz_podmenu_podsumowania()
-                elif opcja == '3':  # Limity
-                    self.obsluz_podmenu_limity()
-                elif opcja == '4':  # Cele
-                    self.obsluz_podmenu_cele()
-                elif opcja == '5':  # Importowanie i eksportowanie
-                    self.obsluz_podmenu_import_eksport()
-                elif opcja == '6':  # Wyjście
-                    self.view.wyswietl_wyjscie()
-                    break
-                else:
-                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+                match opcja: #Z "Nowego" pythona
+                    case '1':  # Transakcje
+                        self.obsluz_podmenu_transakcje()
+                    case '2':  # Podsumowania
+                        self.obsluz_podmenu_podsumowania()
+                    case '3':  # Limity
+                        self.obsluz_podmenu_limity()
+                    case '4':  # Cele
+                        self.obsluz_podmenu_cele()
+                    case '5':  # Importowanie i eksportowanie
+                        self.obsluz_podmenu_import_eksport()
+                    case '6':  # Wyjście
+                        self.view.wyswietl_wyjscie()
+                        break
+                    case _: #default case
+                        self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
         except Exception as e:
             self.view.wyswietl_komunikat(f"Wystąpił błąd: {e}")
         finally:
@@ -52,18 +53,19 @@ class BudzetController:
             if opcja is None:
                 # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
-            if opcja == '1':
-                self.dodaj_transakcje()
-            elif opcja == '2':
-                self.edytuj_transakcje()
-            elif opcja == '3':
-                self.usun_transakcje()
-            elif opcja == '4':
-                self.view.wyswietl_transakcje(self.model.transakcje)
-            elif opcja == '5':
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+            match opcja:
+                case '1':
+                    self.dodaj_transakcje()
+                case '2':
+                    self.edytuj_transakcje()
+                case '3':
+                    self.usun_transakcje()
+                case '4':
+                    self.view.wyswietl_transakcje(self.model.transakcje)
+                case '5':
+                    break
+                case _:
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def obsluz_podmenu_podsumowania(self) -> None:
         while True:
@@ -71,16 +73,17 @@ class BudzetController:
             opcja = self.view.pobierz_opcje_podmenu_podsumowania()
             if opcja is None:
                 break
-            if opcja == '1':
-                self.wyswietl_podsumowanie()
-            elif opcja == '2':
-                self.obsluz_podmenu_raportow()
-            elif opcja == '3':
-                self.obsluz_podmenu_wykresow()
-            elif opcja == '4':
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+            match opcja: #Z "Nowego" pythona
+                case '1':
+                    self.wyswietl_podsumowanie()
+                case '2':
+                    self.obsluz_podmenu_raportow()
+                case '3':
+                    self.obsluz_podmenu_wykresow()
+                case '4':
+                    break
+                case _: #"Default"
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def obsluz_podmenu_raportow(self) -> None:
         while True:
@@ -88,14 +91,15 @@ class BudzetController:
             opcja = self.view.pobierz_opcje_podmenu_raportow()
             if opcja is None:
                 break
-            if opcja == '1':
-                self.generuj_raport_wydatkow()
-            elif opcja == '2':
-                self.generuj_raport_przychodow()
-            elif opcja == '3':
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+            match opcja:
+                case '1':
+                    self.generuj_raport_wydatkow()
+                case '2':
+                    self.generuj_raport_przychodow()
+                case '3':
+                    break
+                case _:
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def obsluz_podmenu_wykresow(self) -> None:
         while True:
@@ -103,12 +107,13 @@ class BudzetController:
             opcja = self.view.pobierz_opcje_podmenu_wykresow()
             if opcja is None:
                 break
-            if opcja == '1':
-                self.wyswietl_wykres('wydatki')
-            elif opcja == '2':
-                self.wyswietl_wykres('przychody')
-            elif opcja == '3':
-                break
+            match opcja:
+                case '1':
+                    self.wyswietl_wykres('wydatki')
+                case '2':
+                    self.wyswietl_wykres('przychody')
+                case '3':
+                    break
 
 
     def obsluz_podmenu_limity(self) -> None:
@@ -118,16 +123,17 @@ class BudzetController:
             if opcja is None:
                 # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
-            if opcja == '1':
-                self.ustaw_limit_budzetowy()
-            elif opcja == '2':
-                self.wyswietl_limity()
-            elif opcja == '3':
-                self.usun_limit()
-            elif opcja == '4':
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+            match opcja:
+                case '1':
+                    self.ustaw_limit_budzetowy()
+                case '2':
+                    self.wyswietl_limity()
+                case '3':
+                    self.usun_limit()
+                case '4':
+                    break
+                case _:
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def obsluz_podmenu_import_eksport(self) -> None:
         while True:
@@ -136,32 +142,33 @@ class BudzetController:
             if opcja is None:
                 # Użytkownik nacisnął ESC, wracamy do głównego menu
                 break
-            if opcja == '1':  # Eksport CSV
-                try:
-                    self.model.eksportuj_do_csv()
-                    self.view.potwierdz_eksport('CSV')
-                except Exception as e:
-                    self.view.wyswietl_komunikat(f"Błąd podczas eksportu do CSV: {str(e)}")
-            elif opcja == '2':  # Eksport JSON
-                try:
-                    self.model.eksportuj_do_json()
-                    self.view.potwierdz_eksport('JSON')
-                except Exception as e:
-                    self.view.wyswietl_komunikat(f"Błąd podczas eksportu do JSON: {str(e)}")
-            elif opcja == '3':  # Import CSV
-                if self.model.importuj_z_csv():
-                    self.view.potwierdz_import()
-                else:
-                    self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.csv'.")
-            elif opcja == '4':  # Import JSON
-                if self.model.importuj_z_json():
-                    self.view.wyswietl_komunikat("Transakcje zostały zaimportowane z pliku 'transakcje.json'.")
-                else:
-                    self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.json'.")
-            elif opcja == '5':  # Powrót
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+            match opcja:
+                case '1':  # Eksport CSV
+                    try:
+                        self.model.eksportuj_do_csv()
+                        self.view.potwierdz_eksport('CSV')
+                    except Exception as e:
+                        self.view.wyswietl_komunikat(f"Błąd podczas eksportu do CSV: {str(e)}")
+                case '2':  # Eksport JSON
+                    try:
+                        self.model.eksportuj_do_json()
+                        self.view.potwierdz_eksport('JSON')
+                    except Exception as e:
+                        self.view.wyswietl_komunikat(f"Błąd podczas eksportu do JSON: {str(e)}")
+                case '3':  # Import CSV
+                    if self.model.importuj_z_csv():
+                        self.view.potwierdz_import()
+                    else:
+                        self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.csv'.")
+                case '4':  # Import JSON
+                    if self.model.importuj_z_json():
+                        self.view.wyswietl_komunikat("Transakcje zostały zaimportowane z pliku 'transakcje.json'.")
+                    else:
+                        self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.json'.")
+                case '5':  # Powrót
+                    break
+                case _:
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def obsluz_podmenu_cele(self) -> None:
         while True:
@@ -169,14 +176,15 @@ class BudzetController:
             opcja = self.view.pobierz_opcje_podmenu_cele(cel.cel_oszczednosci, cel.obecneOszczednosci)
             if opcja is None:
                 break
-            if opcja == '1':
-                self.ustaw_cel_oszczednosci()
-            elif opcja == '2':
-                self.wyswietl_postep_celu()
-            elif opcja == '3':
-                break
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
+            match opcja:
+                case '1':
+                    self.ustaw_cel_oszczednosci()
+                case '2':
+                    self.wyswietl_postep_celu()
+                case '3':
+                    break
+                case _:
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def ustaw_cel_oszczednosci(self) -> None:
         nowy_cel = self.view.pobierz_cel_oszczednosci()
@@ -209,36 +217,37 @@ class BudzetController:
                     return False
                 else:
                     continue
-            if opcja == '1':
-                login, haslo = self.view.pobierz_dane_logowania()
-                if login == "" and haslo == "":
-                    # Użytkownik anulował operację logowania
-                    continue
-                if self.model.zaloguj(login, haslo):
-                    self.zalogowany_uzytkownik = login
-                    self.view.wyswietl_komunikat(f"Zalogowano jako {login}.")
-                    return True
-                else:
-                    self.view.wyswietl_komunikat("Nieprawidłowy login lub hasło.")
-            elif opcja == '2':
-                login, haslo = self.view.pobierz_dane_rejestracji()
-                if login == "" and haslo == "":
-                    # Użytkownik anulował operację rejestracji
-                    continue
-                if self.model.zarejestruj(login, haslo):
-                    self.view.wyswietl_komunikat("Rejestracja udana. Możesz się teraz zalogować.")
-                else:
-                    self.view.wyswietl_komunikat("Użytkownik o takim loginie już istnieje.")
-            elif opcja == '3':
-                potwierdzenie = self.view.pobierz_potwierdzenie("Czy chcesz wyjść z aplikacji?")
-                if potwierdzenie:
-                    self.view.wyswietl_wyjscie()
-                    self.view.zakoncz()
-                    return False
-                else:
-                    continue
-            else:
-                self.view.wyswietl_komunikat("Nieprawidłowa opcja.")
+            match opcja:
+                case '1':
+                    login, haslo = self.view.pobierz_dane_logowania()
+                    if login == "" and haslo == "":
+                        # Użytkownik anulował operację logowania
+                        continue
+                    if self.model.zaloguj(login, haslo):
+                        self.zalogowany_uzytkownik = login
+                        self.view.wyswietl_komunikat(f"Zalogowano jako {login}.")
+                        return True
+                    else:
+                        self.view.wyswietl_komunikat("Nieprawidłowy login lub hasło.")
+                case '2':
+                    login, haslo = self.view.pobierz_dane_rejestracji()
+                    if login == "" and haslo == "":
+                        # Użytkownik anulował operację rejestracji
+                        continue
+                    if self.model.zarejestruj(login, haslo):
+                        self.view.wyswietl_komunikat("Rejestracja udana. Możesz się teraz zalogować.")
+                    else:
+                        self.view.wyswietl_komunikat("Użytkownik o takim loginie już istnieje.")
+                case '3':
+                    potwierdzenie = self.view.pobierz_potwierdzenie("Czy chcesz wyjść z aplikacji?")
+                    if potwierdzenie:
+                        self.view.wyswietl_wyjscie()
+                        self.view.zakoncz()
+                        return False
+                    else:
+                        continue
+                case _:
+                    self.view.wyswietl_komunikat("Nieprawidłowa opcja.")
 
     def dodaj_transakcje(self) -> None:
         dane = self.view.pobierz_dane_transakcji()
@@ -306,12 +315,13 @@ class BudzetController:
     def eksportuj_transakcje(self) -> None:
             try:
                 format_eksportu = self.view.pobierz_format_eksportu()  # Dodaj tę metodę w widoku
-                if format_eksportu == 'csv':
-                    self.model.eksportuj_do_csv()
-                    self.view.potwierdz_eksport('CSV')
-                elif format_eksportu == 'json':
-                    self.model.eksportuj_do_json()
-                    self.view.potwierdz_eksport('JSON')
+                match format_eksportu:
+                    case 'csv':
+                        self.model.eksportuj_do_csv()
+                        self.view.potwierdz_eksport('CSV')
+                    case 'json':
+                        self.model.eksportuj_do_json()
+                        self.view.potwierdz_eksport('JSON')
             except Exception as e:
                 self.view.wyswietl_komunikat(f"Błąd podczas eksportu: {str(e)}")
 
@@ -362,12 +372,13 @@ class BudzetController:
 
     def wyswietl_wykres(self, typ_wykresu: str) -> None:
         # Pobieramy raport z modelu
-        if typ_wykresu == 'wydatki':
-            raport = self.model.generuj_raport_wydatkow()
-        elif typ_wykresu == 'przychody':
-            raport = self.model.generuj_raport_przychodow()
-        else:
-            raport = {}
+        match typ_wykresu:
+            case 'wydatki':
+                raport = self.model.generuj_raport_wydatkow()
+            case  'przychody':
+                raport = self.model.generuj_raport_przychodow()
+            case _:
+                raport = {}
 
         # Używamy fabryki do stworzenia odpowiedniego wykresu
         wykres = FabrykaWykresow.utworz_wykres(typ_wykresu)
