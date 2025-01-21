@@ -385,13 +385,13 @@ class BudzetModel:
         logging.debug(f"Obliczone saldo: {saldo}")
         return saldo
 
-    def filtruj_transakcje_po_dacie(self, start_date: str, end_date: str) -> List[Transakcja]:
+    def filtruj_transakcje_po_dacie(self, data_poczatkowa: str, data_koncowa: str) -> List[Transakcja]:
         """Filtruje transakcje według zakresu dat"""
         filtrowane = [
             t for t in self.transakcje
-            if start_date <= t.data <= end_date
+            if data_poczatkowa <= t.data <= data_koncowa
         ]
-        logging.debug(f"Filtrowano transakcje od {start_date} do {end_date}: {len(filtrowane)} znalezionych.")
+        logging.debug(f"Filtrowano transakcje od {data_poczatkowa} do {data_koncowa}: {len(filtrowane)} znalezionych.")
         return filtrowane
 
     def eksportuj_do_csv(self, nazwa_pliku: str = None) -> None:

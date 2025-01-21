@@ -16,7 +16,7 @@ class BudzetCursesView:
         curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)  # Nowy kolor dla potwierdzenia
         self.current_row = 0
 
-    def wyswietl_welcome_screen(self) -> None:
+    def wyswietl_ekran_powitalny(self) -> None:
         self.stdscr.clear()
         ascii_art = [
             "  ____  _    _ _____   _____ ______ _______   __  __          _   _          _____ ______ _____  ",
@@ -39,10 +39,10 @@ class BudzetCursesView:
                 except curses.error:
                     pass
             self.stdscr.refresh()
-            key = self.stdscr.getch()
-            if key in [10, 13, curses.KEY_ENTER]:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk in [10, 13, curses.KEY_ENTER]:
                 break
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 self.wyswietl_wyjscie()
                 self.zakoncz()
                 exit()
@@ -53,7 +53,7 @@ class BudzetCursesView:
             'Transakcje',
             'Podsumowania',
             'Limity',
-            'Cele',  # New menu item for Goals
+            'Cele',  
             'Importowanie i eksportowanie',
             'Wyjście'
         ]
@@ -62,19 +62,19 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
-        menu_length = 6  # Updated menu length
+        menu_length = 6 
         while True:
             self.wyswietl_glowne_menu_kategorii()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -94,16 +94,16 @@ class BudzetCursesView:
         menu_length = 4
         while True:
             self.wyswietl_podmenu_limity()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -124,16 +124,16 @@ class BudzetCursesView:
         menu_length = 5
         while True:
             self.wyswietl_podmenu_transakcje()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -153,16 +153,16 @@ class BudzetCursesView:
         menu_length = 4
         while True:
             self.wyswietl_podmenu_podsumowania()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -181,16 +181,16 @@ class BudzetCursesView:
         menu_length = 3
         while True:
             self.wyswietl_podmenu_raportow()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -209,16 +209,16 @@ class BudzetCursesView:
         menu_length = 3
         while True:
             self.wyswietl_podmenu_wykresow()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -265,16 +265,16 @@ class BudzetCursesView:
         menu_length = 3
         while True:
             self.wyswietl_ekran_logowania()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -301,18 +301,18 @@ class BudzetCursesView:
         self.stdscr.move(y, x_start)
         self.stdscr.clrtoeol()
         while True:
-            key = self.stdscr.getch()
-            if key in [10, 13]:  # Enter key
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk in [10, 13]: 
                 break
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
-            elif key in [curses.KEY_BACKSPACE, 127, 8]:
+            elif wcisniety_przycisk in [curses.KEY_BACKSPACE, 127, 8]:
                 if len(input_str) > 0:
                     input_str = input_str[:-1]
                     self.stdscr.delch(y, x_start + len(input_str))
-            elif key >= 32 and len(input_str) < max_length:
-                input_str += chr(key)
-                self.stdscr.addch(y, x_start + len(input_str) - 1, key)
+            elif wcisniety_przycisk >= 32 and len(input_str) < max_length:
+                input_str += chr(wcisniety_przycisk)
+                self.stdscr.addch(y, x_start + len(input_str) - 1, wcisniety_przycisk)
         if input_str == "":
             return None
         return input_str.strip()
@@ -405,14 +405,14 @@ class BudzetCursesView:
             self.stdscr.addstr(h-3, 1, footer)
             self.wyswietl_footer()
             self.stdscr.refresh()
-            key = self.stdscr.getch()
-            if key in [ord('n'), ord('N')]:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk in [ord('n'), ord('N')]:
                 if current_page < total_pages - 1:
                     current_page += 1
-            elif key in [ord('p'), ord('P')]:
+            elif wcisniety_przycisk in [ord('p'), ord('P')]:
                 if current_page > 0:
                     current_page -= 1
-            elif key in [ord('q'), ord('Q'), ESC]:
+            elif wcisniety_przycisk in [ord('q'), ord('Q'), ESC]:
                 break
 
     def wyswietl_podsumowanie(self, saldo: float) -> None:
@@ -511,16 +511,16 @@ class BudzetCursesView:
         self.stdscr.clear()
         try:
             self.stdscr.addstr(1, 1, "Podaj datę początkową (YYYY-MM-DD): ")
-            start_date = self.pobierz_input(1, 40, 10)
-            if start_date is None:
+            data_poczatkowa = self.pobierz_input(1, 40, 10)
+            if data_poczatkowa is None:
                 raise ValueError("Anulowano operację.")
-            datetime.strptime(start_date, '%Y-%m-%d')  # Walidacja
+            datetime.strptime(data_poczatkowa, '%Y-%m-%d')  # Walidacja
             self.stdscr.addstr(2, 1, "Podaj datę końcową (YYYY-MM-DD): ")
-            end_date = self.pobierz_input(2, 40, 10)
-            if end_date is None:
+            data_koncowa = self.pobierz_input(2, 40, 10)
+            if data_koncowa is None:
                 raise ValueError("Anulowano operację.")
-            datetime.strptime(end_date, '%Y-%m-%d')  # Walidacja
-            return start_date, end_date
+            datetime.strptime(data_koncowa, '%Y-%m-%d')  # Walidacja
+            return data_poczatkowa, data_koncowa
         except ValueError as e:
             self.wyswietl_komunikat(f"{e}")
             return None, None
@@ -578,14 +578,14 @@ class BudzetCursesView:
                     self.stdscr.addstr(y, x, row)
             self.wyswietl_footer()
             self.stdscr.refresh()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < len(menu) - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < len(menu) - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 return self.current_row == 0
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return False
 
     def wyswietl_footer(self) -> None:
@@ -637,14 +637,14 @@ class BudzetCursesView:
         menu_length = 5  # Zaktualizowana długość menu
         while True:
             self.wyswietl_podmenu_import_eksport()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -652,14 +652,14 @@ class BudzetCursesView:
         menu_length = 5
         while True:
             self.wyswietl_podmenu_import_eksport()
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 return str(self.current_row + 1)
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 
@@ -680,16 +680,16 @@ class BudzetCursesView:
         menu_length = 3
         while True:
             self.wyswietl_podmenu_cele(cel_oszczednosci, obecneOszczednosci)
-            key = self.stdscr.getch()
-            if key == curses.KEY_UP and self.current_row > 0:
+            wcisniety_przycisk = self.stdscr.getch()
+            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
                 self.current_row -= 1
-            elif key == curses.KEY_DOWN and self.current_row < menu_length - 1:
+            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
                 self.current_row += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
+            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
                 opcja = str(self.current_row + 1)
                 self.current_row = 0
                 return opcja
-            elif key == ESC:
+            elif wcisniety_przycisk == ESC:
                 return None
             self.stdscr.refresh()
 

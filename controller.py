@@ -11,7 +11,7 @@ class BudzetController:
 
     def uruchom(self) -> None:
         try:
-            self.view.wyswietl_welcome_screen()  # Wyświetlenie ekranu powitalnego
+            self.view.wyswietl_ekran_powitalny()  # Wyświetlenie ekranu powitalnego
             if not self.logowanie():
                 return  # Jeśli użytkownik anulował logowanie, zakończ aplikację
             while True:
@@ -314,7 +314,7 @@ class BudzetController:
 
     def eksportuj_transakcje(self) -> None:
             try:
-                format_eksportu = self.view.pobierz_format_eksportu()  # Dodaj tę metodę w widoku
+                format_eksportu = self.view.pobierz_format_eksportu()
                 match format_eksportu:
                     case 'csv':
                         self.model.eksportuj_do_csv()
@@ -333,11 +333,11 @@ class BudzetController:
             self.view.wyswietl_komunikat("Nie udało się zaimportować transakcji z pliku 'transakcje.csv'.")
 
     def filtruj_transakcje(self) -> None:
-        start_date, end_date = self.view.pobierz_zakres_dat()
-        if not start_date or not end_date:
+        data_poczatkowa, data_koncowa = self.view.pobierz_zakres_dat()
+        if not data_poczatkowa or not data_koncowa:
             self.view.wyswietl_komunikat("Nieprawidłowy zakres dat.")
             return
-        filtrowane = self.model.filtruj_transakcje_po_dacie(start_date, end_date)
+        filtrowane = self.model.filtruj_transakcje_po_dacie(data_poczatkowa, data_koncowa)
         self.view.wyswietl_transakcje(filtrowane)
 
     def ustaw_limit_budzetowy(self) -> None:
