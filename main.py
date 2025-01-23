@@ -1,5 +1,4 @@
 from controller import BudzetController
-from curses_view import BudzetCursesView
 
 def main():
     try:
