@@ -1,4 +1,3 @@
-# controller.py
 from model import BudzetModel, Transakcja
 from curses_view import BudzetCursesView
 from fabrica import FabrykaWykresow

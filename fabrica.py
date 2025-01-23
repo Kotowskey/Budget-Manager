@@ -1,5 +1,3 @@
-# fabryka.py
-
 from abc import ABC, abstractmethod
 from typing import Dict
 from curses_view import BudzetCursesView
