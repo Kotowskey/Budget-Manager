@@ -1,11 +1,11 @@
 from model import BudzetModel, Transakcja
 from budzet_service import BudzetService
-from curses_view import BudzetCursesView
+from view import BudzetCursesView
 from fabrica import FabrykaWykresow
 
 class BudzetController:
     def __init__(self) -> None:
-        self.model = BudzetModel()               # Puste dane
+        self.model = BudzetModel()               # Pusty model danych
         self.service = BudzetService(self.model) # Warstwa logiki
         self.view = BudzetCursesView()
         self.zalogowany_uzytkownik = None
@@ -141,13 +141,11 @@ class BudzetController:
             dane = self.view.pobierz_dane_transakcji(edycja=True)
             if not dane:
                 return
-            # Zostawiamy oryginalny typ, jeśli tak chcemy
+            # Zostawiamy oryginalny typ (jeśli tak chcemy)
             dane['typ'] = stara.typ
             if dane['typ'] == 'wydatek':
                 kwota = dane['kwota']
                 kategoria = dane['kategoria']
-                # Tymczasowe zdjęcie starej kwoty z kategorii już następuje w serwisie,
-                # ale tutaj można sprawdzić limit
                 if not self.service.sprawdz_limit(kategoria, kwota):
                     komunikat = ("Przekroczono limit budżetowy!\nCzy chcesz mimo to zaktualizować transakcję?")
                     potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
@@ -277,7 +275,7 @@ class BudzetController:
             self.view.wyswietl_komunikat(f"Limit dla kategorii '{kategoria}' nie istnieje.")
 
     # -----------------------------
-    # Podmenu Cele oszczędności
+    # Podmenu Cele
     # -----------------------------
     def obsluz_podmenu_cele(self) -> None:
         while True:
@@ -299,8 +297,10 @@ class BudzetController:
                     self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
 
     def ustaw_cel_oszczednosci(self) -> None:
+        if not self.model.cel_oszczedzania:
+            return
         nowy_cel = self.view.pobierz_cel_oszczednosci()
-        if nowy_cel is not None and self.model.cel_oszczedzania:
+        if nowy_cel is not None:
             self.model.cel_oszczedzania.ustaw_nowy_cel(nowy_cel)
             self.view.wyswietl_komunikat(f"Ustawiono nowy cel oszczędności: {nowy_cel} zł")
             self.sprawdz_cel_osiagniety()

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict
-from curses_view import BudzetCursesView
+from view import BudzetCursesView  # zakładamy, że plik widoku nazywa się view.py
 
 class Wykres(ABC):
     @abstractmethod

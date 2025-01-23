@@ -1,10 +1,8 @@
-# view.py
 import curses
 from datetime import datetime
 from typing import Optional, Tuple, Dict
 
 ESC = 27  # Stała dla klawisza ESC
-
 
 class BudzetCursesView:
     def __init__(self):
@@ -401,7 +399,7 @@ class BudzetCursesView:
                     self.stdscr.addstr(i - start + 2, 1, linia)
                 except curses.error:
                     break
-            footer = f"Strona {current_page + 1}/{total_pages}. Naciśnij 'n' dla następnej strony, 'p' dla poprzedniej, 'q' aby wyjść lub ESC aby anulować."
+            footer = f"Strona {current_page + 1}/{total_pages}. Naciśnij 'n' (następna), 'p' (poprzednia), 'q' lub ESC aby wyjść."
             self.stdscr.addstr(h-3, 1, footer)
             self.wyswietl_footer()
             self.stdscr.refresh()
@@ -466,14 +464,13 @@ class BudzetCursesView:
         finally:
             curses.noecho()
 
-    
     def potwierdz_eksport(self, format_pliku: str = '') -> None:
         """Wyświetla potwierdzenie eksportu"""
         nazwa_pliku = 'transakcje.csv' if format_pliku.lower() == 'csv' else 'transakcje.json'
         self.wyswietl_komunikat(f"Transakcje zostały wyeksportowane do pliku '{nazwa_pliku}'.")
 
     def potwierdz_import(self) -> None:
-        self.wyswietl_komunikat("Transakcje zostały zaimportowane z pliku 'transakcje.csv'.")
+        self.wyswietl_komunikat("Transakcje zostały zaimportowane.")
 
     def potwierdz_ustawienie_limitu(self, kategoria: str, limit: float) -> None:
         self.wyswietl_komunikat(f"Ustawiono limit {limit:.2f} zł dla kategorii '{kategoria}'.")
@@ -526,7 +523,6 @@ class BudzetCursesView:
             return None, None
         finally:
             curses.noecho()
-
 
     def wyswietl_wyjscie(self) -> None:
         ascii_art = [
@@ -621,32 +617,17 @@ class BudzetCursesView:
         return kategoria.strip()
 
     def wyswietl_podmenu_import_eksport(self) -> None:
-            self.stdscr.clear()
-            menu = [
-                'Eksportuj transakcje do CSV',
-                'Eksportuj transakcje do JSON',
-                'Importuj transakcje z CSV',
-                'Importuj transakcje z JSON',
-                'Powrót do głównego menu'
-            ]
-            self.wyswietl_menu_opcje(menu)
-            self.wyswietl_footer()
-            self.stdscr.refresh()
-
-    def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
-        menu_length = 5  # Zaktualizowana długość menu
-        while True:
-            self.wyswietl_podmenu_import_eksport()
-            wcisniety_przycisk = self.stdscr.getch()
-            if wcisniety_przycisk == curses.KEY_UP and self.current_row > 0:
-                self.current_row -= 1
-            elif wcisniety_przycisk == curses.KEY_DOWN and self.current_row < menu_length - 1:
-                self.current_row += 1
-            elif wcisniety_przycisk in [curses.KEY_ENTER, 10, 13]:
-                return str(self.current_row + 1)
-            elif wcisniety_przycisk == ESC:
-                return None
-            self.stdscr.refresh()
+        self.stdscr.clear()
+        menu = [
+            'Eksportuj transakcje do CSV',
+            'Eksportuj transakcje do JSON',
+            'Importuj transakcje z CSV',
+            'Importuj transakcje z JSON',
+            'Powrót do głównego menu'
+        ]
+        self.wyswietl_menu_opcje(menu)
+        self.wyswietl_footer()
+        self.stdscr.refresh()
 
     def pobierz_opcje_podmenu_import_eksport(self) -> Optional[str]:
         menu_length = 5
@@ -719,22 +700,3 @@ class BudzetCursesView:
         self.stdscr.refresh()
         self.stdscr.getch()
 
-    def wyswietl_menu_formatu_eksportu(self) -> None:
-        """Wyświetla menu wyboru formatu eksportu"""
-        self.stdscr.clear()
-        menu = [
-            'Eksportuj do CSV',
-            'Eksportuj do JSON',
-            'Powrót'
-        ]
-        h, w = self.stdscr.getmaxyx()
-        header = "=== Wybierz format eksportu ==="
-        try:
-            self.stdscr.addstr(0, max((w // 2) - (len(header) // 2), 0), header)
-        except curses.error:
-            pass
-        
-        self.wyswietl_menu_opcje(menu)
-        self.wyswietl_footer()
-        self.stdscr.refresh()
-    
