@@ -123,24 +123,40 @@ class BudzetService:
     # -----------------------------
     # Transakcje
     # -----------------------------
-    def dodaj_transakcje(self, transakcja: Transakcja) -> None:
-        self.model.transakcje.append(transakcja)
 
-        if transakcja.typ.lower() == 'wydatek':
-            self.model.wydatki_kategorie[transakcja.kategoria] = \
-                self.model.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-            self.wydatek.dodajWydatek(transakcja.kwota)
-        elif transakcja.typ.lower() == 'przychód':
-            self.model.przychody_kategorie[transakcja.kategoria] = \
-                self.model.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
-            self.dochod.dodajDochod(transakcja.kwota)
+    def dodaj_transakcje(self, kwota: float, kategoria: str, typ: str, opis: str = "", data: str = None) -> None:
+    # Tworzenie transakcji za pomocą Buildera
+        builder = TransakcjeBuilder()
+        transakcja = (
+        builder
+        .ustaw_kwote(kwota)
+        .ustaw_kategorie(kategoria)
+        .ustaw_typ(typ)
+        .ustaw_opis(opis)
+        .ustaw_date(data)
+        .buduj()
+    )
 
-        self.zapisz_dane()
+    # Dodawanie transakcji do modelu
+    self.model.transakcje.append(transakcja)
 
-    def edytuj_transakcje(self, indeks: int, nowa_transakcja: Transakcja) -> bool:
+    # Aktualizacja kategorii
+    if transakcja.typ.lower() == 'wydatek':
+        self.model.wydatki_kategorie[transakcja.kategoria] = \
+            self.model.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+        self.wydatek.dodajWydatek(transakcja.kwota)
+    elif transakcja.typ.lower() == 'przychód':
+        self.model.przychody_kategorie[transakcja.kategoria] = \
+            self.model.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
+        self.dochod.dodajDochod(transakcja.kwota)
+
+    self.zapisz_dane()
+
+    def edytuj_transakcje(self, indeks: int, kwota: float, kategoria: str, typ: str, opis: str = "", data: str = None) -> bool:
         if 0 <= indeks < len(self.model.transakcje):
             stara = self.model.transakcje[indeks]
-            # Najpierw cofamy starą transakcję w kategoriach
+
+        # Cofanie starej transakcji z kategorii
             if stara.typ.lower() == 'wydatek':
                 self.model.wydatki_kategorie[stara.kategoria] -= stara.kwota
                 if self.model.wydatki_kategorie[stara.kategoria] <= 0:
@@ -150,7 +166,19 @@ class BudzetService:
                 if self.model.przychody_kategorie[stara.kategoria] <= 0:
                     del self.model.przychody_kategorie[stara.kategoria]
 
-            # Dodajemy nowe wartości
+        # Tworzenie nowej transakcji za pomocą Buildera
+            builder = TransakcjeBuilder()
+            nowa_transakcja = (
+                builder
+                .ustaw_kwote(kwota)
+                .ustaw_kategorie(kategoria)
+                .ustaw_typ(typ)
+                .ustaw_opis(opis)
+                .ustaw_date(data)
+                .buduj()
+            )
+
+        # Dodanie nowej transakcji do kategorii
             if nowa_transakcja.typ.lower() == 'wydatek':
                 self.model.wydatki_kategorie[nowa_transakcja.kategoria] = \
                     self.model.wydatki_kategorie.get(nowa_transakcja.kategoria, 0) + nowa_transakcja.kwota

@@ -129,3 +129,45 @@ class BudzetModel:
 
     # Cel oszczędzania (Obserwator)
     cel_oszczedzania: Optional[Cel] = None
+    
+    class TransakcjeBuilder:
+        def __init__(self):
+            self.kwota = 0.0
+            self.kategoria = ""
+            self.typ = "przychód"  # Domyślny typ
+            self.opis = ""
+            self.data = None
+
+        def ustaw_kwote(self, kwota: float):
+            self.kwota = kwota
+            return self
+
+        def ustaw_kategorie(self, kategoria: str):
+            self.kategoria = kategoria
+            return self
+
+        def ustaw_typ(self, typ: str):
+            if typ.lower() not in ["przychód", "wydatek"]:
+                raise ValueError("Nieprawidłowy typ transakcji. Dozwolone wartości to: 'przychód' lub 'wydatek'.")
+            self.typ = typ.lower()
+            return self
+
+        def ustaw_opis(self, opis: str):
+            self.opis = opis
+            return self
+
+        def ustaw_date(self, data: str):
+            self.data = data
+            return self
+
+        def buduj(self):
+            if not self.data:
+                from datetime import datetime
+                self.data = datetime.now().strftime('%Y-%m-%d')
+                return Transakcja(
+                kwota=self.kwota,
+                kategoria=self.kategoria,
+                typ=self.typ,
+                opis=self.opis,
+                data=self.data
+            )
