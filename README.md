@@ -30,155 +30,129 @@ Styczeń 2025 r.
 ## Diagram klas budujących
 ```mermaid
 classDiagram
-    %% MVC Pattern
     class BudzetController {
         -model: BudzetModel
         -service: BudzetService
         -view: BudzetCursesView
-        -zalogowany_uzytkownik: str
         +uruchom()
         +logowanie()
-        +obsluz_podmenu_*()
     }
-    
+
     class BudzetModel {
         +transakcje: List[Transakcja]
         +limity: Dict[str, float]
         +wydatki_kategorie: Dict[str, float]
         +przychody_kategorie: Dict[str, float]
         +zalogowany_uzytkownik: str
-        +uzytkownicy: Dict[str, str]
         +cel_oszczedzania: Cel
     }
-    
-    class BudzetCursesView {
-        +stdscr
-        +current_row: int
-        +wyswietl_*()
-        +pobierz_*()
-    }
-    
+
     class BudzetService {
         -model: BudzetModel
         -dochod: Dochod
         -wydatek: Wydatek
-        -data_dir: str
-        -users_dir: str
-        -exports_dir: str
-        +zaloguj()
-        +zarejestruj()
         +dodaj_transakcje()
         +edytuj_transakcje()
         +usun_transakcje()
-        +eksportuj_do_csv()
-        +eksportuj_do_json()
-        +importuj_z_csv()
-        +importuj_z_json()
     }
 
-    %% Observer Pattern
-    class Podmiot {
-        <<abstract>>
-        +obserwatorzy: List
-        +dodaj(obserwator)
-        +usun(obserwator)
-        +powiadomObserwatorow()
-    }
-    
-    class Obserwator {
-        <<interface>>
-        +aktualizuj(podmiot)
-    }
-    
-    class Dochod {
-        -ostatnia_kwota: float
-        +dodajDochod(kwota)
-    }
-    
-    class Wydatek {
-        -ostatnia_kwota: float
-        +dodajWydatek(kwota)
-    }
-    
-    class Cel {
-        -cel_oszczednosci: float
-        -obecneOszczednosci: float
-        -uzytkownik: str
-        -plik_celu: str
-        +aktualizuj(podmiot)
-        +monitorujPostep()
-        +powiadomCelOsiagniety()
-        +wczytaj_cel()
-        +zapisz_cel()
+    class BudzetCursesView {
+        +stdscr: curses.window
+        +wyswietl_menu()
+        +pobierz_input()
     }
 
-    %% Factory Pattern
-    class FabrykaWykresow {
-        +utworz_wykres(typ): Wykres
-    }
-    
-    class Wykres {
-        <<abstract>>
-        +rysuj(raport, view)*
-    }
-    
-    class WykresWydatkow {
-        +rysuj(raport, view)
-    }
-    
-    class WykresPrzychodow {
-        +rysuj(raport, view)
-    }
-
-    %% Adapter Pattern
-    class EksporterCSV {
-        +eksportujDoCSV(dane, nazwa_pliku)
-    }
-    
-    class EksporterJSON {
-        +eksportujDoJSON(dane, nazwa_pliku)
-    }
-
-    %% Data Class
     class Transakcja {
         +kwota: float
         +kategoria: str
         +typ: str
         +opis: str
         +data: str
-        +to_dict()
     }
 
-    %% Relationships - Core MVC
-    BudzetController --> BudzetModel : uses
-    BudzetController --> BudzetService : uses
-    BudzetController --> BudzetCursesView : uses
-    BudzetController --> FabrykaWykresow : uses
-    BudzetService --> BudzetModel : manages
-    
-    %% Observer Pattern Relationships
-    Podmiot <|-- Dochod : extends
-    Podmiot <|-- Wydatek : extends
-    Obserwator <|.. Cel : implements
-    BudzetModel --> Cel : has
-    BudzetService --> Dochod : has
-    BudzetService --> Wydatek : has
-    
-    %% Factory Pattern Relationships
-    Wykres <|-- WykresWydatkow : extends
-    Wykres <|-- WykresPrzychodow : extends
-    FabrykaWykresow ..> WykresWydatkow : creates
-    FabrykaWykresow ..> WykresPrzychodow : creates
-    WykresWydatkow --> BudzetCursesView : uses
-    WykresPrzychodow --> BudzetCursesView : uses
-    
-    %% Adapter Pattern Relationships
-    BudzetService --> EksporterCSV : uses
-    BudzetService --> EksporterJSON : uses
-    
-    %% Data Relationships
-    BudzetModel --> Transakcja : contains
-    BudzetService ..> Transakcja : creates
+    class TransakcjaBuilder {
+        -_kwota: float
+        -_kategoria: str
+        -_typ: str
+        -_opis: str
+        -_data: str
+        +set_kwota()
+        +set_kategoria()
+        +build()
+    }
+
+    class Podmiot {
+        +obserwatorzy: List[Obserwator]
+        +dodaj()
+        +usun()
+        +powiadomObserwatorow()
+    }
+
+    class Obserwator {
+        <<interface>>
+        +aktualizuj()*
+    }
+
+    class Dochod {
+        +ostatnia_kwota: float
+        +dodajDochod()
+    }
+
+    class Wydatek {
+        +ostatnia_kwota: float
+        +dodajWydatek()
+    }
+
+    class Cel {
+        +cel_oszczednosci: float
+        +obecneOszczednosci: float
+        +aktualizuj()
+        +monitorujPostep()
+    }
+
+    class Wykres {
+        <<abstract>>
+        +rysuj()*
+    }
+
+    class WykresWydatkow {
+        +rysuj()
+    }
+
+    class WykresPrzychodow {
+        +rysuj()
+    }
+
+    class FabrykaWykresow {
+        +utworz_wykres()
+    }
+
+    class EksporterCSV {
+        +eksportujDoCSV()
+    }
+
+    class EksporterJSON {
+        +eksportujDoJSON()
+    }
+
+    BudzetController --> BudzetModel
+    BudzetController --> BudzetService
+    BudzetController --> BudzetCursesView
+    BudzetService --> BudzetModel
+    BudzetService --> EksporterCSV
+    BudzetService --> EksporterJSON
+    BudzetService --> Dochod
+    BudzetService --> Wydatek
+    TransakcjaBuilder --> Transakcja
+    Dochod --|> Podmiot
+    Wydatek --|> Podmiot
+    Cel ..|> Obserwator
+    WykresWydatkow --|> Wykres
+    WykresPrzychodow --|> Wykres
+    FabrykaWykresow --> Wykres
+    BudzetModel --> Transakcja
+    BudzetModel --> Cel
+    Podmiot --> Obserwator
 ```
 
 ## Opisy wzorców
