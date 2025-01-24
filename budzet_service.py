@@ -3,18 +3,11 @@ import json
 import csv
 from datetime import datetime
 from typing import Dict, List, Optional
-
-from model import (
-    BudzetModel,
-    Transakcja,
-    Dochod,
-    Wydatek,
-    Cel,
-)
-
 ##########################################
 # Eksporter CSV / JSON (Adapter)
 ##########################################
+from model import BudzetModel, Transakcja, Dochod, Wydatek, Cel
+from transakcja_builder import TransakcjaBuilder
 
 class EksporterCSV:
     def eksportujDoCSV(self, dane: List[Dict], nazwa_pliku: str) -> None:
@@ -42,27 +35,18 @@ class EksporterJSON:
 ##########################################
 
 class BudzetService:
-    """
-    Klasa zawierająca logikę biznesową i operacje na danych BudzetModel.
-    """
     def __init__(self, model: BudzetModel) -> None:
         self.model = model
         self.data_dir = 'data'
         self.users_dir = os.path.join(self.data_dir, 'users')
         self.exports_dir = os.path.join(self.data_dir, 'exports')
-
         os.makedirs(self.data_dir, exist_ok=True)
         os.makedirs(self.users_dir, exist_ok=True)
         os.makedirs(self.exports_dir, exist_ok=True)
 
-        # Plik zbiorczy z użytkownikami
         self.uzytkownicy_plik: str = os.path.join(self.users_dir, 'uzytkownicy.json')
-
-        # Obserwatorzy do transakcji
         self.dochod = Dochod()
         self.wydatek = Wydatek()
-
-        # Ścieżki do plików – ustawiane dopiero po zalogowaniu
         self.plik_danych: Optional[str] = None
         self.plik_limity: Optional[str] = None
 
@@ -77,15 +61,11 @@ class BudzetService:
             self.model.zalogowany_uzytkownik = login
             user_dir = os.path.join(self.users_dir, login)
             os.makedirs(user_dir, exist_ok=True)
-
             self.plik_danych = os.path.join(user_dir, 'dane.json')
             self.plik_limity = os.path.join(user_dir, 'limity.json')
-
-            # Cel oszczędzania
             self.model.cel_oszczedzania = Cel(10000.0, login)
             self.dochod.dodaj(self.model.cel_oszczedzania)
             self.wydatek.dodaj(self.model.cel_oszczedzania)
-
             self.wczytaj_dane()
             self.wczytaj_limity()
             self.oblicz_wydatki_kategorie()
@@ -125,7 +105,6 @@ class BudzetService:
     # -----------------------------
     def dodaj_transakcje(self, transakcja: Transakcja) -> None:
         self.model.transakcje.append(transakcja)
-
         if transakcja.typ.lower() == 'wydatek':
             self.model.wydatki_kategorie[transakcja.kategoria] = \
                 self.model.wydatki_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
@@ -134,13 +113,11 @@ class BudzetService:
             self.model.przychody_kategorie[transakcja.kategoria] = \
                 self.model.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
             self.dochod.dodajDochod(transakcja.kwota)
-
         self.zapisz_dane()
 
     def edytuj_transakcje(self, indeks: int, nowa_transakcja: Transakcja) -> bool:
         if 0 <= indeks < len(self.model.transakcje):
             stara = self.model.transakcje[indeks]
-            # Najpierw cofamy starą transakcję w kategoriach
             if stara.typ.lower() == 'wydatek':
                 self.model.wydatki_kategorie[stara.kategoria] -= stara.kwota
                 if self.model.wydatki_kategorie[stara.kategoria] <= 0:
@@ -150,7 +127,6 @@ class BudzetService:
                 if self.model.przychody_kategorie[stara.kategoria] <= 0:
                     del self.model.przychody_kategorie[stara.kategoria]
 
-            # Dodajemy nowe wartości
             if nowa_transakcja.typ.lower() == 'wydatek':
                 self.model.wydatki_kategorie[nowa_transakcja.kategoria] = \
                     self.model.wydatki_kategorie.get(nowa_transakcja.kategoria, 0) + nowa_transakcja.kwota
@@ -172,7 +148,6 @@ class BudzetService:
                 self.model.wydatki_kategorie[transakcja.kategoria] -= transakcja.kwota
                 if self.model.wydatki_kategorie[transakcja.kategoria] <= 0:
                     del self.model.wydatki_kategorie[transakcja.kategoria]
-                # Cofamy w obserwatorze:
                 self.wydatek.dodajWydatek(-transakcja.kwota)
             elif transakcja.typ.lower() == 'przychód':
                 self.model.przychody_kategorie[transakcja.kategoria] -= transakcja.kwota
@@ -303,12 +278,14 @@ class BudzetService:
                 with open(nazwa_pliku, 'r', encoding='utf-8') as csvfile:
                     reader = csv.DictReader(csvfile)
                     for row in reader:
-                        transakcja = Transakcja(
-                            kwota=float(row['kwota']),
-                            kategoria=row['kategoria'],
-                            typ=row['typ'],
-                            opis=row.get('opis', ''),
-                            data=row.get('data', datetime.now().strftime('%Y-%m-%d'))
+                        transakcja = (
+                            TransakcjaBuilder()
+                            .set_kwota(float(row['kwota']))
+                            .set_kategoria(row['kategoria'])
+                            .set_typ(row['typ'])
+                            .set_opis(row.get('opis', ''))
+                            .set_data(row.get('data', datetime.now().strftime('%Y-%m-%d')))
+                            .build()
                         )
                         self.model.transakcje.append(transakcja)
                         if transakcja.typ.lower() == 'wydatek':
@@ -319,7 +296,6 @@ class BudzetService:
                             self.model.przychody_kategorie[transakcja.kategoria] = \
                                 self.model.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
                             self.dochod.dodajDochod(transakcja.kwota)
-
                 self.zapisz_dane()
                 return True
             except (IOError, ValueError):
@@ -332,12 +308,14 @@ class BudzetService:
                 with open(nazwa_pliku, 'r', encoding='utf-8') as f:
                     dane = json.load(f)
                     for rekord in dane:
-                        transakcja = Transakcja(
-                            kwota=float(rekord['kwota']),
-                            kategoria=rekord['kategoria'],
-                            typ=rekord['typ'],
-                            opis=rekord.get('opis', ''),
-                            data=rekord.get('data', datetime.now().strftime('%Y-%m-%d'))
+                        transakcja = (
+                            TransakcjaBuilder()
+                            .set_kwota(float(rekord['kwota']))
+                            .set_kategoria(rekord['kategoria'])
+                            .set_typ(rekord['typ'])
+                            .set_opis(rekord.get('opis', ''))
+                            .set_data(rekord.get('data', datetime.now().strftime('%Y-%m-%d')))
+                            .build()
                         )
                         self.model.transakcje.append(transakcja)
                         if transakcja.typ.lower() == 'wydatek':
@@ -348,7 +326,6 @@ class BudzetService:
                             self.model.przychody_kategorie[transakcja.kategoria] = \
                                 self.model.przychody_kategorie.get(transakcja.kategoria, 0) + transakcja.kwota
                             self.dochod.dodajDochod(transakcja.kwota)
-
                 self.zapisz_dane()
                 return True
             except (IOError, json.JSONDecodeError):

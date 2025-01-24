@@ -68,7 +68,6 @@ class Cel(Obserwator):
                 self.powiadomCelOsiagniety()
 
     def powiadomCelOsiagniety(self) -> None:
-        # Można wysłać powiadomienie albo komunikat w widoku
         pass
 
     def zapisz_cel(self) -> None:
@@ -105,7 +104,7 @@ class Cel(Obserwator):
 class Transakcja:
     kwota: float
     kategoria: str
-    typ: str  # np. "wydatek" lub "przychód"
+    typ: str
     opis: str = ""
     data: str = field(default_factory=lambda: datetime.now().strftime('%Y-%m-%d'))
 
@@ -114,18 +113,10 @@ class Transakcja:
 
 @dataclass
 class BudzetModel:
-    """
-    Klasa przechowująca dane aplikacji (Model) – wyłącznie pola
-    oraz ewentualnie najprostsze gettery/settery.
-    """
     transakcje: List[Transakcja] = field(default_factory=list)
     limity: Dict[str, float] = field(default_factory=dict)
     wydatki_kategorie: Dict[str, float] = field(default_factory=dict)
     przychody_kategorie: Dict[str, float] = field(default_factory=dict)
-
-    # Użytkownicy
     zalogowany_uzytkownik: Optional[str] = None
     uzytkownicy: Dict[str, str] = field(default_factory=dict)
-
-    # Cel oszczędzania (Obserwator)
     cel_oszczedzania: Optional[Cel] = None

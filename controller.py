@@ -1,12 +1,13 @@
 from model import BudzetModel, Transakcja
 from budzet_service import BudzetService
 from view import BudzetCursesView
+from transakcja_builder import TransakcjaBuilder
 from fabrica import FabrykaWykresow
 
 class BudzetController:
     def __init__(self) -> None:
-        self.model = BudzetModel()               # Pusty model danych
-        self.service = BudzetService(self.model) # Warstwa logiki
+        self.model = BudzetModel()
+        self.service = BudzetService(self.model)
         self.view = BudzetCursesView()
         self.zalogowany_uzytkownik = None
 
@@ -15,6 +16,7 @@ class BudzetController:
             self.view.wyswietl_ekran_powitalny()
             if not self.logowanie():
                 return
+
             while True:
                 self.view.wyswietl_glowne_menu_kategorii()
                 opcja = self.view.pobierz_opcje_glownego_menu()
@@ -27,17 +29,17 @@ class BudzetController:
                         continue
 
                 match opcja:
-                    case '1':  # Transakcje
+                    case '1':
                         self.obsluz_podmenu_transakcje()
-                    case '2':  # Podsumowania
+                    case '2':
                         self.obsluz_podmenu_podsumowania()
-                    case '3':  # Limity
+                    case '3':
                         self.obsluz_podmenu_limity()
-                    case '4':  # Cele
+                    case '4':
                         self.obsluz_podmenu_cele()
-                    case '5':  # Import i eksport
+                    case '5':
                         self.obsluz_podmenu_import_eksport()
-                    case '6':  # Wyjście
+                    case '6':
                         self.view.wyswietl_wyjscie()
                         break
                     case _:
@@ -61,7 +63,7 @@ class BudzetController:
                     continue
 
             match opcja:
-                case '1':  # Logowanie
+                case '1':
                     login, haslo = self.view.pobierz_dane_logowania()
                     if login == "" and haslo == "":
                         continue
@@ -71,7 +73,7 @@ class BudzetController:
                         return True
                     else:
                         self.view.wyswietl_komunikat("Nieprawidłowy login lub hasło.")
-                case '2':  # Rejestracja
+                case '2':
                     login, haslo = self.view.pobierz_dane_rejestracji()
                     if login == "" and haslo == "":
                         continue
@@ -79,7 +81,7 @@ class BudzetController:
                         self.view.wyswietl_komunikat("Rejestracja udana. Możesz się teraz zalogować.")
                     else:
                         self.view.wyswietl_komunikat("Użytkownik o takim loginie już istnieje.")
-                case '3':  # Wyjście
+                case '3':
                     potwierdzenie = self.view.pobierz_potwierdzenie("Czy chcesz wyjść z aplikacji?")
                     if potwierdzenie:
                         self.view.wyswietl_wyjscie()
@@ -117,6 +119,7 @@ class BudzetController:
         dane = self.view.pobierz_dane_transakcji()
         if not dane:
             return
+
         if dane['typ'] == 'wydatek':
             kwota = dane['kwota']
             kategoria = dane['kategoria']
@@ -126,7 +129,17 @@ class BudzetController:
                 if not potwierdzenie:
                     self.view.wyswietl_komunikat("Transakcja nie została dodana.")
                     return
-        transakcja = Transakcja(**dane)
+
+        transakcja = (
+            TransakcjaBuilder()
+            .set_kwota(dane['kwota'])
+            .set_kategoria(dane['kategoria'])
+            .set_typ(dane['typ'])
+            .set_opis(dane.get('opis', ''))
+            .set_data(dane.get('data', ''))
+            .build()
+        )
+
         self.service.dodaj_transakcje(transakcja)
         self.view.wyswietl_komunikat("Transakcja dodana.")
 
@@ -135,24 +148,35 @@ class BudzetController:
         indeks = self.view.pobierz_indeks_transakcji()
         if indeks == -1:
             return
+
         if 0 <= indeks < len(self.model.transakcje):
             stara = self.model.transakcje[indeks]
             self.view.wyswietl_komunikat("Wprowadź nowe dane transakcji:")
             dane = self.view.pobierz_dane_transakcji(edycja=True)
             if not dane:
                 return
-            # Zostawiamy oryginalny typ (jeśli tak chcemy)
             dane['typ'] = stara.typ
+
             if dane['typ'] == 'wydatek':
                 kwota = dane['kwota']
                 kategoria = dane['kategoria']
                 if not self.service.sprawdz_limit(kategoria, kwota):
-                    komunikat = ("Przekroczono limit budżetowy!\nCzy chcesz mimo to zaktualizować transakcję?")
+                    komunikat = "Przekroczono limit budżetowy!\nCzy chcesz mimo to zaktualizować transakcję?"
                     potwierdzenie = self.view.pobierz_potwierdzenie(komunikat)
                     if not potwierdzenie:
                         self.view.wyswietl_komunikat("Transakcja nie została zaktualizowana.")
                         return
-            nowa_transakcja = Transakcja(**dane)
+
+            nowa_transakcja = (
+                TransakcjaBuilder()
+                .set_kwota(dane['kwota'])
+                .set_kategoria(dane['kategoria'])
+                .set_typ(dane['typ'])
+                .set_opis(dane.get('opis', ''))
+                .set_data(dane.get('data', stara.data))
+                .build()
+            )
+
             if self.service.edytuj_transakcje(indeks, nowa_transakcja):
                 self.view.wyswietl_komunikat("Transakcja zaktualizowana.")
             else:
@@ -165,6 +189,7 @@ class BudzetController:
         indeks = self.view.pobierz_indeks_transakcji()
         if indeks == -1:
             return
+
         if self.service.usun_transakcje(indeks):
             self.view.wyswietl_komunikat("Transakcja usunięta.")
         else:
@@ -331,33 +356,33 @@ class BudzetController:
             if opcja is None:
                 break
             match opcja:
-                case '1':  # Eksport CSV
+                case '1':
                     try:
                         sciezka_csv = "data/exports/transakcje.csv"
                         self.service.eksportuj_do_csv(sciezka_csv)
                         self.view.potwierdz_eksport('CSV')
                     except Exception as e:
                         self.view.wyswietl_komunikat(f"Błąd podczas eksportu do CSV: {str(e)}")
-                case '2':  # Eksport JSON
+                case '2':
                     try:
                         sciezka_json = "data/exports/transakcje.json"
                         self.service.eksportuj_do_json(sciezka_json)
                         self.view.potwierdz_eksport('JSON')
                     except Exception as e:
                         self.view.wyswietl_komunikat(f"Błąd podczas eksportu do JSON: {str(e)}")
-                case '3':  # Import CSV
+                case '3':
                     sciezka_csv = "data/exports/transakcje.csv"
                     if self.service.importuj_z_csv(sciezka_csv):
                         self.view.potwierdz_import()
                     else:
                         self.view.wyswietl_komunikat("Nie udało się zaimportować z CSV.")
-                case '4':  # Import JSON
+                case '4':
                     sciezka_json = "data/exports/transakcje.json"
                     if self.service.importuj_z_json(sciezka_json):
                         self.view.wyswietl_komunikat("Zaimportowano transakcje z pliku JSON.")
                     else:
                         self.view.wyswietl_komunikat("Nie udało się zaimportować z JSON.")
-                case '5':  # Powrót
+                case '5':
                     break
                 case _:
                     self.view.wyswietl_komunikat("Nieprawidłowa opcja. Spróbuj ponownie.")
