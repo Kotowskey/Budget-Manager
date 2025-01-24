@@ -30,6 +30,7 @@ Styczeń 2025 r.
 ## Diagram klas budujących
 ```mermaid
 classDiagram
+    %% MVC Pattern
     class BudzetController {
         -model: BudzetModel
         -service: BudzetService
@@ -45,31 +46,19 @@ classDiagram
         +przychody_kategorie: Dict[str, float]
         +zalogowany_uzytkownik: str
         +cel_oszczedzania: Cel
-    }
-
-    class BudzetService {
-        -model: BudzetModel
-        -dochod: Dochod
-        -wydatek: Wydatek
-        +dodaj_transakcje()
-        +edytuj_transakcje()
-        +usun_transakcje()
+        +uzytkownicy: Dict[str, str]
     }
 
     class BudzetCursesView {
         +stdscr: curses.window
         +wyswietl_menu()
         +pobierz_input()
+        +wyswietl_transakcje()
+        +wyswietl_raport_wydatkow()
+        +wyswietl_raport_przychodow()
     }
 
-    class Transakcja {
-        +kwota: float
-        +kategoria: str
-        +typ: str
-        +opis: str
-        +data: str
-    }
-
+    %% Builder Pattern
     class TransakcjaBuilder {
         -_kwota: float
         -_kategoria: str
@@ -81,6 +70,16 @@ classDiagram
         +build()
     }
 
+    class Transakcja {
+        +kwota: float
+        +kategoria: str
+        +typ: str
+        +opis: str
+        +data: str
+        +to_dict()
+    }
+
+    %% Observer Pattern
     class Podmiot {
         +obserwatorzy: List[Obserwator]
         +dodaj()
@@ -108,8 +107,11 @@ classDiagram
         +obecneOszczednosci: float
         +aktualizuj()
         +monitorujPostep()
+        +zapisz_cel()
+        +wczytaj_cel()
     }
 
+    %% Factory & Template Method Pattern
     class Wykres {
         <<abstract>>
         +rysuj()*
@@ -127,6 +129,7 @@ classDiagram
         +utworz_wykres()
     }
 
+    %% Adapter Pattern
     class EksporterCSV {
         +eksportujDoCSV()
     }
@@ -135,24 +138,58 @@ classDiagram
         +eksportujDoJSON()
     }
 
+    class BudzetService {
+        -model: BudzetModel
+        -dochod: Dochod
+        -wydatek: Wydatek
+        -data_dir: str
+        -users_dir: str
+        -exports_dir: str
+        +dodaj_transakcje()
+        +edytuj_transakcje()
+        +usun_transakcje()
+        +zaloguj()
+        +zarejestruj()
+        +eksportuj_do_csv()
+        +eksportuj_do_json()
+    }
+
+    %% MVC Pattern Relationships
     BudzetController --> BudzetModel
     BudzetController --> BudzetService
     BudzetController --> BudzetCursesView
     BudzetService --> BudzetModel
-    BudzetService --> EksporterCSV
-    BudzetService --> EksporterJSON
-    BudzetService --> Dochod
-    BudzetService --> Wydatek
+
+    %% Builder Pattern Relationship
     TransakcjaBuilder --> Transakcja
+    BudzetService ..> TransakcjaBuilder
+
+    %% Observer Pattern Relationships
     Dochod --|> Podmiot
     Wydatek --|> Podmiot
     Cel ..|> Obserwator
+    Podmiot --> Obserwator
+    BudzetService --> Dochod
+    BudzetService --> Wydatek
+
+    %% Factory & Template Method Relationships
     WykresWydatkow --|> Wykres
     WykresPrzychodow --|> Wykres
     FabrykaWykresow --> Wykres
+    BudzetController ..> FabrykaWykresow
+    BudzetCursesView --> Wykres
+
+    %% Adapter Pattern Relationships
+    BudzetService --> EksporterCSV
+    BudzetService --> EksporterJSON
+
+    %% Model Relationships
     BudzetModel --> Transakcja
     BudzetModel --> Cel
-    Podmiot --> Obserwator
+
+    %% Service Layer Access
+    BudzetService ..> EksporterCSV
+    BudzetService ..> EksporterJSON
 ```
 
 ## Opisy wzorców
