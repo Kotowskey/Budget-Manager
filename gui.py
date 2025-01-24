@@ -5,12 +5,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import customtkinter as ctk
 from tkinter import ttk, filedialog, messagebox
 
-# Zwróć uwagę, że poniższy kod zakłada istnienie odpowiednich metod w warstwie logiki (controller.service),
-# takich jak zarejestruj, zaloguj, dodaj_transakcje, edytuj_transakcje, usun_transakcje, ustaw_limit,
-# usun_limit, importuj_z_csv, eksportuj_do_csv, oblicz_saldo, generuj_raport_wydatkow, generuj_raport_przychodow
-# oraz że w modelu istnieje obiekt 'cel_oszczedzania' (typu Cel) do obsługi celu oszczędnościowego.
-# Jeśli w Twojej aplikacji niektóre z tych metod nie istnieją, należy je zaimplementować w odpowiednich modułach.
-
 class BudzetGUIView:
     def __init__(self, controller):
         self.controller = controller
