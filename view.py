@@ -2,7 +2,7 @@ import curses
 from datetime import datetime
 from typing import Optional, Tuple, Dict
 
-ESC = 27  # Stała dla klawisza ESC
+ESC = 27  
 
 class BudzetCursesView:
     def __init__(self):
@@ -11,7 +11,7 @@ class BudzetCursesView:
         self.stdscr.keypad(True)
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLUE)
-        curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)  # Nowy kolor dla potwierdzenia
+        curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)  
         self.current_row = 0
 
     def wyswietl_ekran_powitalny(self) -> None:
@@ -511,12 +511,12 @@ class BudzetCursesView:
             data_poczatkowa = self.pobierz_input(1, 40, 10)
             if data_poczatkowa is None:
                 raise ValueError("Anulowano operację.")
-            datetime.strptime(data_poczatkowa, '%Y-%m-%d')  # Walidacja
+            datetime.strptime(data_poczatkowa, '%Y-%m-%d')  
             self.stdscr.addstr(2, 1, "Podaj datę końcową (YYYY-MM-DD): ")
             data_koncowa = self.pobierz_input(2, 40, 10)
             if data_koncowa is None:
                 raise ValueError("Anulowano operację.")
-            datetime.strptime(data_koncowa, '%Y-%m-%d')  # Walidacja
+            datetime.strptime(data_koncowa, '%Y-%m-%d')  
             return data_poczatkowa, data_koncowa
         except ValueError as e:
             self.wyswietl_komunikat(f"{e}")
