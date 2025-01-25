@@ -51,7 +51,7 @@ class BudzetCursesView:
             'Transakcje',
             'Podsumowania',
             'Limity',
-            'Cele',  
+            'Cele',
             'Importowanie i eksportowanie',
             'Wyjście'
         ]
@@ -60,7 +60,7 @@ class BudzetCursesView:
         self.stdscr.refresh()
 
     def pobierz_opcje_glownego_menu(self) -> Optional[str]:
-        menu_length = 6 
+        menu_length = 6
         while True:
             self.wyswietl_glowne_menu_kategorii()
             wcisniety_przycisk = self.stdscr.getch()
@@ -300,7 +300,7 @@ class BudzetCursesView:
         self.stdscr.clrtoeol()
         while True:
             wcisniety_przycisk = self.stdscr.getch()
-            if wcisniety_przycisk in [10, 13]: 
+            if wcisniety_przycisk in [10, 13]:
                 break
             elif wcisniety_przycisk == ESC:
                 return None
@@ -699,4 +699,3 @@ class BudzetCursesView:
         self.wyswietl_footer()
         self.stdscr.refresh()
         self.stdscr.getch()
-

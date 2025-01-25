@@ -4,36 +4,11 @@ import csv
 from datetime import datetime
 from typing import Dict, List, Optional
 from abc import ABC, abstractmethod
-##########################################
-# Eksporter CSV / JSON (Adapter)
-##########################################
-from model import BudzetModel, Transakcja, Dochod, Wydatek, Cel
-from transakcja_builder import TransakcjaBuilder
+from model import BudzetModel, Transakcja
+from observer import Dochod, Wydatek, Cel
+from adapter import IExporter, EksporterCSV, EksporterJSON
+from builder import TransakcjaBuilder
 
-class IExporter(ABC):
-    @abstractmethod
-    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
-        pass
-
-class EksporterCSV(IExporter):
-    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
-        try:
-            with open(nazwa_pliku, 'w', newline='', encoding='utf-8') as csvfile:
-                if dane and len(dane) > 0:
-                    fieldnames = dane[0].keys()
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                    writer.writeheader()
-                    writer.writerows(dane)
-        except IOError as e:
-            raise
-
-class EksporterJSON(IExporter):
-    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
-        try:
-            with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
-                json.dump(dane, plik, ensure_ascii=False, indent=4)
-        except IOError as e:
-            raise
 
 ##########################################
 # Warstwa logiki (serwis)

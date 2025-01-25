@@ -1,4 +1,3 @@
-# transakcja_builder.py
 from datetime import datetime
 from model import Transakcja
 

@@ -1,7 +1,7 @@
 from model import BudzetModel, Transakcja
 from budzet_service import BudzetService
 from view import BudzetCursesView
-from transakcja_builder import TransakcjaBuilder
+from builder import TransakcjaBuilder
 from fabrica import FabrykaWykresow
 
 class BudzetController:
