@@ -37,8 +37,9 @@ classDiagram
         -view: BudzetCursesView
         +uruchom()
         +logowanie()
+        +obsluz_podmenu_transakcje()
+        +obsluz_podmenu_podsumowania()
     }
-
     class BudzetModel {
         +transakcje: List[Transakcja]
         +limity: Dict[str, float]
@@ -46,17 +47,26 @@ classDiagram
         +przychody_kategorie: Dict[str, float]
         +zalogowany_uzytkownik: str
         +cel_oszczedzania: Cel
-        +uzytkownicy: Dict[str, str]
     }
-
     class BudzetCursesView {
-        +stdscr: curses.window
-        +wyswietl_menu()
-        +pobierz_input()
-        +wyswietl_transakcje()
-        +wyswietl_raport_wydatkow()
-        +wyswietl_raport_przychodow()
+        +stdscr
+        +wyswietl_ekran_powitalny()
+        +wyswietl_glowne_menu_kategorii()
+        +wyswietl_podmenu_transakcje()
+        +pobierz_dane_transakcji()
     }
+    class BudzetService {
+        -model: BudzetModel
+        +dodaj_transakcje()
+        +edytuj_transakcje()
+        +usun_transakcje()
+        +importuj_z_csv()
+        +eksportuj_do_csv()
+    }
+    BudzetController o-- BudzetModel
+    BudzetController o-- BudzetCursesView
+    BudzetController o-- BudzetService
+    BudzetService o-- BudzetModel
 
     %% Builder Pattern
     class TransakcjaBuilder {
@@ -65,131 +75,102 @@ classDiagram
         -_typ: str
         -_opis: str
         -_data: str
-        +set_kwota()
-        +set_kategoria()
-        +build()
+        +set_kwota(kwota: float)
+        +set_kategoria(kategoria: str)
+        +set_typ(typ: str)
+        +set_opis(opis: str)
+        +set_data(data: str)
+        +build() Transakcja
     }
-
     class Transakcja {
         +kwota: float
         +kategoria: str
         +typ: str
         +opis: str
         +data: str
-        +to_dict()
+        +to_dict() Dict
     }
+    TransakcjaBuilder ..> Transakcja : creates
+    BudzetModel o-- Transakcja
 
     %% Observer Pattern
-    class Podmiot {
-        +obserwatorzy: List[Obserwator]
-        +dodaj()
-        +usun()
-        +powiadomObserwatorow()
-    }
-
     class Obserwator {
         <<interface>>
-        +aktualizuj()*
+        +aktualizuj(podmiot: Podmiot)*
     }
-
+    class Podmiot {
+        -obserwatorzy: List[Obserwator]
+        +dodaj(obserwator: Obserwator)
+        +usun(obserwator: Obserwator)
+        +powiadomObserwatorow()
+    }
     class Dochod {
-        +ostatnia_kwota: float
-        +dodajDochod()
+        -ostatnia_kwota: float
+        +dodajDochod(kwota: float)
     }
-
     class Wydatek {
-        +ostatnia_kwota: float
-        +dodajWydatek()
+        -ostatnia_kwota: float
+        +dodajWydatek(kwota: float)
     }
-
     class Cel {
-        +cel_oszczednosci: float
-        +obecneOszczednosci: float
-        +aktualizuj()
+        -cel_oszczednosci: float
+        -obecneOszczednosci: float
+        -uzytkownik: str
+        +aktualizuj(podmiot: Podmiot)
         +monitorujPostep()
-        +zapisz_cel()
-        +wczytaj_cel()
+        +ustaw_nowy_cel(nowy_cel: float)
     }
-
-    %% Factory & Template Method Pattern
-    class Wykres {
-        <<abstract>>
-        +rysuj()*
-    }
-
-    class WykresWydatkow {
-        +rysuj()
-    }
-
-    class WykresPrzychodow {
-        +rysuj()
-    }
-
-    class FabrykaWykresow {
-        +utworz_wykres()
-    }
+    Podmiot <|-- Dochod
+    Podmiot <|-- Wydatek
+    Obserwator <|.. Cel
+    Podmiot o-- Obserwator
+    BudzetService o-- Dochod
+    BudzetService o-- Wydatek
+    BudzetModel o-- Cel
 
     %% Adapter Pattern
+    class IExporter {
+        <<interface>>
+        +eksportuj(dane: List[Dict], nazwa_pliku: str)*
+    }
+    class CsvExporter {
+        +export_to_csv(dane: List[Dict], nazwa_pliku: str)
+    }
+    class JsonExporter {
+        +export_to_json(dane: List[Dict], nazwa_pliku: str)
+    }
     class EksporterCSV {
-        +eksportujDoCSV()
+        -_csv_exporter: CsvExporter
+        +eksportuj(dane: List[Dict], nazwa_pliku: str)
     }
-
     class EksporterJSON {
-        +eksportujDoJSON()
+        -_json_exporter: JsonExporter
+        +eksportuj(dane: List[Dict], nazwa_pliku: str)
     }
+    IExporter <|.. EksporterCSV
+    IExporter <|.. EksporterJSON
+    EksporterCSV o-- CsvExporter
+    EksporterJSON o-- JsonExporter
+    BudzetService ..> IExporter : uses
 
-    class BudzetService {
-        -model: BudzetModel
-        -dochod: Dochod
-        -wydatek: Wydatek
-        -data_dir: str
-        -users_dir: str
-        -exports_dir: str
-        +dodaj_transakcje()
-        +edytuj_transakcje()
-        +usun_transakcje()
-        +zaloguj()
-        +zarejestruj()
-        +eksportuj_do_csv()
-        +eksportuj_do_json()
+    %% Factory Pattern
+    class Wykres {
+        <<abstract>>
+        +rysuj(raport: Dict[str, float], view: BudzetCursesView)*
     }
-
-    %% MVC Pattern Relationships
-    BudzetController --> BudzetModel
-    BudzetController --> BudzetService
-    BudzetController --> BudzetCursesView
-    BudzetService --> BudzetModel
-
-    %% Builder Pattern Relationship
-    TransakcjaBuilder --> Transakcja
-    BudzetService ..> TransakcjaBuilder
-
-    %% Observer Pattern Relationships
-    Dochod --|> Podmiot
-    Wydatek --|> Podmiot
-    Cel ..|> Obserwator
-    Podmiot --> Obserwator
-    BudzetService --> Dochod
-    BudzetService --> Wydatek
-
-    %% Factory & Template Method Relationships
-    WykresWydatkow --|> Wykres
-    WykresPrzychodow --|> Wykres
-    FabrykaWykresow --> Wykres
-    BudzetController ..> FabrykaWykresow
-    BudzetCursesView --> Wykres
-
-    %% Adapter Pattern Relationships
-    BudzetService --> EksporterCSV
-    BudzetService --> EksporterJSON
-
-    %% Model Relationships
-    BudzetModel --> Transakcja
-    BudzetModel --> Cel
-
-    %% Service Layer Access
-    BudzetService ..> EksporterCSV
-    BudzetService ..> EksporterJSON
+    class WykresWydatkow {
+        +rysuj(raport: Dict[str, float], view: BudzetCursesView)
+    }
+    class WykresPrzychodow {
+        +rysuj(raport: Dict[str, float], view: BudzetCursesView)
+    }
+    class FabrykaWykresow {
+        +utworz_wykres(typ: str) Wykres$
+    }
+    Wykres <|-- WykresWydatkow
+    Wykres <|-- WykresPrzychodow
+    FabrykaWykresow ..> Wykres : creates
+    BudzetController ..> FabrykaWykresow : uses
 ```
 
 ## Opisy wzorców
