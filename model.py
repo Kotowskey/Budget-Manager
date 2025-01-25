@@ -4,11 +4,6 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Optional
 from datetime import datetime
 
-##########################################
-# Wzorzec projektowy: OBSERVER (Obserwator)
-##########################################
-
-# Kod przeniesiony do pliku observer.py
 
 ##########################################
 # Dane (Model) + proste klasy / dataclass
@@ -33,4 +28,4 @@ class BudzetModel:
     przychody_kategorie: Dict[str, float] = field(default_factory=dict)
     zalogowany_uzytkownik: Optional[str] = None
     uzytkownicy: Dict[str, str] = field(default_factory=dict)
-    cel_oszczedzania: Optional[object] = None  # Wskazanie na obiekt typu Cel (z observer.py)
+    cel_oszczedzania: Optional[object] = None  
