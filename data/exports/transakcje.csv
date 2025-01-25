@@ -1,47 +1,19 @@
 kwota,kategoria,typ,opis,data
-2500.0,wynagrodzenie,przychód,,2024-04-24
-140.0,jedzenie,wydatek,Kawiarnia,2024-04-25
-95.0,transport,wydatek,Bilet tramwajowy,2024-04-26
-500.0,premie,przychód,,2024-04-27
-160.0,rozrywka,wydatek,Escape room,2024-04-28
-2600.0,wynagrodzenie,przychód,,2024-04-29
-130.0,rachunki,wydatek,Telefon,2024-04-30
-100.0,zdrowie,wydatek,Siłownia,2024-05-01
-3200.0,wynagrodzenie,przychód,,2024-05-02
-180.0,jedzenie,wydatek,Restauracja,2024-05-03
-130.0,transport,wydatek,Taxi,2024-05-04
-400.0,sprzedaż,przychód,Usługi IT,2024-05-05
-150.0,rozrywka,wydatek,Teatr,2024-05-06
-2500.0,wynagrodzenie,przychód,,2024-05-07
-100.0,rachunki,wydatek,Internet,2024-05-08
-85.0,zdrowie,wydatek,Leki,2024-05-09
-2800.0,wynagrodzenie,przychód,,2024-05-10
-170.0,jedzenie,wydatek,Fast food,2024-05-11
-110.0,transport,wydatek,Bilet autobusowy,2024-05-12
-500.0,sprzedaż,przychód,Freelance,2024-05-13
-140.0,rozrywka,wydatek,Spotify,2024-05-14
-2300.0,wynagrodzenie,przychód,,2024-05-15
-120.0,rachunki,wydatek,Woda,2024-05-16
-95.0,edukacja,wydatek,Kurs programowania,2024-05-17
-2900.0,wynagrodzenie,przychód,,2024-05-18
-160.0,jedzenie,wydatek,Market,2024-05-19
-120.0,transport,wydatek,Autobus,2024-05-20
-600.0,premie,przychód,,2024-05-21
-190.0,rozrywka,wydatek,Escape room,2024-05-22
-2600.0,wynagrodzenie,przychód,,2024-05-23
-130.0,rachunki,wydatek,Telefon,2024-05-24
-100.0,zdrowie,wydatek,Siłownia,2024-05-25
-3200.0,wynagrodzenie,przychód,,2024-05-26
-180.0,jedzenie,wydatek,Restauracja,2024-05-27
-130.0,transport,wydatek,Taxi,2024-05-28
-400.0,sprzedaż,przychód,Usługi IT,2024-05-29
-150.0,rozrywka,wydatek,Teatr,2024-05-30
-200.0,prezenty,wydatek,,2024-12-20
-400.0,dostawy,przychód,,2025-01-12
-50.0,jedzenie,wydatek,,2025-01-12
-5000.0,wynagrodzenie,przychód,,2025-01-12
-5000.0,wynagrodzenie,przychód,,2025-01-12
-5000.0,wynagrodzenie,przychód,,2025-01-12
-5100.0,wynagrodzenie,przychód,,2025-01-12
-5000.0,wynagrodzenie,przychód,,2025-01-13
-6000.0,wynagrodzenie,przychód,,2025-01-20
+4500.0,wynagrodzenie,przychód,,2025-01-25
+50.0,jedzenie,wydatek,,2025-01-25
+120.0,transport,wydatek,Bilet miesięczny,2025-01-10
+35.5,jedzenie,wydatek,Kolacja w fast-foodzie,2025-01-12
+100.0,dom,wydatek,Akcesoria do mieszkania,2025-01-15
+300.0,rozrywka,wydatek,Bilety do kina dla rodziny,2025-01-18
+200.0,zdrowie,wydatek,Leki i suplementy,2025-01-20
+800.0,inna praca dorywcza,przychód,Zlecenie IT,2025-01-22
+150.0,rachunki,wydatek,Abonament za telefon,2025-01-23
+499.99,elektronika,wydatek,Słuchawki bezprzewodowe,2025-01-24
+210.0,jedzenie,wydatek,Zakupy spożywcze,2025-01-24
+60.0,paliwo,wydatek,Tankowanie auta,2025-01-15
+750.0,oszczędności,przychód,Przelew na subkonto oszczędnościowe,2025-01-05
+59.0,rozrywka,wydatek,Subskrypcja streamingowa,2025-01-09
+2200.0,rachunki,wydatek,Czynsz + media,2025-01-02
+25.0,jedzenie,wydatek,Kawa i ciastko w kawiarni,2025-01-21
+700.0,przychód dodatkowy,przychód,Sprzedaż starego telefonu,2025-01-17
+500.0,wynagrodzenie,przychód,,2025-01-25
