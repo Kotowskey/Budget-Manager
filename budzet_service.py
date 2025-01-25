@@ -3,27 +3,32 @@ import json
 import csv
 from datetime import datetime
 from typing import Dict, List, Optional
+from abc import ABC, abstractmethod
 ##########################################
 # Eksporter CSV / JSON (Adapter)
 ##########################################
 from model import BudzetModel, Transakcja, Dochod, Wydatek, Cel
 from transakcja_builder import TransakcjaBuilder
 
-class EksporterCSV:
-    def eksportujDoCSV(self, dane: List[Dict], nazwa_pliku: str) -> None:
+class IExporter(ABC):
+    @abstractmethod
+    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
+        pass
+
+class EksporterCSV(IExporter):
+    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
         try:
             with open(nazwa_pliku, 'w', newline='', encoding='utf-8') as csvfile:
                 if dane and len(dane) > 0:
                     fieldnames = dane[0].keys()
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                     writer.writeheader()
-                    for row in dane:
-                        writer.writerow(row)
+                    writer.writerows(dane)
         except IOError as e:
             raise
 
-class EksporterJSON:
-    def eksportujDoJSON(self, dane: List[Dict], nazwa_pliku: str) -> None:
+class EksporterJSON(IExporter):
+    def eksportuj(self, dane: List[Dict], nazwa_pliku: str) -> None:
         try:
             with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
                 json.dump(dane, plik, ensure_ascii=False, indent=4)
@@ -50,9 +55,6 @@ class BudzetService:
         self.plik_danych: Optional[str] = None
         self.plik_limity: Optional[str] = None
 
-    # -----------------------------
-    # Logowanie / rejestracja
-    # -----------------------------
     def zaloguj(self, login: str, haslo: str) -> bool:
         if not self.model.uzytkownicy:
             self.model.uzytkownicy = self.wczytaj_uzytkownikow()
@@ -100,9 +102,6 @@ class BudzetService:
         except IOError:
             pass
 
-    # -----------------------------
-    # Transakcje
-    # -----------------------------
     def dodaj_transakcje(self, transakcja: Transakcja) -> None:
         self.model.transakcje.append(transakcja)
         if transakcja.typ.lower() == 'wydatek':
@@ -179,9 +178,6 @@ class BudzetService:
         else:
             self.model.transakcje = []
 
-    # -----------------------------
-    # Limity
-    # -----------------------------
     def wczytaj_limity(self) -> None:
         if self.plik_limity and os.path.exists(self.plik_limity):
             try:
@@ -222,9 +218,6 @@ class BudzetService:
         wydatki = self.model.wydatki_kategorie.get(kategoria, 0)
         return (wydatki + kwota) <= limit
 
-    # -----------------------------
-    # Raporty / obliczenia
-    # -----------------------------
     def oblicz_saldo(self) -> float:
         return sum(
             t.kwota if t.typ.lower() == 'przychód' else -t.kwota
@@ -259,18 +252,15 @@ class BudzetService:
                 raport[t.kategoria] = raport.get(t.kategoria, 0) + t.kwota
         return raport
 
-    # -----------------------------------------
-    # Metody importu/eksportu CSV/JSON
-    # -----------------------------------------
     def eksportuj_do_csv(self, nazwa_pliku: str) -> None:
         dane = [t.to_dict() for t in self.model.transakcje]
-        eksport_csv = EksporterCSV()
-        eksport_csv.eksportujDoCSV(dane, nazwa_pliku)
+        eksporter = EksporterCSV()
+        eksporter.eksportuj(dane, nazwa_pliku)
 
     def eksportuj_do_json(self, nazwa_pliku: str) -> None:
         dane = [t.to_dict() for t in self.model.transakcje]
-        eksport_json = EksporterJSON()
-        eksport_json.eksportujDoJSON(dane, nazwa_pliku)
+        eksporter = EksporterJSON()
+        eksporter.eksportuj(dane, nazwa_pliku)
 
     def importuj_z_csv(self, nazwa_pliku: str) -> bool:
         if os.path.exists(nazwa_pliku):
