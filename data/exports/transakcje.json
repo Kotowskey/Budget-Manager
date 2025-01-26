@@ -4,125 +4,20 @@
         "kategoria": "wynagrodzenie",
         "typ": "przychód",
         "opis": "",
-        "data": "2025-01-25"
+        "data": "2025-01-26"
     },
     {
         "kwota": 50.0,
         "kategoria": "jedzenie",
         "typ": "wydatek",
-        "opis": "",
-        "data": "2025-01-25"
+        "opis": "chimichanga",
+        "data": "2025-01-26"
     },
     {
-        "kwota": 120.0,
-        "kategoria": "transport",
-        "typ": "wydatek",
-        "opis": "Bilet miesięczny",
-        "data": "2025-01-10"
-    },
-    {
-        "kwota": 35.5,
+        "kwota": 2500.0,
         "kategoria": "jedzenie",
         "typ": "wydatek",
-        "opis": "Kolacja w fast-foodzie",
-        "data": "2025-01-12"
-    },
-    {
-        "kwota": 100.0,
-        "kategoria": "dom",
-        "typ": "wydatek",
-        "opis": "Akcesoria do mieszkania",
-        "data": "2025-01-15"
-    },
-    {
-        "kwota": 300.0,
-        "kategoria": "rozrywka",
-        "typ": "wydatek",
-        "opis": "Bilety do kina dla rodziny",
-        "data": "2025-01-18"
-    },
-    {
-        "kwota": 200.0,
-        "kategoria": "zdrowie",
-        "typ": "wydatek",
-        "opis": "Leki i suplementy",
-        "data": "2025-01-20"
-    },
-    {
-        "kwota": 800.0,
-        "kategoria": "inna praca dorywcza",
-        "typ": "przychód",
-        "opis": "Zlecenie IT",
-        "data": "2025-01-22"
-    },
-    {
-        "kwota": 150.0,
-        "kategoria": "rachunki",
-        "typ": "wydatek",
-        "opis": "Abonament za telefon",
-        "data": "2025-01-23"
-    },
-    {
-        "kwota": 499.99,
-        "kategoria": "elektronika",
-        "typ": "wydatek",
-        "opis": "Słuchawki bezprzewodowe",
-        "data": "2025-01-24"
-    },
-    {
-        "kwota": 210.0,
-        "kategoria": "jedzenie",
-        "typ": "wydatek",
-        "opis": "Zakupy spożywcze",
-        "data": "2025-01-24"
-    },
-    {
-        "kwota": 60.0,
-        "kategoria": "paliwo",
-        "typ": "wydatek",
-        "opis": "Tankowanie auta",
-        "data": "2025-01-15"
-    },
-    {
-        "kwota": 750.0,
-        "kategoria": "oszczędności",
-        "typ": "przychód",
-        "opis": "Przelew na subkonto oszczędnościowe",
-        "data": "2025-01-05"
-    },
-    {
-        "kwota": 59.0,
-        "kategoria": "rozrywka",
-        "typ": "wydatek",
-        "opis": "Subskrypcja streamingowa",
-        "data": "2025-01-09"
-    },
-    {
-        "kwota": 2200.0,
-        "kategoria": "rachunki",
-        "typ": "wydatek",
-        "opis": "Czynsz + media",
-        "data": "2025-01-02"
-    },
-    {
-        "kwota": 25.0,
-        "kategoria": "jedzenie",
-        "typ": "wydatek",
-        "opis": "Kawa i ciastko w kawiarni",
-        "data": "2025-01-21"
-    },
-    {
-        "kwota": 700.0,
-        "kategoria": "przychód dodatkowy",
-        "typ": "przychód",
-        "opis": "Sprzedaż starego telefonu",
-        "data": "2025-01-17"
-    },
-    {
-        "kwota": 500.0,
-        "kategoria": "wynagrodzenie",
-        "typ": "przychód",
-        "opis": "",
-        "data": "2025-01-25"
+        "opis": "kawior",
+        "data": "2025-01-26"
     }
 ]
